@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="cn.rejiejay.application">
 
+    <!-- 所有的 安卓Activity视图 都需要在manifest里面进行配置、声明注册一下，才可以进行调用启动 -->
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -10,6 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
+            <!-- 设置整个应用启动的第一个Activity -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

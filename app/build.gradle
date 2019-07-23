@@ -1,14 +1,18 @@
 apply plugin: 'com.android.application'
 
+// 类似Maven中pom.xml的配置文件、功能也基本一样，负责当前project的构建定义。
 android {
-    compileSdkVersion 28
+    compileSdkVersion 28 // 定义SDK版本
     defaultConfig {
         applicationId "cn.rejiejay.application"
         minSdkVersion 23
         targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        versionCode 1 // 版本号
+        versionName "1.0" // 版本名称
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    lintOptions {
+        disable 'GoogleAppIndexingWarning'
     }
     buildTypes {
         release {

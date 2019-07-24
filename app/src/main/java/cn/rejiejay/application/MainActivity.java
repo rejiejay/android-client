@@ -1,13 +1,13 @@
 package cn.rejiejay.application;
 
-import android.support.v7.app.AppCompatActivity;
+import android.app.Activity;
 import android.os.Bundle;
 
 /**
  * 这个“不”是启动类；
  * 这是一个 Activity（核心概念）类似于一个Vue的页面，所以具有生命周期
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
 
     // 生命周期的 onCreate 周期
     @Override

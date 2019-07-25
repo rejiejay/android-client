@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="main_top_line" type="id" />
+    <item name="main_top_line_title" type="id" />
     <item name="main_top_line_left_img" type="id" />
+    <item name="main_top_line_portrait_img" type="id" />
 </resources>

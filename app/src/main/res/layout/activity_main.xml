@@ -10,39 +10,40 @@
     <RelativeLayout
         android:id="@+id/main_top_line"
         android:layout_width="match_parent"
-        android:layout_height="96dp"
+        android:layout_height="120dp"
         android:background="#ff7a45"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <ImageView
+            android:id="@+id/main_top_line_left_img"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:contentDescription="@string/main_top_img_des"
+            android:src="@drawable/ic_classification" />
+
         <TextView
-            android:layout_width="170dp"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:id="@+id/main_top_line_title"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_below="@id/main_top_line_left_img"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/main_top_title"
+            android:textColor="#fff"
+            android:textSize="20sp" />
 
-            <ImageView
-                android:id="@+id/main_top_line_left_img"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:contentDescription="@string/main_top_img_des"
-                android:src="@drawable/ic_classification" />
-
-            <TextView
-                android:id="@+id/main_top_line_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="54dp"
-                android:text="@string/main_top_title" />
-        </TextView>
 
         <ImageView
             android:id="@+id/main_top_line_portrait_img"
             android:layout_width="65dp"
             android:layout_height="65dp"
+            android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"

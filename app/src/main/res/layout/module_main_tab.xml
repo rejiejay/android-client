@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="45dp"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <!--一个文字和一个点，但是有切换效果-->
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        tool:text="标签"
+        android:text="11"
+        android:gravity="center"
+        android:paddingTop="10dp"/>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="15dp"
+        android:layout_weight="0"
+        android:alpha="0"
+        android:contentDescription="@string/img_des"
+        app:srcCompat="@drawable/ic_dots" />
+
+</LinearLayout>

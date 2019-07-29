@@ -3,7 +3,7 @@ package cn.rejiejay.application;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
-import android.view.animation.AlphaAnimation;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.ImageView;
@@ -48,29 +48,28 @@ public class MainActivityTab extends FrameLayout {
         if (isSelected) {
             // 文字就设置为粗体
             tabNameView.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+            mImageView.setVisibility(View.VISIBLE);
 
-            // 图片透明度为不透明，也就是由0到1
-            // mImageView.setImageAlpha(1);
             /**
-             * 下面是渐变动画
+             * 下面是渐变动画(但是动画生效，具体原因未知
+             * 图片透明度为不透明，也就是由0到1
              */
-            AlphaAnimation animation = new AlphaAnimation(0f, 1.0f);
-            mImageView.startAnimation(animation);
-            animation.setFillAfter(true); // 动画结束后保持状态
-            animation.setDuration(500); // 动画持续时间，单位为毫秒
+            // AlphaAnimation animation = new AlphaAnimation(0f, 1.0f);
+            // mImageView.startAnimation(animation);
+            // animation.setFillAfter(true); // 动画结束后保持状态
+            // animation.setDuration(500); // 动画持续时间，单位为毫秒
         } else {
             // 文字就设置为不加粗体
             tabNameView.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
+            mImageView.setVisibility(View.INVISIBLE);
 
-            // 为选中的情况下是不显示，也就是1到0
-            // mImageView.setImageAlpha(0);
             /**
-             * 下面是渐变动画
+             * 为选中的情况下是不显示，也就是1到0
              */
-            AlphaAnimation animation = new AlphaAnimation(1.0f, 0f);
-            mImageView.startAnimation(animation);
-            animation.setFillAfter(true); // 动画结束后保持状态
-            animation.setDuration(500); // 动画持续时间，单位为毫秒
+            // AlphaAnimation animation = new AlphaAnimation(1.0f, 0f);
+            // mImageView.startAnimation(animation);
+            // animation.setFillAfter(true); // 动画结束后保持状态
+            // animation.setDuration(500); // 动画持续时间，单位为毫秒
         }
     }
 
@@ -79,17 +78,7 @@ public class MainActivityTab extends FrameLayout {
      */
     public void setTextContentAndAlpha(boolean isSelected, String textContent) {
         tabNameView.setText(textContent);
-
-        if (isSelected) {
-            tabNameView.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
-            // 图片透明度为不透明，也就是由0到1
-             mImageView.setImageAlpha(1);
-        } else {
-            // 文字就设置为不加粗体
-            tabNameView.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
-            // 为选中的情况下是不显示，也就是1到0
-             mImageView.setImageAlpha(0);
-        }
+        setSelected(isSelected);
     }
 }
 

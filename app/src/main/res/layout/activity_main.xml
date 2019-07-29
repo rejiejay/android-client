@@ -24,7 +24,7 @@
                 android:id="@+id/main_top_line"
                 android:layout_width="match_parent"
                 android:layout_height="110dp"
-                android:background="#ff7a45"
+                android:background="#ef5350"
                 android:orientation="horizontal"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -67,19 +67,19 @@
 
             <HorizontalScrollView
                 android:layout_width="match_parent"
-                android:layout_height="46dp"
-                android:background="#ff7a45"
+                android:layout_height="36dp"
+                android:background="#ef5350"
                 android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="46dp">
+                    android:layout_height="36dp">
 
                     <!--主页-->
                     <cn.rejiejay.application.MainActivityTab
                         android:id="@+id/ActivityTabHome"
                         android:layout_width="120dp"
-                        android:layout_height="46dp"
+                        android:layout_height="36dp"
                         android:layout_gravity="center"
                         android:layout_marginStart="16dp" />
 
@@ -87,7 +87,7 @@
                     <cn.rejiejay.application.MainActivityTab
                         android:id="@+id/ActivityTabRecord"
                         android:layout_width="120dp"
-                        android:layout_height="46dp"
+                        android:layout_height="36dp"
                         android:layout_gravity="center" />
                 </LinearLayout>
 

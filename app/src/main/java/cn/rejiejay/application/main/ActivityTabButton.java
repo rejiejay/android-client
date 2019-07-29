@@ -8,6 +8,8 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.ImageView;
 
+import cn.rejiejay.application.R;
+
 /**
  * 选择第二个构造方法，使得在XML中可以使用
  */
@@ -19,7 +21,7 @@ public class ActivityTabButton extends FrameLayout {
     public TextView tabNameView;
     public ImageView mImageView;
 
-    public MainActivityTab(Context context, AttributeSet attrs) {
+    public ActivityTabButton(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         /**

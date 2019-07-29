@@ -1,4 +1,4 @@
-package cn.rejiejay.application;
+package cn.rejiejay.application.main;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -11,7 +11,7 @@ import android.widget.ImageView;
 /**
  * 选择第二个构造方法，使得在XML中可以使用
  */
-public class MainActivityTab extends FrameLayout {
+public class ActivityTabButton extends FrameLayout {
 
     /**
      * 这两个就是组件里面的东西

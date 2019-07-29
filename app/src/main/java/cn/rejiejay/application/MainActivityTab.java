@@ -33,8 +33,6 @@ public class MainActivityTab extends FrameLayout {
          */
         tabNameView = findViewById(R.id.textView);
         mImageView = findViewById(R.id.imageView);
-
-        setSelected(false); // 默认是不选中的（其实不需要这步操作也可以
     }
 
     /**
@@ -81,7 +79,17 @@ public class MainActivityTab extends FrameLayout {
      */
     public void setTextContentAndAlpha(boolean isSelected, String textContent) {
         tabNameView.setText(textContent);
-        setSelected(isSelected);
+
+        if (isSelected) {
+            tabNameView.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+            // 图片透明度为不透明，也就是由0到1
+             mImageView.setImageAlpha(1);
+        } else {
+            // 文字就设置为不加粗体
+            tabNameView.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
+            // 为选中的情况下是不显示，也就是1到0
+             mImageView.setImageAlpha(0);
+        }
     }
 }
 

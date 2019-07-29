@@ -9,10 +9,27 @@ import android.os.Bundle;
  */
 public class MainActivity extends Activity {
 
+    /**
+     * 顶部按钮
+     */
+    public MainActivityTab homeTab;
+    public MainActivityTab recordTab;
+
+
     // 生命周期的 onCreate 周期
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main); // 可以暂时理解为入口，右键可以点进去（大概作用是与自己写的XML文件互相匹配(绑定
+
+        initPageComponent(); // 初始化页面组件
+    }
+
+    public void initPageComponent() {
+        homeTab = findViewById(R.id.ActivityTabHome);
+        recordTab = findViewById(R.id.ActivityTabRecord);
+
+        homeTab.setTextContentAndAlpha(true, "首页");
+        recordTab.setTextContentAndAlpha(false, "记录");
     }
 }

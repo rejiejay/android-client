@@ -96,34 +96,46 @@
             </HorizontalScrollView>
 
             <!--内容区域-->
-            <FrameLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:minHeight="540dp">
 
                 <!--背景-->
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="95dp"
-                    android:src="@drawable/semicircle"
-                    android:contentDescription="@string/img_des" />
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:contentDescription="@string/img_des"
+                    android:src="@drawable/semicircle" />
 
-                <!--这里就是分页的-->
-                <android.support.v4.view.ViewPager
-                    android:id="@+id/MyViewPager"
+                <!--这里就是分页的; 通过 LinearLayout布局中使用weight改变ViewPager的高度 -->
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content"
+                    android:minHeight="540dp"
+                    android:orientation="vertical">
+
+                    <android.support.v4.view.ViewPager
+                        android:id="@+id/MyViewPager"
+                        android:layout_width="match_parent"
+                        android:layout_weight="1"
+                        android:layout_height="0dp"
+                        android:minHeight="120dp" />
 
                     <TextView
+                        android:id="@+id/textView"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        tools:text="Hello World!"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        android:textAlignment="center"
+                        android:paddingTop="16dp"
+                        android:paddingBottom="16dp"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:layout_height="wrap_content"
+                        android:text="@string/app_copyright"/>
+                </LinearLayout>
 
-                </android.support.v4.view.ViewPager>
-            </FrameLayout>
+            </RelativeLayout>
 
         </LinearLayout>
 

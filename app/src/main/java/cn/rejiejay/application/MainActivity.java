@@ -2,7 +2,7 @@ package cn.rejiejay.application;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
@@ -66,9 +66,11 @@ public class MainActivity extends AppCompatActivity {
         list.add(new HomeFragment()); // 添加Fragment到集合里设置setAdapter适配器
         list.add(new RecordFragment());
 
+        PagerAdapter myPagerAdapter = new MainFragmentAdapter(getSupportFragmentManager(), list);
+
         /**
          * 为 ViewPager 设置 Adapter 适配器
          */
-        myViewPager.setAdapter(new MainFragmentAdapter(getSupportFragmentManager(), list));
+        myViewPager.setAdapter(myPagerAdapter);
     }
 }

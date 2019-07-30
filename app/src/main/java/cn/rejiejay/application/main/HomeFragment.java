@@ -21,3 +21,4 @@ public class HomeFragment extends Fragment {
         return inflater.inflate(R.layout.activity_main_fragment_home, container, false);
     }
 }
+

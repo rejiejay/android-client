@@ -6,7 +6,11 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
+import java.util.ArrayList;
+
 import cn.rejiejay.application.main.ActivityTabButton;
+import cn.rejiejay.application.main.HomeFragment;
+import cn.rejiejay.application.main.HomeFragmentAdapter;
 
 /**
  * 这个“不”是启动类；
@@ -53,22 +57,16 @@ public class MainActivity extends AppCompatActivity {
      * 初始化 ViewPager 分页组件
      */
     public void initViewPager() {
-        myViewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
-            /**
-             * 设置 Fragment 页面
-             */
-            @Override
-            public Fragment getItem(int i) {
-                return null;
-            }
+        /**
+         * PagerAdapter 如何使用?
+         * PagerAdapter 是 android.support.v4包中的类，它的子类有FragmentPagerAdapter, FragmentStatePagerAdapter，这两个adapter都是Fragment的适配器，用于实现Fragment的滑动效果
+         */
+        ArrayList<Fragment> list = new ArrayList<>();
+        list.add(new HomeFragment()); // 添加Fragment到集合里设置setAdapter适配器
 
-            /**
-             * 设置 ViewPager 多少页数量
-             */
-            @Override
-            public int getCount() {
-                return 2;
-            }
-        });
+        /**
+         * 为 ViewPager 设置 Adapter 适配器
+         */
+        myViewPager.setAdapter(new HomeFragmentAdapter(getSupportFragmentManager(), list));
     }
 }

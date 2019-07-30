@@ -10,7 +10,8 @@ import java.util.ArrayList;
 
 import cn.rejiejay.application.main.ActivityTabButton;
 import cn.rejiejay.application.main.HomeFragment;
-import cn.rejiejay.application.main.HomeFragmentAdapter;
+import cn.rejiejay.application.main.MainFragmentAdapter;
+import cn.rejiejay.application.main.RecordFragment;
 
 /**
  * 这个“不”是启动类；
@@ -63,10 +64,11 @@ public class MainActivity extends AppCompatActivity {
          */
         ArrayList<Fragment> list = new ArrayList<>();
         list.add(new HomeFragment()); // 添加Fragment到集合里设置setAdapter适配器
+        list.add(new RecordFragment());
 
         /**
          * 为 ViewPager 设置 Adapter 适配器
          */
-        myViewPager.setAdapter(new HomeFragmentAdapter(getSupportFragmentManager(), list));
+        myViewPager.setAdapter(new MainFragmentAdapter(getSupportFragmentManager(), list));
     }
 }

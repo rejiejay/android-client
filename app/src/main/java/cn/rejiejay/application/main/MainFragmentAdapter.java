@@ -6,19 +6,16 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import java.util.ArrayList;
 
-public class HomeFragmentAdapter extends FragmentPagerAdapter {
+public class MainFragmentAdapter extends FragmentPagerAdapter {
     ArrayList<Fragment> list;
 
     /**
      * 构造函数
      * 初始化 list 集合
-     *
-     * @param fm
-     * @param list
      */
-    public HomeFragmentAdapter(FragmentManager fm, ArrayList<Fragment> list) {
-        super(fm);
-        this.list=list;
+    public MainFragmentAdapter(FragmentManager fragmen, ArrayList<Fragment> list) {
+        super(fragmen);
+        this.list = list;
     }
 
     /**

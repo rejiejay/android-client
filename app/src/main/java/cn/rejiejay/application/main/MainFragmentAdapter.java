@@ -7,14 +7,18 @@ import android.support.v4.app.FragmentPagerAdapter;
 import java.util.ArrayList;
 
 public class MainFragmentAdapter extends FragmentPagerAdapter {
+
+    public FragmentManager mFragmentManager;
+
     ArrayList<Fragment> list;
 
     /**
      * 构造函数
      * 初始化 list 集合
      */
-    public MainFragmentAdapter(FragmentManager fragmen, ArrayList<Fragment> list) {
-        super(fragmen);
+    public MainFragmentAdapter(FragmentManager mFragmentManager, ArrayList<Fragment> list) {
+        super(mFragmentManager);
+        this.mFragmentManager = mFragmentManager;
         this.list = list;
     }
 

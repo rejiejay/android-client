@@ -9,7 +9,19 @@
         android:layout_width="match_parent"
         android:layout_height="145dp"
         android:background="@drawable/shape_corner"
+        android:gravity="center"
         >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/home_des_one"
+                />
+        </LinearLayout>
 
     </RelativeLayout>
 </LinearLayout>

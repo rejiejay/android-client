@@ -4,4 +4,14 @@
     <item name="main_top_line_title" type="id" />
     <item name="main_top_line_left_img" type="id" />
     <item name="main_top_line_portrait_img" type="id" />
+
+    <item name="qmuidemo" type="id"/>
+    <item name="main_container" type="id"/>
+
+    <item name="empty_button" type="id"/>
+
+    <item name="topbar_right_about_button" type="id"/>
+    <item name="topbar_right_change_button" type="id"/>
+
+    <item name="layout_for_test" type="id"/>
 </resources>

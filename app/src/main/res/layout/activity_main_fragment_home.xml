@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tool="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -8,10 +9,121 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="145dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/shape_corner"
+        android:gravity="bottom"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingStart="28dp"
+            android:paddingTop="16dp"
+            android:paddingEnd="0dp"
+            android:paddingBottom="24dp">
+
+            <LinearLayout
+                android:id="@+id/home_data_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/img_des"
+                    android:src="@drawable/ic_home_data_title" />
+
+                <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="2dp"
+                    android:text="@string/home_data_title"
+                    android:textColor="@color/dark1"
+                    android:textSize="22sp" />
+            </LinearLayout>
+
+            <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/home_data_title"
+                android:layout_marginTop="6dp"
+                android:paddingStart="4dp"
+                android:paddingEnd="0dp"
+                android:text="@string/home_data_subtitle"
+                android:textColor="@color/dark2" />
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:gravity="bottom"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="0dp"
+                    android:paddingEnd="6dp"
+                    android:textColor="#283593"
+                    android:textSize="28sp"
+                    android:text="@string/home_data_default"
+                    tool:text="12" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="6dp"
+                    android:paddingEnd="32dp"
+                    android:text="@string/home_data_info"
+                    android:textColor="@color/dark2"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="2dp"
+                    android:textColor="#ff1744"
+                    android:text="@string/home_data_default"
+                    android:textSize="28sp"
+                    tool:text="1" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="2dp"
+                    android:text="@string/home_data_warn"
+                    android:textColor="@color/dark2"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="84dp"
+            android:layout_height="84dp"
+            android:layout_weight="0"
+            android:contentDescription="@string/img_des"
+            android:layout_marginBottom="24dp"
+            android:layout_marginEnd="28dp"
+            android:src="@drawable/ic_home_date" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="145dp"
         android:background="@drawable/shape_corner"
         android:gravity="center"
         android:orientation="vertical">
-
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -95,11 +207,5 @@
         </LinearLayout>
 
     </LinearLayout>
-
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/home_des_people" />
 
 </LinearLayout>

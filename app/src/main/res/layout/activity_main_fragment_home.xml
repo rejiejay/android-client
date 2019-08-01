@@ -6,6 +6,7 @@
     android:orientation="vertical"
     android:padding="16dp">
 
+    <!-- 动态消息 -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="145dp"
@@ -70,9 +71,9 @@
                     android:layout_height="wrap_content"
                     android:paddingStart="0dp"
                     android:paddingEnd="6dp"
+                    android:text="@string/home_data_default"
                     android:textColor="#283593"
                     android:textSize="28sp"
-                    android:text="@string/home_data_default"
                     tool:text="12" />
 
                 <TextView
@@ -89,8 +90,8 @@
                     android:layout_height="wrap_content"
                     android:paddingStart="8dp"
                     android:paddingEnd="2dp"
-                    android:textColor="#ff1744"
                     android:text="@string/home_data_default"
+                    android:textColor="#ff1744"
                     android:textSize="28sp"
                     tool:text="1" />
 
@@ -111,13 +112,141 @@
         <ImageView
             android:layout_width="84dp"
             android:layout_height="84dp"
+            android:layout_marginEnd="28dp"
+            android:layout_marginBottom="24dp"
             android:layout_weight="0"
             android:contentDescription="@string/img_des"
-            android:layout_marginBottom="24dp"
-            android:layout_marginEnd="28dp"
             android:src="@drawable/ic_home_date" />
     </LinearLayout>
 
+    <!-- 新增记录部分 -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="145dp"
+        android:layout_marginBottom="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:orientation="horizontal">
+
+            <!--左边按钮-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/shape_corner"
+                android:padding="16dp">
+
+                <ImageView
+                    android:id="@+id/home_tab_think_icon"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:contentDescription="@string/img_des"
+                    android:src="@drawable/ic_home_tab_think" />
+
+                <TextView
+                    android:id="@+id/home_tab_think_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/home_tab_think_icon"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="12dp"
+                    android:text="@string/home_data_add"
+                    android:textColor="@color/dark1" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/home_tab_think_title"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="6dp"
+                    android:text="@string/home_data_think"
+                    android:textColor="@color/dark1" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/home_data_think_des"
+                    android:textColor="@color/dark1" />
+            </RelativeLayout>
+
+            <!--间隔-->
+            <TextView
+                android:layout_width="16dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:visibility="invisible" />
+
+            <!--右边按钮-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/shape_corner"
+                android:padding="16dp">
+
+                <ImageView
+                    android:id="@+id/home_tab_diary_icon"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:contentDescription="@string/img_des"
+                    android:src="@drawable/ic_home_tab_diary" />
+
+                <TextView
+                    android:id="@+id/home_tab_diary_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/home_tab_diary_icon"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="5dp"
+                    android:text="@string/home_data_add"
+                    android:textColor="@color/dark1" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/home_tab_diary_title"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginEnd="5dp"
+                    android:text="@string/home_data_record"
+                    android:textColor="@color/dark1" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginEnd="5dp"
+                    android:text="@string/home_data_record_des"
+                    android:textColor="@color/dark1" />
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="220dp"
+            android:layout_height="110dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:contentDescription="@string/img_des"
+            android:src="@drawable/home_tab_span" />
+
+    </RelativeLayout>
+
+    <!-- 个人简介 -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="145dp"

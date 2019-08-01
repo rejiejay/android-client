@@ -16,6 +16,11 @@
     <string name="home_data_default">0</string>
     <string name="home_data_info">info</string>
     <string name="home_data_warn">warn</string>
+    <string name="home_data_add">Add</string>
+    <string name="home_data_think">思考记录</string>
+    <string name="home_data_think_des">Thinking record</string>
+    <string name="home_data_record">日志事件</string>
+    <string name="home_data_record_des">Daily record event</string>
 
     <!-- Components 系列界面 -->
     <string name="common_example">示例图片</string>

@@ -138,7 +138,8 @@
 
         <ImageView
             android:id="@+id/record_Item_img"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
+            android:contentDescription="@string/img_des"
             android:layout_height="wrap_content"
             />
 

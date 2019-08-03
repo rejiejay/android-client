@@ -22,6 +22,13 @@
     <string name="home_data_record">日志事件</string>
     <string name="home_data_record_des">Daily record event</string>
 
+    <!-- 记录 -->
+    <string name="record_operating_sort">时间排序</string>
+    <string name="record_operating_tab">标签</string>
+    <string name="record_operating_date">日期</string>
+    <string name="record_operating_add_record">新增记录</string>
+    <string name="record_operating_add_event">新增事件</string>
+
     <!-- Components 系列界面 -->
     <string name="common_example">示例图片</string>
     <string name="app_upgrade_tip_title">Release Notes (%1$s)</string>

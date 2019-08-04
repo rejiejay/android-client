@@ -103,6 +103,9 @@ public class MainActivity extends AppCompatActivity {
                  * 再根据选中视图的下标设置激活
                  */
                 tabBtnList.get(position).setSelected(true);
+
+                // 切换到当前页面，重置高度
+                myViewPager.requestLayout();
             }
 
             @Override
@@ -126,4 +129,6 @@ public class MainActivity extends AppCompatActivity {
             });
         }
     }
+
+
 }

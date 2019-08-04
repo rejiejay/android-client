@@ -117,7 +117,7 @@
                     android:minHeight="540dp"
                     android:orientation="vertical">
 
-                    <android.support.v4.view.ViewPager
+                    <cn.rejiejay.application.main.AutoHeightViewPager
                         android:id="@+id/MyViewPager"
                         android:layout_width="match_parent"
                         android:layout_weight="1"

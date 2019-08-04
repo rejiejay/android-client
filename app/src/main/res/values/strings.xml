@@ -28,6 +28,13 @@
     <string name="record_operating_date">日期</string>
     <string name="record_operating_add_record">新增记录</string>
     <string name="record_operating_add_event">新增事件</string>
+    <string name="record_list_test_title">这是标题</string>
+    <string name="record_list_test_content">这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容</string>
+    <string name="record_list_test_tab">标签</string>
+    <string name="record_list_test_cause">起因：内容内容内容内容内容</string>
+    <string name="record_list_test_handle">过程：内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容</string>
+    <string name="record_list_test_result">结果：内容内容内容内容内容</string>
+    <string name="record_list_test_date">19y 24d 3月 第一周 周一</string>
 
     <!-- Components 系列界面 -->
     <string name="common_example">示例图片</string>

@@ -37,9 +37,13 @@ public class RecordFragment extends Fragment {
 
         String url = "https://rejiejay-1251940173.cos.ap-guangzhou.myqcloud.com/myweb/mobile-list/articles-1.png";
         ImageView myImage = view.findViewById(R.id.record_Item_img);
+        ImageView myImage2 = view.findViewById(R.id.record_Item_img2);
         Glide.with(this)
                 .load(url)
                 .into(myImage);
+        Glide.with(this)
+                .load(url)
+                .into(myImage2);
     }
 
 }

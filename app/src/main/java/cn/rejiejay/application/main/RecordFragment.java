@@ -2,6 +2,7 @@ package cn.rejiejay.application.main;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,18 +11,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
 import cn.rejiejay.application.MainActivity;
 import cn.rejiejay.application.R;
+import cn.rejiejay.application.SelectTabActivity;
 
 import com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView;
 
 
 public class RecordFragment extends Fragment {
     public QMUISpanTouchFixTextView sequenceBtn; // 排序按钮
+    public QMUISpanTouchFixTextView tabBtn; // 标签按钮
 
     @Nullable
     @Override
@@ -62,6 +64,11 @@ public class RecordFragment extends Fragment {
          * 初始化排序的方法
          */
         initSortHandle();
+
+        /**
+         * 跳转到 标签选择页面
+         */
+        jumpToSelectTabActivity();
     }
 
     /**
@@ -69,6 +76,7 @@ public class RecordFragment extends Fragment {
      */
     public void initPageComponent(View view) {
         sequenceBtn = view.findViewById(R.id.main_record_sequence);
+        tabBtn = view.findViewById(R.id.main_record_tab);
     }
 
     /**
@@ -92,6 +100,20 @@ public class RecordFragment extends Fragment {
 
                 AlertDialog dialog = builder.create();
                 dialog.show();
+            }
+        });
+    }
+
+    /**
+     * 跳转到 标签选择页面
+     */
+    public void jumpToSelectTabActivity() {
+        tabBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View thisView) {
+                Intent intent = new Intent();
+                intent.setClass(getActivity(), SelectTabActivity.class);
+                startActivity(intent);
             }
         });
     }

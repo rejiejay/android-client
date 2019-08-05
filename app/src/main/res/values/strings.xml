@@ -36,6 +36,11 @@
     <string name="record_list_test_result">结果：内容内容内容内容内容</string>
     <string name="record_list_test_date">19y 24d 3月 第一周 周一</string>
 
+    <!-- 标签页 -->
+    <string name="tab_operating_add">新建分类</string>
+    <string name="tab_operating_del">删除分类</string>
+    <string name="tab_select_all">所有分类</string>
+
     <!-- Components 系列界面 -->
     <string name="common_example">示例图片</string>
     <string name="app_upgrade_tip_title">Release Notes (%1$s)</string>

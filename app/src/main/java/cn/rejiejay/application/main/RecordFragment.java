@@ -1,5 +1,7 @@
 package cn.rejiejay.application.main;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -8,9 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
+import cn.rejiejay.application.MainActivity;
 import cn.rejiejay.application.R;
 
 import com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView;
@@ -74,6 +78,20 @@ public class RecordFragment extends Fragment {
         sequenceBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View thisView) {
+                String[] single_list = {"时间排序", "随机排序", "取消选择"};
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("请选择排序方式");
+
+                builder.setSingleChoiceItems(single_list, 0, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
         });
     }

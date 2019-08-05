@@ -13,7 +13,12 @@ import com.bumptech.glide.Glide;
 
 import cn.rejiejay.application.R;
 
+import com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView;
+
+
 public class RecordFragment extends Fragment {
+    public QMUISpanTouchFixTextView sequenceBtn; // 排序按钮
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -30,11 +35,13 @@ public class RecordFragment extends Fragment {
     // public void onCreate(@Nullable Bundle savedInstanceState) {
     //     super.onCreate(savedInstanceState);
     // }
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        /**
+         * 加载图片示例
+         */
         String url = "https://rejiejay-1251940173.cos.ap-guangzhou.myqcloud.com/myweb/mobile-list/articles-1.png";
         ImageView myImage = view.findViewById(R.id.record_Item_img);
         ImageView myImage2 = view.findViewById(R.id.record_Item_img2);
@@ -44,6 +51,31 @@ public class RecordFragment extends Fragment {
         Glide.with(this)
                 .load(url)
                 .into(myImage2);
+
+        initPageComponent(view); // 初始化 绑定 组件的方法
+
+        /**
+         * 初始化排序的方法
+         */
+        initSortHandle();
+    }
+
+    /**
+     * 初始化 绑定 组件的方法
+     */
+    public void initPageComponent(View view) {
+        sequenceBtn = view.findViewById(R.id.main_record_sequence);
+    }
+
+    /**
+     * 初始化排序的方法
+     */
+    public void initSortHandle() {
+        sequenceBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View thisView) {
+            }
+        });
     }
 
 }

@@ -18,6 +18,10 @@ import cn.rejiejay.application.tabselect.Tab;
 import cn.rejiejay.application.tabselect.TabArrayAdapter;
 
 public class TabSelectActivity extends AppCompatActivity {
+    private List<Tab> mData = new ArrayList<>();
+    private TabArrayAdapter adapter;
+
+    private Boolean isDelete = false; // 是否删除
 
     // 生命周期的 onCreate 周期
     @Override
@@ -28,6 +32,8 @@ public class TabSelectActivity extends AppCompatActivity {
         initListView(); // 初始化 标签列表
 
         initCreateNewTab(); // 初始化 新增标签
+
+        initDelTab(); // 初始化 删除标签
     }
 
     /**
@@ -56,13 +62,12 @@ public class TabSelectActivity extends AppCompatActivity {
 
         // 从服务器初始化数据
         // initData();
-        List<Tab> mData = new ArrayList<>();
-        mData.add(new Tab("张三", "30"));
-        mData.add(new Tab("张三", "30"));
-        mData.add(new Tab("张三", "30"));
-        mData.add(new Tab("张三", "30"));
+        mData.add(new Tab("张三", false));
+        mData.add(new Tab("张三", false));
+        mData.add(new Tab("张三", false));
+        mData.add(new Tab("张三", false));
 
-        TabArrayAdapter adapter = new TabArrayAdapter(inflater, mData);
+        adapter = new TabArrayAdapter(inflater, mData);
 
         myListView.setAdapter(adapter);
     }
@@ -79,7 +84,6 @@ public class TabSelectActivity extends AppCompatActivity {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(TabSelectActivity.this);
                 builder.setTitle("请输入要新建的分类");    // 设置对话框标题
-                builder.setIcon(android.R.drawable.btn_star);   // 设置对话框标题前的图标
 
                 final EditText edit = new EditText(TabSelectActivity.this);
 
@@ -104,5 +108,26 @@ public class TabSelectActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    /**
+     * 初始化 删除标签
+     * ListView数据动态刷新: https://blog.csdn.net/cshichao/article/details/9333497
+     */
+    public void initDelTab() {
+        LinearLayout delTabView = findViewById(R.id.delTabView);
+
+        delTabView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View thisView) {
+                isDelete = !isDelete;
+
+                for (int index = 0; index < mData.size(); index++) {
+                    mData.get(index).setDelete(isDelete);
+                }
+
+                adapter.notifyDataSetChanged();
+            }
+        });
     }
 }

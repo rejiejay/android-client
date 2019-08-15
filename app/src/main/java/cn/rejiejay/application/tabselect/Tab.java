@@ -5,14 +5,16 @@ package cn.rejiejay.application.tabselect;
  * 自定义的Adapter依然遵循MVC设计模式
  */
 public class Tab {
+
     // 构造函数
-    public Tab(String name, String image) {
+    public Tab(String name, Boolean isDelete) {
         this.name = name;
-        this.image = image;
+        this.isDelete = isDelete;
     }
 
     private String name; // 标签 名称
-    private String image; // 标签 图片
+
+    private Boolean isDelete; // 是否删除
 
     public String getName() {
         return name;
@@ -22,11 +24,11 @@ public class Tab {
         this.name = name;
     }
 
-    public String getImage() {
-        return image;
+    public Boolean getDelete() {
+        return isDelete;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setDelete(Boolean delete) {
+        isDelete = delete;
     }
 }

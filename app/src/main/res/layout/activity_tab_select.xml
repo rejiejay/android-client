@@ -49,6 +49,7 @@
             android:layout_height="1px"
             android:background="@color/dark2" />
         <LinearLayout
+            android:id="@+id/delTabView"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:background="#fff"

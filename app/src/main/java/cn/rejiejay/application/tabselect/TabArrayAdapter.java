@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 
 import com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView;
 
@@ -38,15 +39,23 @@ public class TabArrayAdapter extends BaseAdapter {
 
         // 获得标签对象
         Tab myTab = mData.get(position);
-        myTab.getImage();
+//        myTab.getImage();
 
         // 获得自定义布局中每一个控件的对象
-        // ImageView imagePhoto = (ImageView) viewStudent.findViewById(R.id.image_photo);
-        QMUISpanTouchFixTextView tabName = viewTab.findViewById(R.id.tabName);
+        QMUISpanTouchFixTextView tabName = viewTab.findViewById(R.id.tab_item_name);
+        ImageView tabAddImageView = viewTab.findViewById(R.id.tab_add_icon);
+        ImageView tabDelImageView = viewTab.findViewById(R.id.tab_del_icon);
 
 
         // 将数据添加到自定义的布局中。
         tabName.setText(myTab.getName());
+        if (myTab.getDelete()) { // 判断是否删除
+            tabAddImageView.setVisibility(View.INVISIBLE);
+            tabDelImageView.setVisibility(View.VISIBLE);
+        } else {
+            tabAddImageView.setVisibility(View.VISIBLE);
+            tabDelImageView.setVisibility(View.INVISIBLE);
+        }
 
         return viewTab;
     }

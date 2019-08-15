@@ -16,7 +16,7 @@ public class TabSelectActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_select_tab);
+        setContentView(R.layout.activity_tab_select);
 
         initPageComponent(); // 初始化 绑定 组件的方法
 
@@ -34,10 +34,11 @@ public class TabSelectActivity extends AppCompatActivity {
      * 初始化 标签列表
      */
     public void initListView() {
-//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-//            TabSelectActivity.this,   // Context上下文
-//                myListView,  // 子项布局id
-//                data);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                TabSelectActivity.this,   // Context上下文
+                R.layout.activity_tab_select_item,  // 子项布局id
+                data);
 
+        myListView.setAdapter(adapter);
     }
 }

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?><!-- 标签分类页面下面的一个item -->
+<View xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="5dp"
+        android:background="@color/dark2" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="#fff"
+        android:gravity="center|start"
+        android:orientation="horizontal">
+
+        <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_weight="1"
+            android:text="@string/tab_select_all"
+            android:textColor="@color/dark2"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_weight="0"
+            android:contentDescription="@string/img_des"
+            android:src="@drawable/ic_right_arrow" />
+    </LinearLayout>
+</View>

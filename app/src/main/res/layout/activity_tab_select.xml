@@ -116,7 +116,7 @@
             android:background="@color/dark2" />
 
         <!--列表-->
-        <ListView
+        <cn.rejiejay.application.tabselect.TabView
             android:id="@+id/tab_list_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

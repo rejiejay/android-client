@@ -16,7 +16,7 @@ import com.bumptech.glide.Glide;
 
 import cn.rejiejay.application.MainActivity;
 import cn.rejiejay.application.R;
-import cn.rejiejay.application.SelectTabActivity;
+import cn.rejiejay.application.TabSelectActivity;
 
 import com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView;
 
@@ -112,7 +112,7 @@ public class RecordFragment extends Fragment {
             @Override
             public void onClick(View thisView) {
                 Intent intent = new Intent();
-                intent.setClass(getActivity(), SelectTabActivity.class);
+                intent.setClass(getActivity(), TabSelectActivity.class);
                 startActivity(intent);
             }
         });

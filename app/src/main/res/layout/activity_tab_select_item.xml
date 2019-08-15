@@ -1,7 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?><!-- 标签分类页面下面的一个item -->
-<View xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?><!-- 标签分类页面下面的一个item，定义数据的布局方式，也就是数据的View -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
@@ -32,4 +34,4 @@
             android:contentDescription="@string/img_des"
             android:src="@drawable/ic_right_arrow" />
     </LinearLayout>
-</View>
+</LinearLayout>

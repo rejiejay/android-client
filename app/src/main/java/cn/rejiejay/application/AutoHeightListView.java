@@ -1,20 +1,20 @@
-package cn.rejiejay.application.tabselect;
+package cn.rejiejay.application;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.ListView;
 
-public class TabView extends ListView {
+public class AutoHeightListView extends ListView {
 
-    public TabView(Context paramContext) {
+    public AutoHeightListView(Context paramContext) {
         super(paramContext);
     }
 
-    public TabView(Context paramContext, AttributeSet paramAttributeSet) {
+    public AutoHeightListView(Context paramContext, AttributeSet paramAttributeSet) {
         super(paramContext, paramAttributeSet);
     }
 
-    public TabView(Context paramContext, AttributeSet paramAttributeSet,
+    public AutoHeightListView(Context paramContext, AttributeSet paramAttributeSet,
                       int paramInt) {
         super(paramContext, paramAttributeSet, paramInt);
     }

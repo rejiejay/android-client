@@ -11,75 +11,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!--新建分类-->
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_marginTop="5dp"
-            android:background="@color/dark2" />
-
-        <LinearLayout
-            android:id="@+id/createNewTab"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:background="#fff"
-            android:gravity="center|start"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:contentDescription="@string/img_des"
-                android:src="@drawable/ic_add_tab" />
-
-            <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:text="@string/tab_operating_add"
-                android:textColor="@color/dark2"
-                android:textSize="16sp" />
-
-        </LinearLayout>
-
-        <!--删除分类-->
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/dark2" />
-        <LinearLayout
-            android:id="@+id/delTabView"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:background="#fff"
-            android:gravity="center|start"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:contentDescription="@string/img_des"
-                android:src="@drawable/ic_tab_del" />
-
-            <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:text="@string/tab_operating_del"
-                android:textColor="@color/dark2"
-                android:textSize="16sp" />
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_marginBottom="5dp"
-            android:background="@color/dark2" />
-
-
         <!--所有分类-->
         <View
             android:layout_width="match_parent"
@@ -117,10 +48,10 @@
             android:layout_height="1px"
             android:background="@color/dark2" />
 
-        <ListView
+        <cn.rejiejay.application.AutoHeightListView
             android:id="@+id/data_tree_node"
             android:layout_width="match_parent"
-            android:layout_height="1000dp"
+            android:layout_height="wrap_content"
             />
 
         <View

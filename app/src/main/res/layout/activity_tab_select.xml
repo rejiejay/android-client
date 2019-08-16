@@ -118,7 +118,7 @@
             android:background="@color/dark2" />
 
         <!--列表-->
-        <cn.rejiejay.application.tabselect.TabView
+        <cn.rejiejay.application.AutoHeightListView
             android:id="@+id/tab_list_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

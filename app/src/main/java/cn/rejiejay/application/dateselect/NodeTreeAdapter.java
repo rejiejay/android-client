@@ -64,7 +64,6 @@ public class NodeTreeAdapter extends BaseAdapter {
      * @param position
      */
     private void expandOrCollapse(int position) {
-        // Log.d("1", "222"); // 无效
         Node node = nodeLinkedList.get(position);
 
         /**
@@ -190,12 +189,12 @@ public class NodeTreeAdapter extends BaseAdapter {
          * 但是不知道为啥setTag
          */
         holder.confirm.setTag(position);
-//        holder.confirm.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Toast.makeText(context, "选中:" + v.getTag(), Toast.LENGTH_SHORT).show();
-//            }
-//        });
+       holder.confirm.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               Toast.makeText(context, "选中:" + v.getTag(), Toast.LENGTH_SHORT).show();
+           }
+       });
 
         /**
          * 这里是设置缩进
@@ -211,7 +210,7 @@ public class NodeTreeAdapter extends BaseAdapter {
     static class ViewHolder {
         public ImageView imageView;
         public TextView label;
-        public RelativeLayout confirm;
+        public ImageView confirm;
     }
 
 }

@@ -14,7 +14,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 
-import cn.rejiejay.application.MainActivity;
+import cn.rejiejay.application.DateSelectActivity;
 import cn.rejiejay.application.R;
 import cn.rejiejay.application.TabSelectActivity;
 
@@ -24,6 +24,7 @@ import com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView;
 public class RecordFragment extends Fragment {
     public QMUISpanTouchFixTextView sequenceBtn; // 排序按钮
     public QMUISpanTouchFixTextView tabBtn; // 标签按钮
+    public QMUISpanTouchFixTextView dateBtn; // 日期按钮
 
     @Nullable
     @Override
@@ -69,6 +70,11 @@ public class RecordFragment extends Fragment {
          * 跳转到 标签选择页面
          */
         jumpToSelectTabActivity();
+
+        /**
+         * 跳转到 日期选择页面
+         */
+        jumpToSelectDateActivity();
     }
 
     /**
@@ -77,6 +83,8 @@ public class RecordFragment extends Fragment {
     public void initPageComponent(View view) {
         sequenceBtn = view.findViewById(R.id.main_record_sequence);
         tabBtn = view.findViewById(R.id.main_record_tab);
+        dateBtn = view.findViewById(R.id.main_record_date);
+
     }
 
     /**
@@ -113,6 +121,20 @@ public class RecordFragment extends Fragment {
             public void onClick(View thisView) {
                 Intent intent = new Intent();
                 intent.setClass(getActivity(), TabSelectActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    /**
+     * 跳转到 标签选择页面
+     */
+    public void jumpToSelectDateActivity() {
+        dateBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View thisView) {
+                Intent intent = new Intent();
+                intent.setClass(getActivity(), DateSelectActivity.class);
                 startActivity(intent);
             }
         });

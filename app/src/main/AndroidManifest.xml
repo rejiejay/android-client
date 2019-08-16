@@ -20,6 +20,7 @@
             </intent-filter>
         </activity>
         <activity android:name =".TabSelectActivity"/>
+        <activity android:name =".DateSelectActivity"/>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />

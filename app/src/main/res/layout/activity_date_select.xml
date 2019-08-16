@@ -117,6 +117,12 @@
             android:layout_height="1px"
             android:background="@color/dark2" />
 
+        <ListView
+            android:id="@+id/data_tree_node"
+            android:layout_width="match_parent"
+            android:layout_height="1000dp"
+            />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"

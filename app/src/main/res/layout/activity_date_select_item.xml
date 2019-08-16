@@ -1,48 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="45dp"
+    android:background="#fff"
+    android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/id_tree_node_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:contentDescription="@string/img_des"
-        android:src="@drawable/ic_down_icon" />
 
-    <!--保证整块区域可点，使用户好点击-->
-    <LinearLayout
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/dark2" />
+
+    <RelativeLayout
         android:id="@+id/id_confirm"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"
-        android:focusable="true"
-        android:paddingLeft="15dp"
-        android:paddingTop="8dp"
-        android:paddingRight="15dp"
-        android:paddingBottom="8dp">
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="#fff">
 
         <ImageView
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:background="@drawable/checkbox_selector"
+            android:id="@+id/id_tree_node_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="16dp"
             android:contentDescription="@string/img_des"
-            android:scaleType="centerInside" />
-    </LinearLayout>
+            android:src="@drawable/ic_down_icon" />
+
+        <TextView
+            android:id="@+id/id_tree_node_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="16dp"
+            android:layout_toEndOf="@id/id_tree_node_icon"
+            android:text="@string/tab_name"
+            android:textColor="@color/dark2"
+            android:textSize="16sp"
+            tools:ignore="RelativeOverlap" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="16dp"
+            android:contentDescription="@string/img_des"
+            android:scaleType="centerInside"
+            android:src="@drawable/checkbox_selector" />
+    </RelativeLayout>
 
 
-    <TextView
-        android:id="@+id/id_tree_node_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_toStartOf="@id/id_confirm"
-        android:layout_toEndOf="@id/id_tree_node_label"
-        android:textColor="@android:color/black"
-        android:textSize="12sp" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/dark2" />
 
-</RelativeLayout>
+</LinearLayout>

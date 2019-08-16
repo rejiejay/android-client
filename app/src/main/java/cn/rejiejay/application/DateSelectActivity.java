@@ -14,7 +14,6 @@ import cn.rejiejay.application.dateselect.NodeHelper;
 import cn.rejiejay.application.dateselect.NodeTreeAdapter;
 
 public class DateSelectActivity extends AppCompatActivity {
-    private ListView mListView;
     private NodeTreeAdapter mAdapter;
     private LinkedList<Node> mLinkedList = new LinkedList<>();
 
@@ -29,6 +28,7 @@ public class DateSelectActivity extends AppCompatActivity {
 
     /**
      * 初始化节点
+     * 这东西本质是个 ListView
      */
     public void initTreeNode() {
         ListView mListView = findViewById(R.id.data_tree_node);
@@ -42,7 +42,7 @@ public class DateSelectActivity extends AppCompatActivity {
     /**
      * 初始化数据
      */
-    private void initData(){
+    private void initData() {
         List<Node> data = new ArrayList<>();
         addOne(data);
         mLinkedList.addAll(NodeHelper.sortNodes(data));
@@ -50,7 +50,7 @@ public class DateSelectActivity extends AppCompatActivity {
     }
 
 
-    private void addOne(List<Node> data){
+    private void addOne(List<Node> data) {
         data.add(new Dept(1, 0, "总公司"));//可以直接注释掉此项，即可构造一个森林
         data.add(new Dept(2, 1, "一级部一级部门一级部门一级部门门级部门一级部门级部门一级部门一级部门门级部一级"));
         data.add(new Dept(3, 1, "一级部门"));
@@ -70,30 +70,28 @@ public class DateSelectActivity extends AppCompatActivity {
         data.add(new Dept(9, 1, "一级部门"));
         data.add(new Dept(10, 1, "一级部门"));
 
-        for (int i = 2;i <= 10;i++){
-            for (int j = 0;j < 10;j++){
-                data.add(new Dept(1+(i - 1)*10+j,i, "二级部门"+j));
+        for (int i = 2; i <= 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                data.add(new Dept(1 + (i - 1) * 10 + j, i, "二级部门" + j));
             }
         }
 
-        for (int i = 0;i < 5;i++){
-            data.add(new Dept(101+i,11, "三级部门"+i));
+        for (int i = 0; i < 5; i++) {
+            data.add(new Dept(101 + i, 11, "三级部门" + i));
         }
 
-        for (int i = 0;i < 5;i++){
-            data.add(new Dept(106+i,22, "三级部门"+i));
+        for (int i = 0; i < 5; i++) {
+            data.add(new Dept(106 + i, 22, "三级部门" + i));
         }
-        for (int i = 0;i < 5;i++){
-            data.add(new Dept(111+i,33, "三级部门"+i));
+        for (int i = 0; i < 5; i++) {
+            data.add(new Dept(111 + i, 33, "三级部门" + i));
         }
-        for (int i = 0;i < 5;i++){
-            data.add(new Dept(115+i,44, "三级部门"+i));
+        for (int i = 0; i < 5; i++) {
+            data.add(new Dept(115 + i, 44, "三级部门" + i));
         }
 
-        for (int i = 0;i < 5;i++){
-            data.add(new Dept(401+i,101, "四级部门"+i));
+        for (int i = 0; i < 5; i++) {
+            data.add(new Dept(401 + i, 101, "四级部门" + i));
         }
     }
-
-
 }

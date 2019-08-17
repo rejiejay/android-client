@@ -41,6 +41,11 @@
     <string name="tab_operating_del">删除分类</string>
     <string name="tab_select_all">所有分类</string>
 
+    <!-- 新增编辑记录事件页 -->
+    <string name="record_event_left">记录</string>
+    <string name="record_event_right">事件</string>
+    <string name="record_event_title">标题</string>
+
     <!-- Components 系列界面 -->
     <string name="common_example">示例图片</string>
     <string name="app_upgrade_tip_title">Release Notes (%1$s)</string>

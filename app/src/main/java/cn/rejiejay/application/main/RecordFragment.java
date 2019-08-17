@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 
 import cn.rejiejay.application.DateSelectActivity;
 import cn.rejiejay.application.R;
+import cn.rejiejay.application.RecordEventActivity;
 import cn.rejiejay.application.TabSelectActivity;
 
 import com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView;
@@ -25,6 +26,8 @@ public class RecordFragment extends Fragment {
     public QMUISpanTouchFixTextView sequenceBtn; // 排序按钮
     public QMUISpanTouchFixTextView tabBtn; // 标签按钮
     public QMUISpanTouchFixTextView dateBtn; // 日期按钮
+    QMUISpanTouchFixTextView addRecordBtn;
+    QMUISpanTouchFixTextView addEventBtn;
 
     @Nullable
     @Override
@@ -75,6 +78,11 @@ public class RecordFragment extends Fragment {
          * 跳转到 日期选择页面
          */
         jumpToSelectDateActivity();
+
+        /**
+         * 跳转到 新增页面
+         */
+        jumpToAddActivity();
     }
 
     /**
@@ -84,7 +92,8 @@ public class RecordFragment extends Fragment {
         sequenceBtn = view.findViewById(R.id.main_record_sequence);
         tabBtn = view.findViewById(R.id.main_record_tab);
         dateBtn = view.findViewById(R.id.main_record_date);
-
+        addRecordBtn = view.findViewById(R.id.add_record_btn);
+        addEventBtn = view.findViewById(R.id.add_event_btn);
     }
 
     /**
@@ -140,5 +149,40 @@ public class RecordFragment extends Fragment {
         });
     }
 
+    /**
+     * 初始化跳转到 新增页面
+     *
+     * intent传值 https://blog.csdn.net/chenliguan/article/details/47188243
+     */
+    public void jumpToAddActivity() {
+        /**
+         * 跳转到 新增记录
+         */
+        addRecordBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View thisView) {
+                Intent intent = new Intent();
+                intent.setClass(getActivity(), RecordEventActivity.class);
+
+                // 在Intent对象当中添加一个键值对
+                intent.putExtra("type","record");
+                startActivity(intent);
+            }
+        });
+
+        /**
+         * 跳转到 新增事件
+         */
+        addRecordBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View thisView) {
+                Intent intent = new Intent();
+                intent.setClass(getActivity(), RecordEventActivity.class);
+                // 在Intent对象当中添加一个键值对
+                intent.putExtra("type","event");
+                startActivity(intent);
+            }
+        });
+    }
 }
 

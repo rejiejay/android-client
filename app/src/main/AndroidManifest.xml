@@ -23,6 +23,7 @@
         </activity>
         <activity android:name=".TabSelectActivity" />
         <activity android:name=".DateSelectActivity" />
+        <activity android:name=".RecordEventActivity" />
     </application>
 
 </manifest>

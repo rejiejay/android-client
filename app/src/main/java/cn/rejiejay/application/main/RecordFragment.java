@@ -151,7 +151,7 @@ public class RecordFragment extends Fragment {
 
     /**
      * 初始化跳转到 新增页面
-     *
+     * <p>
      * intent传值 https://blog.csdn.net/chenliguan/article/details/47188243
      */
     public void jumpToAddActivity() {
@@ -165,7 +165,7 @@ public class RecordFragment extends Fragment {
                 intent.setClass(getActivity(), RecordEventActivity.class);
 
                 // 在Intent对象当中添加一个键值对
-                intent.putExtra("type","record");
+                intent.putExtra("type", "record");
                 startActivity(intent);
             }
         });
@@ -173,13 +173,13 @@ public class RecordFragment extends Fragment {
         /**
          * 跳转到 新增事件
          */
-        addRecordBtn.setOnClickListener(new View.OnClickListener() {
+        addEventBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View thisView) {
                 Intent intent = new Intent();
                 intent.setClass(getActivity(), RecordEventActivity.class);
                 // 在Intent对象当中添加一个键值对
-                intent.putExtra("type","event");
+                intent.putExtra("type", "event");
                 startActivity(intent);
             }
         });

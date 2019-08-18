@@ -1,4 +1,4 @@
-package cn.rejiejay.application.tabselect;
+package cn.rejiejay.application.selecttab;
 
 import android.view.LayoutInflater;
 import android.view.View;

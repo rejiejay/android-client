@@ -14,10 +14,10 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 
-import cn.rejiejay.application.DateSelectActivity;
+import cn.rejiejay.application.SelectDateActivity;
 import cn.rejiejay.application.R;
 import cn.rejiejay.application.RecordEventActivity;
-import cn.rejiejay.application.TabSelectActivity;
+import cn.rejiejay.application.SelectTabActivity;
 
 import com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView;
 
@@ -129,7 +129,7 @@ public class RecordFragment extends Fragment {
             @Override
             public void onClick(View thisView) {
                 Intent intent = new Intent();
-                intent.setClass(getActivity(), TabSelectActivity.class);
+                intent.setClass(getActivity(), SelectTabActivity.class);
                 startActivity(intent);
             }
         });
@@ -143,7 +143,7 @@ public class RecordFragment extends Fragment {
             @Override
             public void onClick(View thisView) {
                 Intent intent = new Intent();
-                intent.setClass(getActivity(), DateSelectActivity.class);
+                intent.setClass(getActivity(), SelectDateActivity.class);
                 startActivity(intent);
             }
         });

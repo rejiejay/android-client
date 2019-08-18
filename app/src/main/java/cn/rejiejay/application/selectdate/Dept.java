@@ -1,4 +1,4 @@
-package cn.rejiejay.application.dateselect;
+package cn.rejiejay.application.selectdate;
 
 /**
  * Created by HQOCSHheqing on 2016/8/2.

@@ -1,4 +1,4 @@
-package cn.rejiejay.application.tabselect;
+package cn.rejiejay.application.selecttab;
 
 /**
  * 数据Model

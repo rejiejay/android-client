@@ -8,12 +8,12 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import cn.rejiejay.application.dateselect.Dept;
-import cn.rejiejay.application.dateselect.Node;
-import cn.rejiejay.application.dateselect.NodeHelper;
-import cn.rejiejay.application.dateselect.NodeTreeAdapter;
+import cn.rejiejay.application.selectdate.Dept;
+import cn.rejiejay.application.selectdate.Node;
+import cn.rejiejay.application.selectdate.NodeHelper;
+import cn.rejiejay.application.selectdate.NodeTreeAdapter;
 
-public class DateSelectActivity extends AppCompatActivity {
+public class SelectDateActivity extends AppCompatActivity {
     private NodeTreeAdapter mAdapter;
     private LinkedList<Node> mLinkedList = new LinkedList<>();
 

@@ -14,10 +14,10 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.rejiejay.application.tabselect.Tab;
-import cn.rejiejay.application.tabselect.TabArrayAdapter;
+import cn.rejiejay.application.selecttab.Tab;
+import cn.rejiejay.application.selecttab.TabArrayAdapter;
 
-public class TabSelectActivity extends AppCompatActivity {
+public class SelectTabActivity extends AppCompatActivity {
     private List<Tab> mData = new ArrayList<>();
     private TabArrayAdapter adapter;
 
@@ -47,7 +47,7 @@ public class TabSelectActivity extends AppCompatActivity {
          * 如果我们需要展示的内容是一仅一个textView承载不了的，还需要其它组件、这就需要写一个类继承自ArrayAdapter并且重写getView方法
          */
 //        ArrayAdapter<String> adapter = new ArrayAdapter<>(
-//                TabSelectActivity.this,   // Context上下文
+//                SelectTabActivity.this,   // Context上下文
 //                R.layout.activity_tab_select_item,  // 子项布局id
 //                data);
 //
@@ -82,22 +82,22 @@ public class TabSelectActivity extends AppCompatActivity {
             @Override
             public void onClick(View thisView) {
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(TabSelectActivity.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(SelectTabActivity.this);
                 builder.setTitle("请输入要新建的分类");    // 设置对话框标题
 
-                final EditText edit = new EditText(TabSelectActivity.this);
+                final EditText edit = new EditText(SelectTabActivity.this);
 
                 builder.setView(edit);
                 builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(TabSelectActivity.this, "你输入的是: " + edit.getText().toString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SelectTabActivity.this, "你输入的是: " + edit.getText().toString(), Toast.LENGTH_SHORT).show();
                     }
                 });
                 builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(TabSelectActivity.this, "你点了取消", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SelectTabActivity.this, "你点了取消", Toast.LENGTH_SHORT).show();
                     }
                 });
                 builder.setCancelable(true);    // 设置按钮是否可以按返回键取消,false则不可以取消

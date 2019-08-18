@@ -5,12 +5,16 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
+import com.luck.picture.lib.entity.LocalMedia;
 import com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView;
+
+import java.util.List;
 
 import mehdi.sakout.fancybuttons.FancyButton;
 
@@ -46,7 +50,7 @@ public class RecordEventActivity extends AppCompatActivity {
         initPageType(); // 根据 pageType 改变页面状态
         initTopTab(); // 初始化 顶部
 
-        initGridView(); // 初始化展示上传图片的GridView
+        initUploadView(); // 初始化上传图片
     }
 
     /**
@@ -100,17 +104,68 @@ public class RecordEventActivity extends AppCompatActivity {
         });
     }
 
-    // 初始化展示上传图片的GridView
-    private void initGridView() {
-        FancyButton image_btn = findViewById(R.id.record_event_image_btn);
+    /**
+     * 初始化上传图片
+     * <p>
+     * https://github.com/LuckSiege/PictureSelector
+     */
+    private void initUploadView() {
+        FancyButton imageBtn = findViewById(R.id.record_event_image_btn);
 
-        image_btn.setOnClickListener(new View.OnClickListener() {
+        imageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View thisView) {
                 PictureSelector.create(RecordEventActivity.this)
-                        .openGallery(PictureMimeType.ofImage())
-                        .forResult(PictureConfig.CHOOSE_REQUEST);
+                        .openGallery(PictureMimeType.ofImage()) // 全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
+                        .maxSelectNum(1) // 最大图片选择数量 int
+                        .previewImage(true) // 是否可预览图片 true or false
+                        .isCamera(true) // 是否显示拍照按钮 true or false
+                        .compress(true) // 是否压缩 true or false
+                        .minimumCompressSize(300)// 小于300kb的图片不压缩
+                        .isGif(false) // 是否显示gif图片 true or false
+                        .forResult(PictureConfig.CHOOSE_REQUEST); // 结果回调onActivityResult code
             }
         });
+    }
+
+    /**
+     * 图片上传回调函数
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case PictureConfig.CHOOSE_REQUEST:
+                    // 图片、视频、音频选择结果回调
+                    List<LocalMedia> selectList = PictureSelector.obtainMultipleResult(data);
+                    // 例如 LocalMedia 里面返回三种path
+                    // 1.media.getPath(); 为原图path
+                    // 2.media.getCutPath();为裁剪后path，需判断media.isCut();是否为true  注意：音视频除外
+                    // 3.media.getCompressPath();为压缩后path，需判断media.isCompressed();是否为true  注意：音视频除外
+                    // 如果裁剪并压缩了，以取压缩路径为准，因为是先裁剪后压缩的
+
+                    /**
+                     * 结果必须要大于零
+                     */
+                    if (selectList.size() > 0) {
+                        LocalMedia media = selectList.get(0);
+
+                        if (media.getPath() != null) {
+
+                            /**
+                             * 缓存清除
+                             * 包括裁剪和压缩后的缓存，要在上传成功后调用
+                             *
+                             */
+                            // PictureFileUtils.deleteCacheDirFile(MainActivity.this);
+                            // Log.d("media", media.getPath());
+                        }
+                    }
+
+                    break;
+            }
+        }
     }
 }

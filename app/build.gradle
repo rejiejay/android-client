@@ -44,8 +44,8 @@ dependencies {
 
     // q m u i
     implementation 'com.qmuiteam:qmui:1.4.0'
-    // 被google所推荐的图片加载库
-    implementation 'com.github.bumptech.glide:glide:4.9.0'
+    // 被google所推荐的图片加载库 4.9 和 PictureSelector 冲突了
+    // implementation 'com.github.bumptech.glide:glide:4.9.0'
     // 图片选择器
     implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3'
     // 按钮

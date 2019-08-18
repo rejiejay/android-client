@@ -59,6 +59,16 @@
             android:textColor="@color/dark2"
             tools:ignore="autoFill" />
 
+        <!--展示上传的图片-->
+        <GridView
+            android:id="@+id/record_event_grid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:columnWidth="60dp"
+            android:horizontalSpacing="10dp"
+            android:numColumns="auto_fit"
+            android:verticalSpacing="10dp" />
     </LinearLayout>
 
 </LinearLayout>

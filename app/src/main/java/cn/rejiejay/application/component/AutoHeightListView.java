@@ -1,4 +1,4 @@
-package cn.rejiejay.application;
+package cn.rejiejay.application.component;
 
 import android.content.Context;
 import android.util.AttributeSet;

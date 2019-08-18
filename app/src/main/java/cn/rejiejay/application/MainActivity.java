@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main); // 可以暂时理解为入口，右键可以点进去（大概作用是与自己写的XML文件互相匹配(绑定
+        setContentView(R.layout.main); // 可以暂时理解为入口，右键可以点进去（大概作用是与自己写的XML文件互相匹配(绑定
 
         initPageComponent(); // 初始化 绑定 组件的方法
         initViewPager(); // 初始化 ViewPager 分页组件

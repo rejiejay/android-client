@@ -1,12 +1,15 @@
 package cn.rejiejay.application;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
@@ -14,6 +17,7 @@ import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView;
 
+import java.io.File;
 import java.util.List;
 
 import mehdi.sakout.fancybuttons.FancyButton;
@@ -21,6 +25,9 @@ import mehdi.sakout.fancybuttons.FancyButton;
 
 public class RecordEventActivity extends AppCompatActivity {
     private Context mContext;
+    private String previewImageSrc; // null 表示未上传图片
+    ImageView previewImage;
+
     /**
      * 页面状态
      * record 记录页面 event 事件页面
@@ -111,6 +118,7 @@ public class RecordEventActivity extends AppCompatActivity {
      */
     private void initUploadView() {
         FancyButton imageBtn = findViewById(R.id.record_event_image_btn);
+        previewImage = findViewById(R.id.preview_image);
 
         imageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,6 +132,48 @@ public class RecordEventActivity extends AppCompatActivity {
                         .minimumCompressSize(300)// 小于300kb的图片不压缩
                         .isGif(false) // 是否显示gif图片 true or false
                         .forResult(PictureConfig.CHOOSE_REQUEST); // 结果回调onActivityResult code
+            }
+        });
+
+        previewImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View thisView) {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                builder.setTitle("删除");
+                builder.setMessage("你确定要删除这张图片?");
+                builder.setIcon(R.mipmap.ic_launcher_round);
+                // 点击对话框以外的区域是否让对话框消失
+                builder.setCancelable(true);
+                // 设置正面按钮
+                builder.setPositiveButton("是", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        previewImageSrc = null;
+                        previewImage.setVisibility(View.GONE);
+                    }
+                });
+                // 设置反面按钮
+                builder.setNegativeButton("不是", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                //对话框显示的监听事件
+                dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                    @Override
+                    public void onShow(DialogInterface dialog) {
+                    }
+                });
+                //对话框消失的监听事件
+                dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialog) {
+                    }
+                });
+                //显示对话框
+                dialog.show();
             }
         });
     }
@@ -151,14 +201,16 @@ public class RecordEventActivity extends AppCompatActivity {
                      */
                     if (selectList.size() > 0) {
                         LocalMedia media = selectList.get(0);
-
-                        if (media.getPath() != null) {
+                        previewImageSrc = media.getPath();
+                        if (previewImageSrc != null) {
 
                             /**
                              * 缓存清除
                              * 包括裁剪和压缩后的缓存，要在上传成功后调用
                              *
                              */
+                            previewImage.setImageURI(Uri.fromFile(new File(previewImageSrc)));
+                            previewImage.setVisibility(View.VISIBLE);
                             // PictureFileUtils.deleteCacheDirFile(MainActivity.this);
                             // Log.d("media", media.getPath());
                         }

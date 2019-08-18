@@ -46,6 +46,10 @@
     <string name="record_event_right">事件</string>
     <string name="record_event_title">标题</string>
     <string name="record_event_add_img">上传图片</string>
+    <string name="record_event_edit_thought">素材-思路-联想</string>
+    <string name="record_event_edit_content">内容</string>
+    <string name="record_event_select_tab">选择分类</string>
+    <string name="record_event_confirm">确认</string>
 
     <!-- Components 系列界面 -->
     <string name="common_example">示例图片</string>

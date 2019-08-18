@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
     android:background="#f5f5f5"
     android:orientation="vertical"
     tools:context=".RecordEventActivity">
@@ -59,16 +60,27 @@
             android:textColor="@color/dark2"
             tools:ignore="autoFill" />
 
-        <!--展示上传的图片-->
-        <GridView
-            android:id="@+id/record_event_grid"
+        <!--https://github.com/medyo/Fancybuttons-->
+        <mehdi.sakout.fancybuttons.FancyButton
+            android:id="@+id/record_event_image_btn"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:columnWidth="60dp"
-            android:horizontalSpacing="10dp"
-            android:numColumns="auto_fit"
-            android:verticalSpacing="10dp" />
+            android:layout_height="45dp"
+            android:textColor="@color/dark2"
+            android:textSize="16sp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="10dp"
+            fancy:fb_borderColor="#FFFFFF"
+            fancy:fb_borderWidth="1dp"
+            fancy:fb_defaultColor="#7ab800"
+            fancy:fb_focusColor="#9bd823"
+            fancy:fb_iconPosition="left"
+            fancy:fb_radius="30dp"
+            fancy:fb_text="@string/record_event_add_img"
+            fancy:fb_textColor="#FFFFFF"
+            />
+
     </LinearLayout>
 
 </LinearLayout>

@@ -45,6 +45,7 @@
     <string name="record_event_left">记录</string>
     <string name="record_event_right">事件</string>
     <string name="record_event_title">标题</string>
+    <string name="record_event_add_img">上传图片</string>
 
     <!-- Components 系列界面 -->
     <string name="common_example">示例图片</string>

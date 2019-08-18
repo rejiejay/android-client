@@ -6,17 +6,17 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.GridView;
 
+import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.config.PictureConfig;
+import com.luck.picture.lib.config.PictureMimeType;
 import com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView;
 
-import java.util.ArrayList;
+import mehdi.sakout.fancybuttons.FancyButton;
+
 
 public class RecordEventActivity extends AppCompatActivity {
     private Context mContext;
-    private ArrayList<String> mPicList = new ArrayList<>(); //上传的图片凭证的数据源
-
     /**
      * 页面状态
      * record 记录页面 event 事件页面
@@ -102,6 +102,15 @@ public class RecordEventActivity extends AppCompatActivity {
 
     // 初始化展示上传图片的GridView
     private void initGridView() {
-        GridView gridView = findViewById(R.id.record_event_grid);
+        FancyButton image_btn = findViewById(R.id.record_event_image_btn);
+
+        image_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View thisView) {
+                PictureSelector.create(RecordEventActivity.this)
+                        .openGallery(PictureMimeType.ofImage())
+                        .forResult(PictureConfig.CHOOSE_REQUEST);
+            }
+        });
     }
 }

@@ -13,8 +13,6 @@ import com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView;
 
 import java.util.ArrayList;
 
-import cn.rejiejay.application.recordevent.UploadImageAdapter;
-
 public class RecordEventActivity extends AppCompatActivity {
     private Context mContext;
     private ArrayList<String> mPicList = new ArrayList<>(); //上传的图片凭证的数据源
@@ -105,39 +103,5 @@ public class RecordEventActivity extends AppCompatActivity {
     // 初始化展示上传图片的GridView
     private void initGridView() {
         GridView gridView = findViewById(R.id.record_event_grid);
-        UploadImageAdapter mGridViewAddImgAdapter = new UploadImageAdapter(mContext, mPicList);
-
-        gridView.setAdapter(mGridViewAddImgAdapter);
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                if (position == parent.getChildCount() - 1) {
-                    // 如果“增加按钮形状的”图片的位置是最后一张，且添加了的图片的数量不超过1张，才能点击
-                    if (mPicList.size() == 1) {
-                        // 点击图片查看大图（最多添加1张图片
-//                        viewPluImg(position);
-                    } else {
-                        // 添加凭证图片
-//                        selectPic(MainConstant.MAX_SELECT_PIC_NUM - mPicList.size());
-                    }
-                } else {
-                    // 点击图片查看大图
-//                    viewPluImg(position);
-                }
-            }
-        });
-    }
-
-    /**
-     * 查看大图
-     *
-     * @param position
-     */
-    private void viewPluImg(int position) {
-//        Intent intent = new Intent(mContext, PlusImageActivity.class);
-//        intent.putStringArrayListExtra(MainConstant.IMG_LIST, mPicList);
-//        intent.putExtra(MainConstant.POSITION, position);
-//        startActivityForResult(intent, MainConstant.REQUEST_CODE_MAIN);
     }
 }

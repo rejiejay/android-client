@@ -33,7 +33,7 @@ public class UploadImageAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        //return mList.size() + 1; // 因为最后多了一个添加图片的ImageView
+        // return mList.size() + 1; // 因为最后多了一个添加图片的ImageView
         int count = mList == null ? 1 : mList.size() + 1;
         if (count > 1) {
             return mList.size();
@@ -55,7 +55,7 @@ public class UploadImageAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        convertView = inflater.inflate(R.layout.recordevent_img, parent, false);
+        convertView = inflater.inflate(R.layout.recordevent_uploadimage, parent, false);
         ImageView iv = convertView.findViewById(R.id.record_event_img_item);
 
         if (position < mList.size()) {

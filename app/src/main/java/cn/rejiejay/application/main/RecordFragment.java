@@ -35,7 +35,7 @@ public class RecordFragment extends Fragment {
         /**
          * 绑定 layout
          */
-        return inflater.inflate(R.layout.record_fragment, container, false);
+        return inflater.inflate(R.layout.main_record, container, false);
     }
 
     /**

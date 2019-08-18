@@ -32,7 +32,7 @@ public class RecordEventActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_record_event);
+        setContentView(R.layout.recordevent);
 
         mContext = this;
 

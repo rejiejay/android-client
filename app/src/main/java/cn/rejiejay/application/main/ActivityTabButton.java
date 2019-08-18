@@ -28,7 +28,7 @@ public class ActivityTabButton extends FrameLayout {
          * inflate 大概作用是与自己写的XML文件互相匹配(绑定
          * 意思就是说当作一个JAVA组件来用（类似于JS组件
          */
-        inflate(context, R.layout.tab_button, this);
+        inflate(context, R.layout.main_tab_button, this);
 
         /**
          * 在构造函数里面去到值

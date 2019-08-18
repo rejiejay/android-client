@@ -21,7 +21,7 @@ public class SelectDateActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_date_select);
+        setContentView(R.layout.selectdate);
 
         initTreeNode(); // 初始化节点
     }

@@ -149,7 +149,7 @@ public class NodeTreeAdapter extends BaseAdapter {
         final ViewHolder holder;
 
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.activity_date_select_item, null);
+            convertView = inflater.inflate(R.layout.selecttdate_item, null);
             holder = new ViewHolder();
             holder.imageView = convertView.findViewById(R.id.id_tree_node_icon);
             holder.label = convertView.findViewById(R.id.id_tree_node_label);

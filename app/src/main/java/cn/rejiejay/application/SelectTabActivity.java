@@ -27,7 +27,7 @@ public class SelectTabActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tab_select);
+        setContentView(R.layout.selecttab);
 
         initListView(); // 初始化 标签列表
 

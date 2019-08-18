@@ -35,7 +35,7 @@ public class TabArrayAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup viewGroup) {
         // 获得ListView中的view
-        View viewTab = mInflater.inflate(R.layout.activity_tab_select_item, null);
+        View viewTab = mInflater.inflate(R.layout.selecttab_item, null);
 
         // 获得标签对象
         Tab myTab = mData.get(position);

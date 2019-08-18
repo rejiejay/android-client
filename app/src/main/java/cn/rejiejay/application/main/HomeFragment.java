@@ -17,7 +17,7 @@ public class HomeFragment extends Fragment {
         /**
          * 绑定 layout
          */
-        return inflater.inflate(R.layout.home_fragment, container, false);
+        return inflater.inflate(R.layout.main_home, container, false);
     }
 }
 

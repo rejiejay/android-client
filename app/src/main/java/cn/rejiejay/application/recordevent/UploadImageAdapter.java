@@ -55,7 +55,7 @@ public class UploadImageAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        convertView = inflater.inflate(R.layout.activity_record_event_img_item, parent, false);
+        convertView = inflater.inflate(R.layout.recordevent_img, parent, false);
         ImageView iv = convertView.findViewById(R.id.record_event_img_item);
 
         if (position < mList.size()) {

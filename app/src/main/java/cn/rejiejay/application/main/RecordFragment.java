@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -130,7 +131,8 @@ public class RecordFragment extends Fragment {
             public void onClick(View thisView) {
                 Intent intent = new Intent();
                 intent.setClass(getActivity(), SelectTabActivity.class);
-                startActivity(intent);
+
+                startActivityForResult(intent, 20132);
             }
         });
     }
@@ -144,7 +146,8 @@ public class RecordFragment extends Fragment {
             public void onClick(View thisView) {
                 Intent intent = new Intent();
                 intent.setClass(getActivity(), SelectDateActivity.class);
-                startActivity(intent);
+
+                startActivityForResult(intent, 20133);
             }
         });
     }
@@ -183,6 +186,22 @@ public class RecordFragment extends Fragment {
                 startActivity(intent);
             }
         });
+    }
+
+    /**
+     * 选择标签页面的回调
+     */
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        /**
+         * 这个是标签 选择
+         */
+        if (resultCode == 20132) {
+            String result = data.getStringExtra("tab");
+            Log.d("标签 选择", result);
+        }
     }
 }
 

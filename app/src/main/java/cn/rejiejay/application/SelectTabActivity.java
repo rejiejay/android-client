@@ -2,8 +2,10 @@ package cn.rejiejay.application;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -34,6 +36,8 @@ public class SelectTabActivity extends AppCompatActivity {
         initCreateNewTab(); // 初始化 新增标签
 
         initDelTab(); // 初始化 删除标签
+
+        initSelectAllTab(); // 初始化 选择所有标签
     }
 
     /**
@@ -129,5 +133,30 @@ public class SelectTabActivity extends AppCompatActivity {
                 adapter.notifyDataSetChanged();
             }
         });
+    }
+
+    /**
+     * 初始化 选择所有标签
+     */
+    public void initSelectAllTab() {
+        LinearLayout allTabBtn = findViewById(R.id.select_tab_all_tab_btn);
+
+        allTabBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View thisView) {
+                moveBack("所有btn");
+            }
+        });
+    }
+
+    /**
+     * 返回上一页
+     * @param tab
+     */
+    public void moveBack(String tab) {
+        Intent intent = new Intent();
+        intent.putExtra("tab", tab);
+        setResult(20132, intent); // 代码是固定的
+        finish();
     }
 }

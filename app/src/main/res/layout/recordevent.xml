@@ -71,6 +71,7 @@
             android:visibility="gone" />
 
         <EditText
+            android:id="@+id/record_event_edit_thought"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
@@ -84,6 +85,7 @@
             tools:ignore="autoFill" />
 
         <EditText
+            android:id="@+id/record_event_edit_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"

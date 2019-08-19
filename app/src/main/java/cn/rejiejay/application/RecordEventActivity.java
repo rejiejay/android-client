@@ -8,7 +8,11 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
+import android.text.Spanned;
+import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.luck.picture.lib.PictureSelector;
@@ -57,7 +61,11 @@ public class RecordEventActivity extends AppCompatActivity {
         initPageType(); // 根据 pageType 改变页面状态
         initTopTab(); // 初始化 顶部
 
+        initSelectTab(); // 初始化选择分类
+
         initUploadView(); // 初始化上传图片
+
+        initConfirmSubmit(); // 初始化 确认
     }
 
     /**
@@ -107,6 +115,24 @@ public class RecordEventActivity extends AppCompatActivity {
             public void onClick(View thisView) {
                 pageType = "event";
                 initPageType();
+            }
+        });
+    }
+
+
+    /**
+     * 初始化 选择标签
+     */
+    public void initSelectTab() {
+        FancyButton eventSelectTab = findViewById(R.id.record_event_select_tab);
+
+        eventSelectTab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View thisView) {
+                Intent intent = new Intent();
+                intent.setClass(RecordEventActivity.this, SelectTabActivity.class);
+
+                startActivityForResult(intent, 20132);
             }
         });
     }
@@ -183,10 +209,13 @@ public class RecordEventActivity extends AppCompatActivity {
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         super.onActivityResult(requestCode, resultCode, data);
+
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
+                /**
+                 * 这个是旋转图片的
+                 */
                 case PictureConfig.CHOOSE_REQUEST:
                     // 图片、视频、音频选择结果回调
                     List<LocalMedia> selectList = PictureSelector.obtainMultipleResult(data);
@@ -219,5 +248,32 @@ public class RecordEventActivity extends AppCompatActivity {
                     break;
             }
         }
+
+        /**
+         * 这个是标签 选择
+         */
+        if (resultCode == 20132) {
+            String result = data.getStringExtra("tab");
+            Log.d("标签 选择", result);
+        }
+    }
+
+    // 初始化 确认
+    private void initConfirmSubmit() {
+        FancyButton eventConfirm = findViewById(R.id.record_event_confirm);
+
+        final EditText eventEditThought = findViewById(R.id.record_event_edit_thought);
+        eventEditThought.setText(Html.fromHtml("")); // Html 转为 EditText
+
+        eventConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View thisView) {
+                /**
+                 * 将 EditText 转为 Html
+                 */
+                String htmlString = Html.toHtml(eventEditThought.getText());
+            }
+        });
+
     }
 }

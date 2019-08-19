@@ -9,11 +9,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
-import android.text.Spanned;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
@@ -29,8 +29,8 @@ import mehdi.sakout.fancybuttons.FancyButton;
 
 public class RecordEventActivity extends AppCompatActivity {
     private Context mContext;
-    private String previewImageSrc; // null 表示未上传图片
-    ImageView previewImage;
+    private String previewRecordImageImageSrc; // null 表示未上传图片
+    ImageView previewRecordImage;
 
     /**
      * 页面状态
@@ -80,9 +80,13 @@ public class RecordEventActivity extends AppCompatActivity {
      * 改变页面状态
      */
     public void initPageType() {
+        LinearLayout contentLeft = findViewById(R.id.record_event_content_left);
+        LinearLayout contentRight = findViewById(R.id.record_event_content_right);
 
         if (pageType.equals("record")) {
             // 记录
+            contentLeft.setVisibility(View.VISIBLE);
+            contentRight.setVisibility(View.GONE);
             recordTabView.setTextColor(Color.rgb(255, 255, 255)); // 记录的文字是白色
             recordTabView.setBackgroundColor(Color.rgb(33, 150, 243)); // 背景是蓝色
             eventTabView.setTextColor(Color.rgb(144, 147, 153));
@@ -90,6 +94,8 @@ public class RecordEventActivity extends AppCompatActivity {
 
         } else {
             // 事件
+            contentLeft.setVisibility(View.GONE);
+            contentRight.setVisibility(View.VISIBLE);
             recordTabView.setTextColor(Color.rgb(144, 147, 153));
             recordTabView.setBackgroundColor(Color.rgb(255, 255, 255));
             eventTabView.setTextColor(Color.rgb(255, 255, 255)); // 事件的文字是白色
@@ -143,10 +149,10 @@ public class RecordEventActivity extends AppCompatActivity {
      * https://github.com/LuckSiege/PictureSelector
      */
     private void initUploadView() {
-        FancyButton imageBtn = findViewById(R.id.record_event_image_btn);
-        previewImage = findViewById(R.id.preview_image);
+        FancyButton recordImageBtn = findViewById(R.id.record_event_record_image_btn);
+        previewRecordImage = findViewById(R.id.preview_record_image);
 
-        imageBtn.setOnClickListener(new View.OnClickListener() {
+        recordImageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View thisView) {
                 PictureSelector.create(RecordEventActivity.this)
@@ -161,7 +167,7 @@ public class RecordEventActivity extends AppCompatActivity {
             }
         });
 
-        previewImage.setOnClickListener(new View.OnClickListener() {
+        previewRecordImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View thisView) {
 
@@ -175,8 +181,8 @@ public class RecordEventActivity extends AppCompatActivity {
                 builder.setPositiveButton("是", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        previewImageSrc = null;
-                        previewImage.setVisibility(View.GONE);
+                        previewRecordImageImageSrc = null;
+                        previewRecordImage.setVisibility(View.GONE);
                     }
                 });
                 // 设置反面按钮
@@ -230,16 +236,16 @@ public class RecordEventActivity extends AppCompatActivity {
                      */
                     if (selectList.size() > 0) {
                         LocalMedia media = selectList.get(0);
-                        previewImageSrc = media.getPath();
-                        if (previewImageSrc != null) {
+                        previewRecordImageImageSrc = media.getPath();
+                        if (previewRecordImageImageSrc != null) {
 
                             /**
                              * 缓存清除
                              * 包括裁剪和压缩后的缓存，要在上传成功后调用
                              *
                              */
-                            previewImage.setImageURI(Uri.fromFile(new File(previewImageSrc)));
-                            previewImage.setVisibility(View.VISIBLE);
+                            previewRecordImage.setImageURI(Uri.fromFile(new File(previewRecordImageImageSrc)));
+                            previewRecordImage.setVisibility(View.VISIBLE);
                             // PictureFileUtils.deleteCacheDirFile(MainActivity.this);
                             // Log.d("media", media.getPath());
                         }
@@ -260,12 +266,12 @@ public class RecordEventActivity extends AppCompatActivity {
 
     // 初始化 确认
     private void initConfirmSubmit() {
-        FancyButton eventConfirm = findViewById(R.id.record_event_confirm);
+        FancyButton recordConfirm = findViewById(R.id.record_event_record_confirm);
 
         final EditText eventEditThought = findViewById(R.id.record_event_edit_thought);
         eventEditThought.setText(Html.fromHtml("")); // Html 转为 EditText
 
-        eventConfirm.setOnClickListener(new View.OnClickListener() {
+        recordConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View thisView) {
                 /**

@@ -1,161 +1,279 @@
 <?xml version="1.0" encoding="utf-8"?><!-- 标签分类页面 -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fancy="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#f5f5f5"
-    android:orientation="vertical"
     tools:context=".RecordEventActivity">
 
-    <!--顶部的tab-->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:background="#fff"
-        android:orientation="horizontal"
-        android:weightSum="2">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
-            android:id="@+id/record_event_tab_left"
+        <!--顶部的tab-->
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/record_event_left"
-            android:textColor="@color/dark3"
-            android:textSize="14sp" />
+            android:layout_height="45dp"
+            android:background="#fff"
+            android:orientation="horizontal"
+            android:weightSum="2">
 
-        <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
-            android:id="@+id/record_event_tab_right"
+            <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
+                android:id="@+id/record_event_tab_left"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/record_event_left"
+                android:textColor="@color/dark3"
+                android:textSize="14sp" />
+
+            <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
+                android:id="@+id/record_event_tab_right"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/record_event_right"
+                android:textColor="@color/dark3"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <View
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/record_event_right"
-            android:textColor="@color/dark3"
-            android:textSize="14sp" />
+            android:layout_height="1px"
+            android:background="@color/dark2" />
 
+        <!-- 记录部分 -->
+        <LinearLayout
+            android:id="@+id/record_event_content_left"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:hint="@string/record_event_title"
+                android:inputType="text"
+                android:singleLine="true"
+                android:textColor="@color/dark2"
+                android:textColorHint="@color/dark3"
+                tools:ignore="autoFill" />
+
+            <ImageView
+                android:id="@+id/preview_record_image"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_marginBottom="16dp"
+                android:contentDescription="@string/img_des"
+                android:scaleType="fitXY"
+                android:visibility="gone" />
+
+            <EditText
+                android:id="@+id/record_event_edit_thought"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:gravity="start|top"
+                android:hint="@string/record_event_edit_thought"
+                android:inputType="textMultiLine"
+                android:minLines="6"
+                android:textColor="@color/dark2"
+                android:textColorHint="@color/dark3"
+                android:textSize="14sp"
+                tools:ignore="autoFill" />
+
+            <EditText
+                android:id="@+id/record_event_edit_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:gravity="start|top"
+                android:hint="@string/record_event_edit_content"
+                android:inputType="textMultiLine"
+                android:minLines="6"
+                android:textColor="@color/dark2"
+                android:textColorHint="@color/dark3"
+                android:textSize="14sp"
+                tools:ignore="autoFill" />
+
+            <!--https://github.com/medyo/Fancybuttons-->
+            <mehdi.sakout.fancybuttons.FancyButton
+                android:id="@+id/record_event_select_tab"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginBottom="16dp"
+                android:paddingLeft="20dp"
+                android:paddingTop="10dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="10dp"
+                android:textColor="@color/dark2"
+                android:textSize="16sp"
+                fancy:fb_borderColor="#FFFFFF"
+                fancy:fb_borderWidth="1dp"
+                fancy:fb_defaultColor="#7ab800"
+                fancy:fb_focusColor="#9bd823"
+                fancy:fb_iconPosition="left"
+                fancy:fb_radius="30dp"
+                fancy:fb_text="@string/record_event_select_tab"
+                fancy:fb_textColor="#FFFFFF" />
+
+            <mehdi.sakout.fancybuttons.FancyButton
+                android:id="@+id/record_event_record_image_btn"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginBottom="16dp"
+                android:paddingLeft="20dp"
+                android:paddingTop="10dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="10dp"
+                android:textColor="@color/dark2"
+                android:textSize="16sp"
+                fancy:fb_borderColor="#FFFFFF"
+                fancy:fb_borderWidth="1dp"
+                fancy:fb_defaultColor="#7ab800"
+                fancy:fb_focusColor="#9bd823"
+                fancy:fb_iconPosition="left"
+                fancy:fb_radius="30dp"
+                fancy:fb_text="@string/record_event_add_img"
+                fancy:fb_textColor="#FFFFFF" />
+
+            <mehdi.sakout.fancybuttons.FancyButton
+                android:id="@+id/record_event_record_confirm"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:paddingLeft="20dp"
+                android:paddingTop="10dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="10dp"
+                android:textColor="@color/dark2"
+                android:textSize="16sp"
+                fancy:fb_borderColor="#FFFFFF"
+                fancy:fb_borderWidth="1dp"
+                fancy:fb_defaultColor="#7ab800"
+                fancy:fb_focusColor="#9bd823"
+                fancy:fb_iconPosition="left"
+                fancy:fb_radius="30dp"
+                fancy:fb_text="@string/record_event_confirm"
+                fancy:fb_textColor="#FFFFFF" />
+
+        </LinearLayout>
+
+        <!-- 事件部分 -->
+        <LinearLayout
+            android:id="@+id/record_event_content_right"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:hint="@string/record_event_cause"
+                android:inputType="text"
+                android:singleLine="true"
+                android:textColor="@color/dark2"
+                android:textColorHint="@color/dark3"
+                tools:ignore="autoFill" />
+
+            <ImageView
+                android:id="@+id/preview_event_image"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_marginBottom="16dp"
+                android:contentDescription="@string/img_des"
+                android:scaleType="fitXY"
+                android:visibility="gone" />
+
+            <EditText
+                android:id="@+id/record_event_process"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:gravity="start|top"
+                android:hint="@string/record_event_process"
+                android:inputType="textMultiLine"
+                android:minLines="6"
+                android:textColor="@color/dark2"
+                android:textColorHint="@color/dark3"
+                android:textSize="14sp"
+                tools:ignore="autoFill" />
+
+            <EditText
+                android:id="@+id/record_event_result"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:gravity="start|top"
+                android:hint="@string/record_event_result"
+                android:inputType="textMultiLine"
+                android:minLines="6"
+                android:textColor="@color/dark2"
+                android:textColorHint="@color/dark3"
+                android:textSize="14sp"
+                tools:ignore="autoFill" />
+
+            <EditText
+                android:id="@+id/record_event_conclusion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:gravity="start|top"
+                android:hint="@string/record_event_conclusion"
+                android:inputType="textMultiLine"
+                android:minLines="6"
+                android:textColor="@color/dark2"
+                android:textColorHint="@color/dark3"
+                android:textSize="14sp"
+                tools:ignore="autoFill" />
+
+            <mehdi.sakout.fancybuttons.FancyButton
+                android:id="@+id/record_event_event_image_btn"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginBottom="16dp"
+                android:paddingLeft="20dp"
+                android:paddingTop="10dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="10dp"
+                android:textColor="@color/dark2"
+                android:textSize="16sp"
+                fancy:fb_borderColor="#FFFFFF"
+                fancy:fb_borderWidth="1dp"
+                fancy:fb_defaultColor="#7ab800"
+                fancy:fb_focusColor="#9bd823"
+                fancy:fb_iconPosition="left"
+                fancy:fb_radius="30dp"
+                fancy:fb_text="@string/record_event_add_img"
+                fancy:fb_textColor="#FFFFFF" />
+
+            <mehdi.sakout.fancybuttons.FancyButton
+                android:id="@+id/record_event_event_confirm"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:paddingLeft="20dp"
+                android:paddingTop="10dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="10dp"
+                android:textColor="@color/dark2"
+                android:textSize="16sp"
+                fancy:fb_borderColor="#FFFFFF"
+                fancy:fb_borderWidth="1dp"
+                fancy:fb_defaultColor="#7ab800"
+                fancy:fb_focusColor="#9bd823"
+                fancy:fb_iconPosition="left"
+                fancy:fb_radius="30dp"
+                fancy:fb_text="@string/record_event_confirm"
+                fancy:fb_textColor="#FFFFFF" />
+
+        </LinearLayout>
     </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/dark2" />
-
-    <!--android:visibility="gone"-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="16dp">
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:hint="@string/record_event_title"
-            android:inputType="text"
-            android:singleLine="true"
-            android:textColor="@color/dark2"
-            android:textColorHint="@color/dark3"
-            tools:ignore="autoFill" />
-
-        <ImageView
-            android:id="@+id/preview_image"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_marginBottom="16dp"
-            android:contentDescription="@string/img_des"
-            android:scaleType="fitXY"
-            android:visibility="gone" />
-
-        <EditText
-            android:id="@+id/record_event_edit_thought"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:gravity="start|top"
-            android:hint="@string/record_event_edit_thought"
-            android:inputType="textMultiLine"
-            android:minLines="6"
-            android:textColor="@color/dark2"
-            android:textColorHint="@color/dark3"
-            android:textSize="14sp"
-            tools:ignore="autoFill" />
-
-        <EditText
-            android:id="@+id/record_event_edit_content"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:gravity="start|top"
-            android:hint="@string/record_event_edit_content"
-            android:inputType="textMultiLine"
-            android:minLines="6"
-            android:textColor="@color/dark2"
-            android:textColorHint="@color/dark3"
-            android:textSize="14sp"
-            tools:ignore="autoFill" />
-
-        <!--https://github.com/medyo/Fancybuttons-->
-        <mehdi.sakout.fancybuttons.FancyButton
-            android:id="@+id/record_event_select_tab"
-            android:layout_width="match_parent"
-            android:layout_marginBottom="16dp"
-            android:layout_height="45dp"
-            android:paddingLeft="20dp"
-            android:paddingTop="10dp"
-            android:paddingRight="20dp"
-            android:paddingBottom="10dp"
-            android:textColor="@color/dark2"
-            android:textSize="16sp"
-            fancy:fb_borderColor="#FFFFFF"
-            fancy:fb_borderWidth="1dp"
-            fancy:fb_defaultColor="#7ab800"
-            fancy:fb_focusColor="#9bd823"
-            fancy:fb_iconPosition="left"
-            fancy:fb_radius="30dp"
-            fancy:fb_text="@string/record_event_select_tab"
-            fancy:fb_textColor="#FFFFFF" />
-        <mehdi.sakout.fancybuttons.FancyButton
-            android:id="@+id/record_event_image_btn"
-            android:layout_width="match_parent"
-            android:layout_marginBottom="16dp"
-            android:layout_height="45dp"
-            android:paddingLeft="20dp"
-            android:paddingTop="10dp"
-            android:paddingRight="20dp"
-            android:paddingBottom="10dp"
-            android:textColor="@color/dark2"
-            android:textSize="16sp"
-            fancy:fb_borderColor="#FFFFFF"
-            fancy:fb_borderWidth="1dp"
-            fancy:fb_defaultColor="#7ab800"
-            fancy:fb_focusColor="#9bd823"
-            fancy:fb_iconPosition="left"
-            fancy:fb_radius="30dp"
-            fancy:fb_text="@string/record_event_add_img"
-            fancy:fb_textColor="#FFFFFF" />
-        <mehdi.sakout.fancybuttons.FancyButton
-            android:id="@+id/record_event_confirm"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:paddingLeft="20dp"
-            android:paddingTop="10dp"
-            android:paddingRight="20dp"
-            android:paddingBottom="10dp"
-            android:textColor="@color/dark2"
-            android:textSize="16sp"
-            fancy:fb_borderColor="#FFFFFF"
-            fancy:fb_borderWidth="1dp"
-            fancy:fb_defaultColor="#7ab800"
-            fancy:fb_focusColor="#9bd823"
-            fancy:fb_iconPosition="left"
-            fancy:fb_radius="30dp"
-            fancy:fb_text="@string/record_event_confirm"
-            fancy:fb_textColor="#FFFFFF" />
-
-    </LinearLayout>
-
-</LinearLayout>
+</ScrollView>

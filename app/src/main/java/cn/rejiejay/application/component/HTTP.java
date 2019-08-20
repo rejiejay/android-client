@@ -6,6 +6,7 @@ import android.os.Message;
 import android.util.Log;
 
 import cn.rejiejay.application.BuildConfig;
+import cn.rejiejay.application.utils.Consequent;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
@@ -75,14 +76,17 @@ public class HTTP {
      *
      * @param url
      */
-    public static Observable<String> rxGet(final String url) {
+    public static Observable<Consequent> rxGet(final String url) {
+
         return Observable.create(
-                new ObservableOnSubscribe<String>() {
+                new ObservableOnSubscribe<Consequent>() {
                     @Override
-                    public void subscribe(ObservableEmitter<String> emitter) {
+                    public void subscribe(ObservableEmitter<Consequent> emitter) {
+                        Consequent myConsequent = new Consequent();
+                        myConsequent.setMessage("2222");
+
                         try {
-                            emitter.onNext("hello");
-                            emitter.onNext("word");
+                            emitter.onNext(myConsequent);
                             emitter.onComplete();
 
                         } catch (Exception e) {

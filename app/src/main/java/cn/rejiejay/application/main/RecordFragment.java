@@ -21,6 +21,9 @@ import cn.rejiejay.application.R;
 import cn.rejiejay.application.RecordEventActivity;
 import cn.rejiejay.application.SelectTabActivity;
 import cn.rejiejay.application.component.HTTP;
+import cn.rejiejay.application.utils.Consequent;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 import mehdi.sakout.fancybuttons.FancyButton;
 
 import com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView;
@@ -95,7 +98,31 @@ public class RecordFragment extends Fragment {
         k_a_x_w_d_f.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View thisView) {
-                HTTP.get("/android/recordevent/list/");
+                // HTTP.get("/android/recordevent/list/");
+
+                Observer<Consequent> observer = new Observer<Consequent>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        Log.d("1", "onSubscribe");
+                    }
+
+                    @Override
+                    public void onNext(Consequent value) {
+                        Log.d("2", "onNext" + value.getJsonStringMessage());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d("3", "onError");
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.d("4", "onComplete");
+                    }
+                };
+
+                HTTP.rxGet("1").subscribe(observer);
             }
         });
 

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -133,6 +134,28 @@
         </LinearLayout>
     </LinearLayout>
 
+
+    <!-- 测试网络请求 -->
+    <mehdi.sakout.fancybuttons.FancyButton
+        android:id="@+id/k_a_x_w_d_f"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginBottom="16dp"
+        android:paddingLeft="20dp"
+        android:paddingTop="10dp"
+        android:paddingRight="20dp"
+        android:paddingBottom="10dp"
+        android:textColor="@color/dark2"
+        android:textSize="16sp"
+        fancy:fb_borderColor="#FFFFFF"
+        fancy:fb_borderWidth="1dp"
+        fancy:fb_defaultColor="#7ab800"
+        fancy:fb_focusColor="#9bd823"
+        fancy:fb_iconPosition="left"
+        fancy:fb_radius="30dp"
+        fancy:fb_text="测试网络请求"
+        fancy:fb_textColor="#FFFFFF" />
+
     <!--列表-->
     <LinearLayout
         android:layout_width="match_parent"
@@ -171,12 +194,12 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingStart="16dp"
+            android:paddingTop="16dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="16dp">
 
 
             <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
@@ -191,8 +214,7 @@
                 android:layout_width="18dp"
                 android:layout_height="18dp"
                 android:layout_weight="0"
-                android:src="@drawable/ic_del"
-                />
+                android:src="@drawable/ic_del" />
 
         </LinearLayout>
 
@@ -242,11 +264,11 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
+            android:layout_height="45dp"
             android:gravity="center"
             android:orientation="horizontal"
-            android:layout_height="45dp">
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
 
 
             <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
@@ -261,8 +283,7 @@
                 android:layout_width="18dp"
                 android:layout_height="18dp"
                 android:layout_weight="0"
-                android:src="@drawable/ic_del"
-                />
+                android:src="@drawable/ic_del" />
 
         </LinearLayout>
 

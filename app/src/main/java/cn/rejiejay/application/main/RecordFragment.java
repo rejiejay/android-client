@@ -15,10 +15,13 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 
+import cn.rejiejay.application.BuildConfig;
 import cn.rejiejay.application.SelectDateActivity;
 import cn.rejiejay.application.R;
 import cn.rejiejay.application.RecordEventActivity;
 import cn.rejiejay.application.SelectTabActivity;
+import cn.rejiejay.application.component.HTTP;
+import mehdi.sakout.fancybuttons.FancyButton;
 
 import com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView;
 
@@ -84,6 +87,18 @@ public class RecordFragment extends Fragment {
          * 跳转到 新增页面
          */
         jumpToAddActivity();
+
+        /**
+         * 测试网络请求
+         */
+        FancyButton k_a_x_w_d_f = view.findViewById(R.id.k_a_x_w_d_f);
+        k_a_x_w_d_f.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View thisView) {
+                HTTP.get("/android/recordevent/list/");
+            }
+        });
+
     }
 
     /**

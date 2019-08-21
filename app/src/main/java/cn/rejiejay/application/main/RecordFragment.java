@@ -103,26 +103,26 @@ public class RecordFragment extends Fragment {
                 Observer<Consequent> observer = new Observer<Consequent>() {
                     @Override
                     public void onSubscribe(Disposable d) {
-                        Log.d("1", "onSubscribe");
+                        Log.d("onSubscribe2", "onSubscribe2");
                     }
 
                     @Override
                     public void onNext(Consequent value) {
-                        Log.d("2", "onNext" + value.getJsonStringMessage());
+                        Log.d("onNext", value.getJsonStringMessage());
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d("3", "onError");
+                        Log.d("onError", e.toString());
                     }
 
                     @Override
                     public void onComplete() {
-                        Log.d("4", "onComplete");
+                        Log.d("onComplete", "onComplete");
                     }
                 };
 
-                HTTP.rxGet("1").subscribe(observer);
+                HTTP.rxGet("/android/recordevent/list/").subscribe(observer);
             }
         });
 

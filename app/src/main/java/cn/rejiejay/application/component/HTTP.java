@@ -9,6 +9,9 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+
 import cn.rejiejay.application.BuildConfig;
 import cn.rejiejay.application.utils.Consequent;
 import io.reactivex.Observable;
@@ -19,6 +22,8 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class HTTP {
+    @NotNull
+    @Contract(pure = true)
     public static String getUrl(String url) {
         return BuildConfig.BASE_URL + url;
     }
@@ -120,12 +125,14 @@ public class HTTP {
                 switch (msg.what) {
                     case 1:
                         String resultString = msg.obj.toString();
+                        Log.d("resultString", resultString);
 
                         /**
                          * 判断JSON格式是否有误
                          */
                         if (!isJSONValid(resultString)) {
                             showErrorModal("服务器数据有误", resultString);
+                            emitter.onError(new Throwable(resultString));
                             break;
                         }
 
@@ -202,7 +209,8 @@ public class HTTP {
                         // msg.setData(null); // 写入和读取Bundle类型的数据
 
                         msg.what = 1;
-                        msg.obj = response.body();
+                        msg.obj = response.body().toString();
+                        Log.d("responsebodytoString", response.body().toString());
                         handler.sendMessage(msg);
 
                     } else {

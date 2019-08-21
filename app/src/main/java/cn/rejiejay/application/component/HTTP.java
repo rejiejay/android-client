@@ -1,6 +1,5 @@
 package cn.rejiejay.application.component;
 
-import android.app.Activity;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -12,6 +11,8 @@ import com.alibaba.fastjson.JSONObject;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 import cn.rejiejay.application.BuildConfig;
 import cn.rejiejay.application.utils.Consequent;
 import io.reactivex.Observable;
@@ -21,6 +22,9 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+/**
+ * 根据 cn.rejiejay.application.component.RxGet 抽象出来的方法就放在这里
+ */
 public class HTTP {
     @NotNull
     @Contract(pure = true)
@@ -68,7 +72,7 @@ public class HTTP {
                          */
                         Log.d("kwwl", "response.code()==" + response.code());
                         Log.d("kwwl", "response.message()==" + response.message());
-                        Log.d("kwwl", "res==" + response.body().string());
+                        Log.d("kwwl", "res==" + Objects.requireNonNull(response.body()).string());
                     }
 
                 } catch (Exception e) {
@@ -189,13 +193,13 @@ public class HTTP {
             public void run() {
                 Message msg = new Message();
 
-                try {
-                    // 写子线程中的操作
-                    OkHttpClient client = new OkHttpClient(); // 创建OkHttpClient对象
-                    Request request = new Request.Builder()
-                            .url(getUrl(url))
-                            .build();
+                // 写子线程中的操作
+                OkHttpClient client = new OkHttpClient(); // 创建OkHttpClient对象
+                Request request = new Request.Builder()
+                        .url(getUrl(url))
+                        .build();
 
+                try {
                     Response response = client.newCall(request).execute(); // 得到Response 对象
 
                     if (response.isSuccessful() && response.code() == 200) {
@@ -208,8 +212,9 @@ public class HTTP {
                         // msg.obj = null; // Object类型任意数据
                         // msg.setData(null); // 写入和读取Bundle类型的数据
 
+                        String body = response.body().string();
                         msg.what = 1;
-                        msg.obj = response.body().toString();
+                        msg.obj = body;
                         Log.d("responsebodytoString", response.body().toString());
                         handler.sendMessage(msg);
 

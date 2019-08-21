@@ -21,6 +21,7 @@ import cn.rejiejay.application.R;
 import cn.rejiejay.application.RecordEventActivity;
 import cn.rejiejay.application.SelectTabActivity;
 import cn.rejiejay.application.component.HTTP;
+import cn.rejiejay.application.component.RxGet;
 import cn.rejiejay.application.utils.Consequent;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
@@ -98,7 +99,7 @@ public class RecordFragment extends Fragment {
         k_a_x_w_d_f.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View thisView) {
-                // HTTP.get("/android/recordevent/list/");
+//                 HTTP.get("/android/recordevent/list/");
 
                 Observer<Consequent> observer = new Observer<Consequent>() {
                     @Override
@@ -121,8 +122,11 @@ public class RecordFragment extends Fragment {
                         Log.d("onComplete", "onComplete");
                     }
                 };
+//
+//                HTTP.rxGet("/android/recordevent/list/").subscribe(observer);
 
-                HTTP.rxGet("/android/recordevent/list/").subscribe(observer);
+                RxGet httpRxGet = new RxGet("/android/recordevent/list/");
+                httpRxGet.observable().subscribe(observer);
             }
         });
 

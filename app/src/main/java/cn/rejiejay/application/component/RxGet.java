@@ -5,7 +5,6 @@ import android.os.Handler;
 import android.os.Message;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 
 import java.util.Objects;
@@ -51,7 +50,7 @@ public class RxGet extends HTTP {
                         } catch (Exception e) {
                             // 弹出报错框 代码执行报错 不需要Consequent封装
                             cancelProgressDialog();
-                            showErrorModal("请求出错,RxjAVA数据流", e.toString());
+                            showErrorModal(mContext, "请求出错,RxjAVA数据流", e.toString());
                             thisEmitter.onError(e); // In case there are network errors
                         }
                     }
@@ -62,7 +61,7 @@ public class RxGet extends HTTP {
      * 封装 get 请求
      * RxAndroid subscribe 方法
      */
-    private void rxGetSubscribe() throws Exception {
+    private void rxGetSubscribe() {
         handler = new Handler(new Handler.Callback() {
             /**
              * 实例化Handler将自动与当前运行线程相关联,并且这个Handler将与当前运行的线程使用同一个消息队列，并且可以处理该队列中的消息、
@@ -122,7 +121,7 @@ public class RxGet extends HTTP {
             } else {
                 msg.what = 2;
                 // cancelProgressDialog(); // 此处不能有UI操作
-                // showErrorModal("服务器数据有误", response.message());
+                // showErrorModal(mContext, "服务器数据有误", response.message());
                 emitter.onError(new Throwable(response.message())); // In case there are network errors
             }
 
@@ -148,7 +147,7 @@ public class RxGet extends HTTP {
                 // 判断JSON格式是否有误
                 if (!isJSONValid(resultString)) {
                     cancelProgressDialog();
-                    showErrorModal("服务器数据有误", resultString);
+                    showErrorModal(mContext, "服务器数据有误", resultString);
                     emitter.onError(new Throwable(resultString));
                     break;
                 }
@@ -169,12 +168,12 @@ public class RxGet extends HTTP {
 
                     // 主动刷新token （暂时不实现
                     case 40004:
-                        cancelProgressDialog();
+                        // rxGetSubscribe(); // 再执行一次请求
 
                         break;
                     default:
                         cancelProgressDialog();
-                        showErrorModal("提示", mag);
+                        showErrorModal(mContext, "提示", mag);
                         emitter.onNext(consequent.setMessage(mag));
                         emitter.onComplete();
                 }
@@ -182,7 +181,7 @@ public class RxGet extends HTTP {
                 break;
             case 2:
                 cancelProgressDialog();
-                showErrorModal("服务器数据有误", msg.obj.toString());
+                showErrorModal(mContext, "服务器数据有误", msg.obj.toString());
                 emitter.onError((Throwable) msg.obj);
                 break;
 
@@ -191,16 +190,8 @@ public class RxGet extends HTTP {
              */
             default:
                 cancelProgressDialog();
-                showErrorModal("请求出错", msg.obj.toString());
+                showErrorModal(mContext, "请求出错", msg.obj.toString());
                 emitter.onError((Throwable) msg.obj);
         }
-
-    }
-
-    /**
-     * 弹出 报错模态框
-     */
-    private void showErrorModal(String title, String message) {
-
     }
 }

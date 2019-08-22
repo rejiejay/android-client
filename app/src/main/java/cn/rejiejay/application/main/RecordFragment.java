@@ -124,7 +124,6 @@ public class RecordFragment extends Fragment {
                         Log.d("onComplete", "onComplete");
                     }
                 };
-//
 
                 RxGet httpRxGet = new RxGet(mContext, "/android/recordevent/list/");
                 httpRxGet.observable().subscribe(observer);

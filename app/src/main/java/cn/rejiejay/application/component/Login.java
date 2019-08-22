@@ -5,6 +5,7 @@ import android.os.Message;
 
 import org.json.JSONObject;
 
+import cn.rejiejay.application.utils.DigitalSignature;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
@@ -77,16 +78,27 @@ public class Login extends HTTP {
         String refreshTokenBody = "{\"password\":\"1938167\"}";
 
         OkHttpClient client = new OkHttpClient();
+        try {
 
-        RequestBody formBody = new FormBody.Builder()
-                .add("username", "1938167")
-                .build();
+            String signature = DigitalSignature.EncryptSignature(refreshTokenBody, "rejiejay", "token"); // 因为这里只校验格式，不会校验token
 
-        Request request = new Request.Builder()
-                .url(getUrl("/login/refresh/rejiejay"))
-                .addHeader("Content-Type", "application/json; charset=UTF-8")
-                .post(formBody)
-                .build();
+            RequestBody formBody = new FormBody.Builder()
+                    .add("username", "1938167")
+                    .build();
+
+            Request request = new Request.Builder()
+                    .url(getUrl("/login/refresh/rejiejay"))
+                    .addHeader("Content-Type", "application/json; charset=UTF-8")
+                    .addHeader("x-rejiejay-authorization", signature)
+                    .post(formBody)
+                    .build();
+
+        } catch (Exception e) {
+            msg.what = 3;
+            msg.obj = e;
+            handler.sendMessage(msg);
+            e.printStackTrace();
+        }
     }
 
     /**

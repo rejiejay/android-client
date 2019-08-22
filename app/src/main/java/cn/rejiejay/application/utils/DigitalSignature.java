@@ -2,7 +2,7 @@ package cn.rejiejay.application.utils;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
-import java.util.Base64;
+import android.util.Base64;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
@@ -63,9 +63,9 @@ public class DigitalSignature {
 		Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding"); // "算法/模式/补码方式"
 		// 使用CBC模式，需要一个向量iv，可增加加密算法的强度  
 		cipher.init(Cipher.ENCRYPT_MODE, skeySpec, ips);
-		byte[] encrypted = cipher.doFinal(content.getBytes("utf-8"));  
-		
-        return Base64.getEncoder().encodeToString(encrypted); // 此处使用BASE64做转码。
+		byte[] encrypted = cipher.doFinal(content.getBytes("utf-8"));
+
+        return Base64.encodeToString(encrypted, Base64.DEFAULT); // 此处使用BASE64做转码。
 	}
 
     /**
@@ -89,7 +89,7 @@ public class DigitalSignature {
 		
 		SecretKeySpec skeySpec = new SecretKeySpec(sKey.getBytes("utf-8"), "AES");
 		cipher.init(Cipher.DECRYPT_MODE, skeySpec, iv);
-		byte[] original = cipher.doFinal(Base64.getDecoder().decode(digitalSignatureEncodedString));
+		byte[] original = cipher.doFinal(Base64.decode(digitalSignatureEncodedString,Base64.DEFAULT));
 		
 		return new String(original, "utf-8");
 	}

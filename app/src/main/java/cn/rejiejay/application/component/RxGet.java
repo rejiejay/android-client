@@ -136,7 +136,7 @@ public class RxGet extends HTTP {
 
     /**
      * 处理请求
-     * <p>
+     *
      * what 1 标识成功 2 表示请求成功但是服务器数据有误 3表示请求失败
      */
     private void rxGetHandle(Message msg) {
@@ -202,21 +202,5 @@ public class RxGet extends HTTP {
      */
     private void showErrorModal(String title, String message) {
 
-    }
-
-    /**
-     * 判断JSON是否合法
-     */
-    private static boolean isJSONValid(String test) {
-        try {
-            JSONObject.parseObject(test);
-        } catch (JSONException ex) {
-            try {
-                JSONObject.parseArray(test);
-            } catch (JSONException ex1) {
-                return false;
-            }
-        }
-        return true;
     }
 }

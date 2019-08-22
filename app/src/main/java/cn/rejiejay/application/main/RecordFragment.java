@@ -1,6 +1,7 @@
 package cn.rejiejay.application.main;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,12 +16,10 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 
-import cn.rejiejay.application.BuildConfig;
 import cn.rejiejay.application.SelectDateActivity;
 import cn.rejiejay.application.R;
 import cn.rejiejay.application.RecordEventActivity;
 import cn.rejiejay.application.SelectTabActivity;
-import cn.rejiejay.application.component.HTTP;
 import cn.rejiejay.application.component.RxGet;
 import cn.rejiejay.application.utils.Consequent;
 import io.reactivex.Observer;
@@ -31,6 +30,8 @@ import com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView;
 
 
 public class RecordFragment extends Fragment {
+    private Context mContext;
+
     public QMUISpanTouchFixTextView sequenceBtn; // 排序按钮
     public QMUISpanTouchFixTextView tabBtn; // 标签按钮
     public QMUISpanTouchFixTextView dateBtn; // 日期按钮
@@ -40,6 +41,8 @@ public class RecordFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        mContext = getContext();
+
         /**
          * 绑定 layout
          */
@@ -99,7 +102,6 @@ public class RecordFragment extends Fragment {
         k_a_x_w_d_f.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View thisView) {
-//                 HTTP.get("/android/recordevent/list/");
 
                 Observer<Consequent> observer = new Observer<Consequent>() {
                     @Override
@@ -123,9 +125,8 @@ public class RecordFragment extends Fragment {
                     }
                 };
 //
-//                HTTP.rxGet("/android/recordevent/list/").subscribe(observer);
 
-                RxGet httpRxGet = new RxGet("/android/recordevent/list/");
+                RxGet httpRxGet = new RxGet(mContext, "/android/recordevent/list/");
                 httpRxGet.observable().subscribe(observer);
             }
         });

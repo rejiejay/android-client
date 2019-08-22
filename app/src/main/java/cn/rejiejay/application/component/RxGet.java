@@ -1,8 +1,8 @@
 package cn.rejiejay.application.component;
 
+import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
@@ -18,9 +18,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import static cn.rejiejay.application.component.HTTP.getUrl;
-
-public class RxGet {
+public class RxGet extends HTTP {
+    private Context mContext;
     private String url;
     private ObservableEmitter<Consequent> emitter;
     private Handler handler;
@@ -28,7 +27,8 @@ public class RxGet {
     /**
      * 构造函数 初始化 持久化全局变量
      */
-    public RxGet(String url) {
+    public RxGet(Context mContext, String url) {
+        this.mContext = mContext;
         this.url = url;
     }
 
@@ -37,6 +37,8 @@ public class RxGet {
      * 文档: https://github.com/chuanzh/RxJava2.0
      */
     public Observable<Consequent> observable() {
+        buildProgressDialog(mContext, "正在加载...");
+
         return Observable.create(
                 new ObservableOnSubscribe<Consequent>() {
                     @Override
@@ -48,6 +50,7 @@ public class RxGet {
 
                         } catch (Exception e) {
                             // 弹出报错框 代码执行报错 不需要Consequent封装
+                            cancelProgressDialog();
                             showErrorModal("请求出错,RxjAVA数据流", e.toString());
                             thisEmitter.onError(e); // In case there are network errors
                         }
@@ -118,7 +121,8 @@ public class RxGet {
 
             } else {
                 msg.what = 2;
-                showErrorModal("服务器数据有误", response.message());
+                // cancelProgressDialog(); // 此处不能有UI操作
+                // showErrorModal("服务器数据有误", response.message());
                 emitter.onError(new Throwable(response.message())); // In case there are network errors
             }
 
@@ -132,7 +136,7 @@ public class RxGet {
 
     /**
      * 处理请求
-     *
+     * <p>
      * what 1 标识成功 2 表示请求成功但是服务器数据有误 3表示请求失败
      */
     private void rxGetHandle(Message msg) {
@@ -143,6 +147,7 @@ public class RxGet {
 
                 // 判断JSON格式是否有误
                 if (!isJSONValid(resultString)) {
+                    cancelProgressDialog();
                     showErrorModal("服务器数据有误", resultString);
                     emitter.onError(new Throwable(resultString));
                     break;
@@ -150,28 +155,33 @@ public class RxGet {
 
                 JSONObject resultJSON = JSON.parseObject(resultString);
 
-                int result = resultJSON.getInteger("result");
+                int code = resultJSON.getInteger("result");
                 String mag = resultJSON.getString("message");
 
                 Consequent consequent = new Consequent();
-                switch (result) {
+                // 服务器返回的code
+                switch (code) {
                     case 1:
+                        cancelProgressDialog();
                         emitter.onNext(consequent.setData(resultJSON.getJSONObject("data")).setSuccess());
                         emitter.onComplete();
                         break;
 
                     // 主动刷新token （暂时不实现
                     case 40004:
+                        cancelProgressDialog();
 
                         break;
                     default:
+                        cancelProgressDialog();
                         showErrorModal("提示", mag);
                         emitter.onNext(consequent.setMessage(mag));
                         emitter.onComplete();
                 }
-                
+
                 break;
             case 2:
+                cancelProgressDialog();
                 showErrorModal("服务器数据有误", msg.obj.toString());
                 emitter.onError((Throwable) msg.obj);
                 break;
@@ -180,6 +190,7 @@ public class RxGet {
              * 3以上的都是请求出错
              */
             default:
+                cancelProgressDialog();
                 showErrorModal("请求出错", msg.obj.toString());
                 emitter.onError((Throwable) msg.obj);
         }

@@ -3,16 +3,22 @@ package cn.rejiejay.application.component;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Objects;
 
 import cn.rejiejay.application.utils.Consequent;
+import cn.rejiejay.application.utils.InternalStorage;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -96,34 +102,59 @@ public class RxGet extends HTTP {
     private void rxGetThread() {
         Message msg = new Message();
 
-        OkHttpClient client = new OkHttpClient(); // 创建OkHttpClient对象
-        Request request = new Request.Builder()
-                .url(getUrl(url))
-                .build();
+//        OkHttpClient client = new OkHttpClient(); // 创建OkHttpClient对象
+//        Request request = new Request.Builder()
+//                .url(getUrl(url))
+//                .build();
+//
+//
+//        try {
+//            Response response = client.newCall(request).execute(); // 得到Response 对象
+//
+//            if (response.isSuccessful() && response.code() == 200) {
+//                // 线程通讯 该Message发送给对应的Handler Handler.sendMessage(msg);
+//
+//                // msg.what = 1; // 标识
+//                // msg.arg1 = 123; // 传入简单的数据
+//                // msg.arg2 = 321; // 简单数据
+//                // msg.obj = null; // Object类型任意数据
+//                // msg.setData(null); // 写入和读取Bundle类型的数据
+//
+//                msg.what = 1;
+//                msg.obj = Objects.requireNonNull(response.body()).string();
+//                handler.sendMessage(msg);
+//
+//            } else {
+//                msg.what = 2;
+//                // cancelProgressDialog(); // 此处不能有UI操作
+//                // showErrorModal(mContext, "服务器数据有误", response.message());
+//                emitter.onError(new Throwable(response.message())); // In case there are network errors
+//            }
+//
+//        } catch (Exception e) {
+//            msg.what = 3;
+//            msg.obj = e;
+//            handler.sendMessage(msg);
+//            e.printStackTrace();
+//        }
+
+        // 获取 token
+        String tokene = InternalStorage.dataRead(mContext, "x-rejiejay-token");
+        String tokenexpired = InternalStorage.dataRead(mContext, "x-rejiejay-token-expired");
+
+//        if () {
+//
+//        }
 
 
         try {
-            Response response = client.newCall(request).execute(); // 得到Response 对象
+            URL myUrl = new URL(getUrl(url));
+            // 得到connection对象。
+            HttpURLConnection connection = (HttpURLConnection) myUrl.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+//        connection.setRequestProperty("x-rejiejay-authorization", signature);
 
-            if (response.isSuccessful() && response.code() == 200) {
-                // 线程通讯 该Message发送给对应的Handler Handler.sendMessage(msg);
-
-                // msg.what = 1; // 标识
-                // msg.arg1 = 123; // 传入简单的数据
-                // msg.arg2 = 321; // 简单数据
-                // msg.obj = null; // Object类型任意数据
-                // msg.setData(null); // 写入和读取Bundle类型的数据
-
-                msg.what = 1;
-                msg.obj = Objects.requireNonNull(response.body()).string();
-                handler.sendMessage(msg);
-
-            } else {
-                msg.what = 2;
-                // cancelProgressDialog(); // 此处不能有UI操作
-                // showErrorModal(mContext, "服务器数据有误", response.message());
-                emitter.onError(new Throwable(response.message())); // In case there are network errors
-            }
 
         } catch (Exception e) {
             msg.what = 3;
@@ -135,7 +166,7 @@ public class RxGet extends HTTP {
 
     /**
      * 处理请求
-     *
+     * <p>
      * what 1 标识成功 2 表示请求成功但是服务器数据有误 3表示请求失败
      */
     private void rxGetHandle(Message msg) {
@@ -166,11 +197,11 @@ public class RxGet extends HTTP {
                         emitter.onComplete();
                         break;
 
-                    // 主动刷新token （暂时不实现
+                    // 主动刷新token
                     case 40004:
-                        // rxGetSubscribe(); // 再执行一次请求
-
+                        tokenRefresh();
                         break;
+
                     default:
                         cancelProgressDialog();
                         showErrorModal(mContext, "提示", mag);
@@ -193,5 +224,58 @@ public class RxGet extends HTTP {
                 showErrorModal(mContext, "请求出错", msg.obj.toString());
                 emitter.onError((Throwable) msg.obj);
         }
+    }
+
+    /**
+     * 主动刷新token
+     */
+    private void tokenRefresh() {
+
+        Observer<Consequent> observer = new Observer<Consequent>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+            }
+
+            @Override
+            public void onNext(Consequent value) {
+                cancelProgressDialog();
+
+                if (value.getResult() == 1) {
+                    JSONObject data = value.getData();
+                    data.getString("token");
+                    data.getString("tokenexpired");
+
+                    InternalStorage.dataWrite(mContext, "x-rejiejay-token", data.getString("token"));
+                    InternalStorage.dataWrite(mContext, "x-rejiejay-token-expired", data.getString("tokenexpired"));
+
+                    cancelProgressDialog();
+                    rxGetSubscribe(); // 再执行一次请求
+
+                } else {
+
+                    Consequent consequent = new Consequent();
+                    cancelProgressDialog();
+                    showErrorModal(mContext, "主动刷新token失败", value.getMessage());
+                    emitter.onNext(consequent.setMessage(value.getMessage()));
+                    emitter.onComplete();
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Consequent consequent = new Consequent();
+                cancelProgressDialog();
+                showErrorModal(mContext, "主动刷新token失败", e.toString());
+                emitter.onNext(consequent.setMessage(e.toString()));
+                emitter.onComplete();
+            }
+
+            @Override
+            public void onComplete() {
+            }
+        };
+
+        Login httpLogin = new Login();
+        httpLogin.observable().subscribe(observer);
     }
 }

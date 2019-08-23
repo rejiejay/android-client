@@ -4,11 +4,24 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 
+import java.io.BufferedWriter;
+import java.io.InputStream;
+import java.io.OutputStreamWriter;
+import java.lang.reflect.Method;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.Charset;
+
 import cn.rejiejay.application.BuildConfig;
+import cn.rejiejay.application.utils.Consequent;
+import cn.rejiejay.application.utils.DigitalSignature;
+import io.reactivex.ObservableEmitter;
 
 /**
  * 根据 cn.rejiejay.application.component.RxGet 抽象出来的方法就放在这里

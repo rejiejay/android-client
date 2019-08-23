@@ -6,6 +6,14 @@ import android.os.Message;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.Objects;
 
 import cn.rejiejay.application.utils.Consequent;
@@ -79,45 +87,65 @@ public class Login extends HTTP {
      */
     private void rxThread() {
         Message msg = new Message();
-
         String refreshTokenBody = "{\"password\":\"1938167\"}";
 
-        OkHttpClient client = new OkHttpClient();
+        String signature;
         try {
+            signature = DigitalSignature.EncryptSignature(refreshTokenBody, "rejiejay", "token"); // 因为这里只校验格式，不会校验token
+        } catch (Exception e) {
+            msg.what = 3;
+            msg.obj = e;
+            handler.sendMessage(msg);
+            e.printStackTrace();
+            return;
+        }
 
-            String signature = DigitalSignature.EncryptSignature(refreshTokenBody, "rejiejay", "token"); // 因为这里只校验格式，不会校验token
+        try {
+            URL url = new URL(getUrl("/login/refresh/rejiejay"));
+            // 得到connection对象。
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            // 设置请求方式
+            connection.setRequestMethod("POST");
+            connection.setDoOutput(true); // 允许写出
+            connection.setDoInput(true); // 允许读入
+            connection.setUseCaches(false); // 不使用缓存
+            connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+            connection.setRequestProperty("x-rejiejay-authorization", signature);
 
-            RequestBody formBody = new FormBody.Builder()
-                    .add("username", "1938167")
-                    .build();
+            // 连接
+            connection.connect();
 
-            Request request = new Request.Builder()
-                    .url(getUrl("/login/refresh/rejiejay"))
-//                    .header("Content-Type", "application/json; charset=UTF-8")
-                    .addHeader("Content-Type", "application/json; charset=UTF-8")
-//                    .header("x-rejiejay-authorization", signature)
-                    .post(formBody)
-                    .build();
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream(), "UTF-8"));
+            writer.write(refreshTokenBody);
+            writer.close();
 
-            try {
-                Response response = client.newCall(request).execute();
+            // 得到响应码
+            int responseCode = connection.getResponseCode();
 
-                if (response.isSuccessful() && response.code() == 200) {
 
-                    msg.what = 1;
-                    msg.obj = Objects.requireNonNull(response.body()).string();
-                    handler.sendMessage(msg);
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                // 得到响应流
+                InputStream inputStream = connection.getInputStream();
 
-                } else {
-                    msg.what = 2;
-                    emitter.onError(new Throwable(response.message())); // In case there are network errors
+                // 将响应流转换成字符串
+                byte[] data = new byte[1024];
+                StringBuffer sb = new StringBuffer();
+
+                int length = 0;
+                while ((length = inputStream.read(data)) != -1) {
+                    String s = new String(data, Charset.forName("utf-8"));
+                    sb.append(s);
                 }
 
-            } catch (Exception e) {
-                msg.what = 3;
-                msg.obj = e;
+                String responsebody = sb.toString();
+
+                msg.what = 1;
+                msg.obj = responsebody;
                 handler.sendMessage(msg);
-                e.printStackTrace();
+
+            } else {
+                msg.what = 2;
+                emitter.onError(new Throwable(connection.getResponseMessage())); // In case there are network errors
             }
         } catch (Exception e) {
             msg.what = 3;
@@ -126,6 +154,7 @@ public class Login extends HTTP {
             e.printStackTrace();
         }
     }
+
 
     /**
      * 线程通讯

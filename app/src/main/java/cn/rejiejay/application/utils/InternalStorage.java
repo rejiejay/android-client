@@ -26,25 +26,26 @@ public class InternalStorage {
      * 数据读取
      */
     public static String dataRead(Context mContext, String key) {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder stringBuilder = new StringBuilder();
 
         try {
             FileInputStream fis = mContext.openFileInput(key);
             byte[] buff = new byte[1024];
             int hasRead = 0;
 
-            //读取文件内容,hasRead表示已经读取的
+            // 读取文件内容, hasRead表示已经读取的
             while ((hasRead = fis.read(buff)) > 0) {
-                sb.append(new String(buff, 0, hasRead));
+                stringBuilder.append(new String(buff, 0, hasRead));
             }
 
             fis.close();
+            return stringBuilder.toString();
 
         } catch (IOException e) {
             e.printStackTrace();
 
+            return "";
         }
 
-        return sb.toString();
     }
 }

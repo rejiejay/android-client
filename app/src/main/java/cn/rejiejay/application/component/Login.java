@@ -23,6 +23,7 @@ import okhttp3.Response;
 
 /**
  * 登录 和 主动刷新 Token凭证
+ * 此处不做UI处理
  * <p>
  * 刷新凭证 是需要 密码 和 账号（不需要正确的旧Token凭证，免去登录的操作
  */
@@ -92,8 +93,9 @@ public class Login extends HTTP {
 
             Request request = new Request.Builder()
                     .url(getUrl("/login/refresh/rejiejay"))
+//                    .header("Content-Type", "application/json; charset=UTF-8")
                     .addHeader("Content-Type", "application/json; charset=UTF-8")
-                    .addHeader("x-rejiejay-authorization", signature)
+//                    .header("x-rejiejay-authorization", signature)
                     .post(formBody)
                     .build();
 
@@ -130,45 +132,36 @@ public class Login extends HTTP {
      */
     private void rxHandle(Message msg) {
 
-        switch (msg.what) {
-            case 1:
-                String resultString = msg.obj.toString();
+        if (msg.what == 1) {
+            String resultString = msg.obj.toString();
 
-                // 判断JSON格式是否有误
-                if (!isJSONValid(resultString)) {
-                    cancelProgressDialog();
-                    emitter.onError(new Throwable(resultString));
-                    break;
-                }
+            // 判断JSON格式是否有误
+            if (!isJSONValid(resultString)) {
+                cancelProgressDialog();
+                emitter.onError(new Throwable(resultString));
+                return;
+            }
 
-                JSONObject resultJSON = JSON.parseObject(resultString);
+            JSONObject resultJSON = JSON.parseObject(resultString);
 
-                int code = resultJSON.getInteger("result");
-                String mag = resultJSON.getString("message");
+            int code = resultJSON.getInteger("result");
+            String mag = resultJSON.getString("message");
 
-                Consequent consequent = new Consequent();
-                // 服务器返回的code
-                switch (code) {
-                    case 1:
-                        emitter.onNext(consequent.setData(resultJSON.getJSONObject("data")).setSuccess());
-                        emitter.onComplete();
-                        break;
+            Consequent consequent = new Consequent();
 
-                    // 主动刷新token （暂时不实现
-                    case 40004:
-                        // rxGetSubscribe(); // 再执行一次请求
+            if (code == 1) {
+                emitter.onNext(consequent.setData(resultJSON.getJSONObject("data")).setSuccess());
+                emitter.onComplete();
 
-                        break;
-                    default:
-                        cancelProgressDialog();
-                        emitter.onNext(consequent.setMessage(mag));
-                        emitter.onComplete();
-                }
+            } else {
 
-                break;
+                emitter.onNext(consequent.setMessage(mag));
+                emitter.onComplete();
+            }
 
-            default:
-                emitter.onError((Throwable) msg.obj);
+        } else {
+
+            emitter.onError((Throwable) msg.obj);
         }
     }
 }

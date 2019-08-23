@@ -65,7 +65,7 @@ public class DigitalSignature {
 		cipher.init(Cipher.ENCRYPT_MODE, skeySpec, ips);
 		byte[] encrypted = cipher.doFinal(content.getBytes("utf-8"));
 
-        return Base64.encodeToString(encrypted, Base64.DEFAULT); // 此处使用BASE64做转码。
+        return Base64.encodeToString(encrypted, Base64.NO_WRAP); // 此处使用BASE64做转码。
 	}
 
     /**

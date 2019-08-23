@@ -20,6 +20,7 @@ import cn.rejiejay.application.SelectDateActivity;
 import cn.rejiejay.application.R;
 import cn.rejiejay.application.RecordEventActivity;
 import cn.rejiejay.application.SelectTabActivity;
+import cn.rejiejay.application.component.Login;
 import cn.rejiejay.application.component.RxGet;
 import cn.rejiejay.application.utils.Consequent;
 import io.reactivex.Observer;
@@ -43,9 +44,7 @@ public class RecordFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mContext = getContext();
 
-        /**
-         * 绑定 layout
-         */
+        // 绑定 layout
         return inflater.inflate(R.layout.main_record, container, false);
     }
 
@@ -60,9 +59,7 @@ public class RecordFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        /**
-         * 加载图片示例
-         */
+        // 加载图片示例
         String url = "https://rejiejay-1251940173.cos.ap-guangzhou.myqcloud.com/myweb/mobile-list/articles-1.png";
         ImageView myImage = view.findViewById(R.id.record_Item_img);
         ImageView myImage2 = view.findViewById(R.id.record_Item_img2);
@@ -75,29 +72,19 @@ public class RecordFragment extends Fragment {
 
         initPageComponent(view); // 初始化 绑定 组件的方法
 
-        /**
-         * 初始化排序的方法
-         */
+        // 初始化排序的方法
         initSortHandle();
 
-        /**
-         * 跳转到 标签选择页面
-         */
+        // 跳转到 标签选择页面
         jumpToSelectTabActivity();
 
-        /**
-         * 跳转到 日期选择页面
-         */
+        // 跳转到 日期选择页面
         jumpToSelectDateActivity();
 
-        /**
-         * 跳转到 新增页面
-         */
+        // 跳转到 新增页面
         jumpToAddActivity();
 
-        /**
-         * 测试网络请求
-         */
+        // 测试网络请求
         FancyButton k_a_x_w_d_f = view.findViewById(R.id.k_a_x_w_d_f);
         k_a_x_w_d_f.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,9 +111,11 @@ public class RecordFragment extends Fragment {
                         Log.d("onComplete", "onComplete");
                     }
                 };
-
-                RxGet httpRxGet = new RxGet(mContext, "/android/recordevent/list/");
-                httpRxGet.observable().subscribe(observer);
+//
+//                RxGet httpRxGet = new RxGet(mContext, "/android/recordevent/list/");
+//                httpRxGet.observable().subscribe(observer);
+                Login httpLogin = new Login();
+                httpLogin.observable().subscribe(observer);
             }
         });
 
@@ -204,9 +193,7 @@ public class RecordFragment extends Fragment {
      * intent传值 https://blog.csdn.net/chenliguan/article/details/47188243
      */
     public void jumpToAddActivity() {
-        /**
-         * 跳转到 新增记录
-         */
+        // 跳转到 新增记录
         addRecordBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View thisView) {
@@ -219,9 +206,7 @@ public class RecordFragment extends Fragment {
             }
         });
 
-        /**
-         * 跳转到 新增事件
-         */
+        // 跳转到 新增事件
         addEventBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View thisView) {
@@ -241,9 +226,7 @@ public class RecordFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        /**
-         * 这个是标签 选择
-         */
+        // 这个是标签 选择
         if (resultCode == 20132) {
             String result = data.getStringExtra("tab");
             Log.d("标签 选择", result);

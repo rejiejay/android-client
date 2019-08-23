@@ -91,45 +91,35 @@ public class RecordFragment extends Fragment {
         k_a_x_w_d_f.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View thisView) {
+                Log.d("addd", "点击-------------------------------------------------------------------");
 
-//                Observer<Consequent> observer = new Observer<Consequent>() {
-//                    @Override
-//                    public void onSubscribe(Disposable d) {
-//                        Log.d("onSubscribe2", "onSubscribe2");
-//                    }
-//
-//                    @Override
-//                    public void onNext(Consequent value) {
-//                        Log.d("onNext", value.getJsonStringMessage());
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//                        Log.d("onError", e.toString());
-//                    }
-//
-//                    @Override
-//                    public void onComplete() {
-//                        Log.d("onComplete", "onComplete");
-//                    }
-//                };
-//
-//                RxGet httpRxGet = new RxGet(mContext, "/android/recordevent/list/");
-//                httpRxGet.observable().subscribe(observer);
+                Observer<Consequent> observer = new Observer<Consequent>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        Log.d("onSubscribe2", "onSubscribe2");
+                    }
+
+                    @Override
+                    public void onNext(Consequent value) {
+                        Log.d("onNext", value.getJsonStringMessage());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d("onError", e.toString());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.d("onComplete", "onComplete");
+                    }
+                };
+
+                RxGet httpRxGet = new RxGet(mContext, "/security", "");
+                httpRxGet.observable().subscribe(observer);
+
 //                Login httpLogin = new Login();
 //                httpLogin.observable().subscribe(observer);
-                Log.d("addd", "点击-------------------------------------------------------------------");
-                SharedPreferences sharedPreferences = mContext.getSharedPreferences("file1", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("key", "123");
-
-                editor.commit();//同步提交到磁盘文件，因而会出现阻塞等的现象，如果要确保提交成功，尽量使用commit
-                editor.apply();//先提交到内存，然后异步提交到磁盘，效率更高，但没有返回消息。
-
-                String add =
-                        sharedPreferences.getString("AppName", "");
-
-                Log.d("addd", add);
             }
         });
 

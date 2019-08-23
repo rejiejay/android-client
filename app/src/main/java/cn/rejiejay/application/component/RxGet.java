@@ -1,6 +1,7 @@
 package cn.rejiejay.application.component;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -8,33 +9,38 @@ import android.util.Log;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Objects;
+import java.nio.charset.Charset;
+import java.util.Date;
 
 import cn.rejiejay.application.utils.Consequent;
-import cn.rejiejay.application.utils.InternalStorage;
+import cn.rejiejay.application.utils.DigitalSignature;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 public class RxGet extends HTTP {
     private Context mContext;
     private String url;
+    private String parameter;
     private ObservableEmitter<Consequent> emitter;
     private Handler handler;
 
     /**
      * 构造函数 初始化 持久化全局变量
      */
-    public RxGet(Context mContext, String url) {
+    public RxGet(Context mContext, String url, String parameter) {
         this.mContext = mContext;
         this.url = url;
+        this.parameter = parameter;
     }
 
     /**
@@ -102,58 +108,77 @@ public class RxGet extends HTTP {
     private void rxGetThread() {
         Message msg = new Message();
 
-//        OkHttpClient client = new OkHttpClient(); // 创建OkHttpClient对象
-//        Request request = new Request.Builder()
-//                .url(getUrl(url))
-//                .build();
-//
-//
-//        try {
-//            Response response = client.newCall(request).execute(); // 得到Response 对象
-//
-//            if (response.isSuccessful() && response.code() == 200) {
-//                // 线程通讯 该Message发送给对应的Handler Handler.sendMessage(msg);
-//
-//                // msg.what = 1; // 标识
-//                // msg.arg1 = 123; // 传入简单的数据
-//                // msg.arg2 = 321; // 简单数据
-//                // msg.obj = null; // Object类型任意数据
-//                // msg.setData(null); // 写入和读取Bundle类型的数据
-//
-//                msg.what = 1;
-//                msg.obj = Objects.requireNonNull(response.body()).string();
-//                handler.sendMessage(msg);
-//
-//            } else {
-//                msg.what = 2;
-//                // cancelProgressDialog(); // 此处不能有UI操作
-//                // showErrorModal(mContext, "服务器数据有误", response.message());
-//                emitter.onError(new Throwable(response.message())); // In case there are network errors
-//            }
-//
-//        } catch (Exception e) {
-//            msg.what = 3;
-//            msg.obj = e;
-//            handler.sendMessage(msg);
-//            e.printStackTrace();
-//        }
-
         // 获取 token
-        String tokene = InternalStorage.dataRead(mContext, "x-rejiejay-token");
-        String tokenexpired = InternalStorage.dataRead(mContext, "x-rejiejay-token-expired");
+        SharedPreferences tokenSharedPreferences = mContext.getSharedPreferences("token", mContext.MODE_PRIVATE);
 
-//        if () {
-//
-//        }
+        String token = tokenSharedPreferences.getString("x-rejiejay-token", null);
+        String tokenExpiredStr = tokenSharedPreferences.getString("x-rejiejay-token-expired", null);
 
+        // 只要有一个是null 就重新获取
+        if (token == null || tokenExpiredStr == null) {
+            // 获取token
+            tokenRefresh();
+            return;
+        }
+
+        // 判断日期
+        if (new Date().getTime() > Long.parseLong(tokenExpiredStr)) {
+            // 获取token
+            tokenRefresh();
+            return;
+        }
+
+        // 加密签名
+        String signature;
+        try {
+            signature = DigitalSignature.EncryptSignature(parameter, "rejiejay", token);
+        } catch (Exception e) {
+            msg.what = 3;
+            msg.obj = e;
+            handler.sendMessage(msg);
+            e.printStackTrace();
+            return;
+        }
 
         try {
-            URL myUrl = new URL(getUrl(url));
+            URL myUrl = new URL(getUrl(url + parameter));
             // 得到connection对象。
             HttpURLConnection connection = (HttpURLConnection) myUrl.openConnection();
             connection.setRequestMethod("GET");
+            connection.setDoOutput(false); // 禁止 URL 连接进行输出，默认为“false”
+            connection.setDoInput(true); // 使用 URL 连接进行输入，默认为“true”
+            connection.setUseCaches(false); // 忽略缓存
             connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-//        connection.setRequestProperty("x-rejiejay-authorization", signature);
+            connection.setRequestProperty("x-rejiejay-authorization", signature);
+
+            // 连接
+            connection.connect();
+
+            // 得到响应码
+            int responseCode = connection.getResponseCode();
+
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                //得到响应流
+                InputStream inputStream = connection.getInputStream();
+                //将响应流转换成字符串
+                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+                StringBuffer sb = new StringBuffer();
+                String line = null;
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line + "\n");
+                }
+
+                String reponse = sb.toString();
+                String responsebody = sb.toString();
+
+                msg.what = 1;
+                msg.obj = responsebody;
+                handler.sendMessage(msg);
+
+            } else {
+                msg.what = 2;
+                emitter.onError(new Throwable(connection.getResponseMessage())); // In case there are network errors
+            }
 
 
         } catch (Exception e) {
@@ -228,54 +253,120 @@ public class RxGet extends HTTP {
 
     /**
      * 主动刷新token
+     * 因为这个本身是在子线程，所以并不需要直接创建新的线程
      */
     private void tokenRefresh() {
+        String refreshTokenBody = "{\"password\":\"1938167\"}";
 
-        Observer<Consequent> observer = new Observer<Consequent>() {
-            @Override
-            public void onSubscribe(Disposable d) {
-            }
+        String signature;
+        try {
+            signature = DigitalSignature.EncryptSignature(refreshTokenBody, "rejiejay", "token"); // 因为这里只校验格式，不会校验token
+        } catch (Exception e) {
+            String message = e.toString();
 
-            @Override
-            public void onNext(Consequent value) {
-                cancelProgressDialog();
+            Consequent consequent = new Consequent();
 
-                if (value.getResult() == 1) {
-                    JSONObject data = value.getData();
-                    data.getString("token");
-                    data.getString("tokenexpired");
+            cancelProgressDialog();
+            showErrorModal(mContext, "主动刷新token失败,原因创建签名出错", message);
+            emitter.onNext(consequent.setMessage(message));
+            emitter.onComplete();
+            return;
+        }
 
-                    InternalStorage.dataWrite(mContext, "x-rejiejay-token", data.getString("token"));
-                    InternalStorage.dataWrite(mContext, "x-rejiejay-token-expired", data.getString("tokenexpired"));
 
+        try {
+            URL url = new URL(getUrl("/login/refresh/rejiejay"));
+            // 得到connection对象。
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            // 设置请求方式
+            connection.setRequestMethod("POST");
+            connection.setDoOutput(true); // 允许写出
+            connection.setDoInput(true); // 允许读入
+            connection.setUseCaches(false); // 不使用缓存
+            connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+            connection.setRequestProperty("x-rejiejay-authorization", signature);
+
+            // 连接
+            connection.connect();
+
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream(), "UTF-8"));
+            writer.write(refreshTokenBody);
+            writer.close();
+
+            // 得到响应码
+            int responseCode = connection.getResponseCode();
+
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                // 得到响应流
+                InputStream inputStream = connection.getInputStream();
+
+                // 将响应流转换成字符串
+                byte[] data = new byte[1024];
+                StringBuffer sb = new StringBuffer();
+
+                int length = 0;
+                while ((length = inputStream.read(data)) != -1) {
+                    String s = new String(data, Charset.forName("utf-8"));
+                    sb.append(s);
+                }
+
+                String responsebody = sb.toString();
+
+                // 判断JSON格式是否有误
+                if (!isJSONValid(responsebody)) {
                     cancelProgressDialog();
-                    rxGetSubscribe(); // 再执行一次请求
+                    emitter.onError(new Throwable(responsebody));
+                    return;
+                }
+
+                JSONObject resultJSON = JSON.parseObject(responsebody);
+
+                int code = resultJSON.getInteger("result");
+                String mag = resultJSON.getString("message");
+
+                if (code == 1) {
+                    JSONObject dataJSON = resultJSON.getJSONObject("data");
+
+                    SharedPreferences token = mContext.getSharedPreferences("token", mContext.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = token.edit(); // 获取Editor
+                    editor.putString("x-rejiejay-token", dataJSON.getString("token"));
+                    editor.putString("x-rejiejay-token-expired", dataJSON.getString("tokenexpired"));
+                    editor.apply(); //提交修改
+
+                    rxGetThread(); // 再执行一次请求
 
                 } else {
+                    cancelProgressDialog();
 
                     Consequent consequent = new Consequent();
-                    cancelProgressDialog();
-                    showErrorModal(mContext, "主动刷新token失败", value.getMessage());
-                    emitter.onNext(consequent.setMessage(value.getMessage()));
+                    showErrorModal(mContext, "主动刷新token失败", mag);
+                    emitter.onNext(consequent.setMessage(mag));
                     emitter.onComplete();
                 }
-            }
 
-            @Override
-            public void onError(Throwable e) {
+
+            } else {
+                String message = connection.getResponseMessage();
+
                 Consequent consequent = new Consequent();
+
                 cancelProgressDialog();
-                showErrorModal(mContext, "主动刷新token失败", e.toString());
-                emitter.onNext(consequent.setMessage(e.toString()));
+                showErrorModal(mContext, "主动刷新token失败，数据有误", message);
+                emitter.onNext(consequent.setMessage(message));
                 emitter.onComplete();
             }
 
-            @Override
-            public void onComplete() {
-            }
-        };
+        } catch (Exception e) {
+            String message = e.toString();
 
-        Login httpLogin = new Login();
-        httpLogin.observable().subscribe(observer);
+            Consequent consequent = new Consequent();
+
+            cancelProgressDialog();
+            showErrorModal(mContext, "主动刷新token失败, 原因创建签名出错", message);
+            emitter.onNext(consequent.setMessage(message));
+            emitter.onComplete();
+
+            e.printStackTrace();
+        }
     }
 }

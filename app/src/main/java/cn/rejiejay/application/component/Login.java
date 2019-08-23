@@ -6,15 +6,12 @@ import android.os.Message;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.Charset;
-import java.util.Objects;
 
 import cn.rejiejay.application.utils.Consequent;
 import cn.rejiejay.application.utils.DigitalSignature;
@@ -115,7 +112,6 @@ public class Login extends HTTP {
 
             // 得到响应码
             int responseCode = connection.getResponseCode();
-
 
             if (responseCode == HttpURLConnection.HTTP_OK) {
                 // 得到响应流

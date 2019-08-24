@@ -100,7 +100,7 @@ public class RxGet extends HTTP {
     }
 
     /**
-     * 请求操作, 子线程 OkHttp
+     * 子线程 的 请求操作 
      */
     private void rxGetThread() {
         Message msg = new Message();
@@ -175,9 +175,9 @@ public class RxGet extends HTTP {
             } else {
                 cancelProgressDialog();
                 msg.what = 2;
-                emitter.onError(new Throwable(connection.getResponseMessage())); // In case there are network errors
+                msg.obj = connection.getResponseMessage();
+                handler.sendMessage(msg);
             }
-
 
         } catch (Exception e) {
             cancelProgressDialog();
@@ -237,7 +237,7 @@ public class RxGet extends HTTP {
             case 2:
                 cancelProgressDialog();
                 showErrorModal(mContext, "服务器数据有误", msg.obj.toString());
-                emitter.onError((Throwable) msg.obj);
+                emitter.onError(new Throwable(msg.obj.toString()));
                 break;
 
             /**
@@ -246,7 +246,7 @@ public class RxGet extends HTTP {
             default:
                 cancelProgressDialog();
                 showErrorModal(mContext, "请求出错", msg.obj.toString());
-                emitter.onError((Throwable) msg.obj);
+                emitter.onError(new Throwable(msg.obj.toString()));
         }
     }
 
@@ -314,6 +314,7 @@ public class RxGet extends HTTP {
                 // 判断JSON格式是否有误
                 if (!isJSONValid(responsebody)) {
                     cancelProgressDialog();
+                    showErrorModal(mContext, "服务器数据错误", "JSON格式有误");
                     emitter.onError(new Throwable(responsebody));
                     return;
                 }

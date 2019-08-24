@@ -148,6 +148,7 @@
         android:layout_weight="0"
         android:background="@color/colorPrimaryDark"
         android:gravity="center_horizontal"
+        android:visibility="gone"
         android:orientation="horizontal" />
 
 </LinearLayout>

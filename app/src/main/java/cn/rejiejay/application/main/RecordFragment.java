@@ -43,6 +43,7 @@ public class RecordFragment extends Fragment {
     public QMUISpanTouchFixTextView dateBtn; // 日期按钮
     public QMUISpanTouchFixTextView addRecordBtn;
     public QMUISpanTouchFixTextView addEventBtn;
+    public RecordListAdapter mAdapter;
 
     // 数据
     public List<RecordFragmentListDate> listData = new ArrayList<>();
@@ -70,15 +71,15 @@ public class RecordFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // 加载图片示例
-        String url = "https://rejiejay-1251940173.cos.ap-guangzhou.myqcloud.com/myweb/mobile-list/articles-1.png";
-        ImageView myImage = view.findViewById(R.id.record_Item_img);
-        ImageView myImage2 = view.findViewById(R.id.record_Item_img2);
-        Glide.with(this)
-                .load(url)
-                .into(myImage);
-        Glide.with(this)
-                .load(url)
-                .into(myImage2);
+//        String url = "https://rejiejay-1251940173.cos.ap-guangzhou.myqcloud.com/myweb/mobile-list/articles-1.png";
+//        ImageView myImage = view.findViewById(R.id.record_Item_img);
+//        ImageView myImage2 = view.findViewById(R.id.record_Item_img2);
+//        Glide.with(this)
+//                .load(url)
+//                .into(myImage);
+//        Glide.with(this)
+//                .load(url)
+//                .into(myImage2);
 
         // 初始化 绑定 组件的方法
         initPageComponent(view);
@@ -119,12 +120,7 @@ public class RecordFragment extends Fragment {
     public void initListViewComponent(View view) {
         AutoHeightListView listViewComponent = view.findViewById(R.id.record_event_list_view);
 
-        // 避免一条数据都没有
-        RecordFragmentListDate targetItem = new RecordFragmentListDate();
-        targetItem.setType("record");
-        listData.add(targetItem);
-
-        RecordListAdapter mAdapter = new RecordListAdapter(mContext, listViewComponent, listData);
+        mAdapter = new RecordListAdapter(mContext, listViewComponent, listData);
         listViewComponent.setAdapter(mAdapter);
     }
 
@@ -146,7 +142,7 @@ public class RecordFragment extends Fragment {
                     // 数据库数据转换为页面数据
                     JSONArray dataList = value.getData().getJSONArray("list");
 
-                    listData = new ArrayList<>();
+                    listData.clear();
                     for (int i = 0; i < dataList.size(); i++) {
                         RecordFragmentListDate targetItem = new RecordFragmentListDate();
                         JSONObject item = (JSONObject) dataList.get(i);
@@ -156,9 +152,10 @@ public class RecordFragment extends Fragment {
                         listData.add(targetItem);
                     }
 
+                    mAdapter.notifyDataSetChanged();
+
                 } else {
                     // 弹出重新加载（暂不实现
-                    Log.d("a", "a");
                 }
 
             }
@@ -166,7 +163,6 @@ public class RecordFragment extends Fragment {
             @Override
             public void onError(Throwable e) {
                 // 弹出重新加载（暂不实现
-                Log.d("a", "a");
             }
 
             @Override
@@ -174,7 +170,7 @@ public class RecordFragment extends Fragment {
             }
         };
 
-        RxGet httpRxGet = new RxGet(mContext, "/recordevent/list", "");
+        RxGet httpRxGet = new RxGet(mContext, "/android/recordevent/list", "");
         httpRxGet.observable().subscribe(observer);
     }
 

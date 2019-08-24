@@ -134,28 +134,6 @@
         </LinearLayout>
     </LinearLayout>
 
-
-    <!-- 测试网络请求 -->
-    <mehdi.sakout.fancybuttons.FancyButton
-        android:id="@+id/k_a_x_w_d_f"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_marginBottom="16dp"
-        android:paddingLeft="20dp"
-        android:paddingTop="10dp"
-        android:paddingRight="20dp"
-        android:paddingBottom="10dp"
-        android:textColor="@color/dark2"
-        android:textSize="16sp"
-        fancy:fb_borderColor="#FFFFFF"
-        fancy:fb_borderWidth="1dp"
-        fancy:fb_defaultColor="#7ab800"
-        fancy:fb_focusColor="#9bd823"
-        fancy:fb_iconPosition="left"
-        fancy:fb_radius="30dp"
-        fancy:fb_text="测试网络请求"
-        fancy:fb_textColor="#FFFFFF" />
-
     <!--列表-->
     <LinearLayout
         android:layout_width="match_parent"
@@ -214,6 +192,7 @@
                 android:layout_width="18dp"
                 android:layout_height="18dp"
                 android:layout_weight="0"
+                android:contentDescription="@string/img_des"
                 android:src="@drawable/ic_del" />
 
         </LinearLayout>
@@ -283,11 +262,21 @@
                 android:layout_width="18dp"
                 android:layout_height="18dp"
                 android:layout_weight="0"
+                android:contentDescription="@string/img_des"
                 android:src="@drawable/ic_del" />
 
         </LinearLayout>
 
 
     </LinearLayout>
+
+
+    <!--列表-->
+    <cn.rejiejay.application.component.AutoHeightListView
+        android:id="@+id/record_event_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
 
 </LinearLayout>

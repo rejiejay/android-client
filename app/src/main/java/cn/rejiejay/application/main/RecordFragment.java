@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,31 +14,40 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.bumptech.glide.Glide;
 
 import cn.rejiejay.application.SelectDateActivity;
 import cn.rejiejay.application.R;
 import cn.rejiejay.application.RecordEventActivity;
 import cn.rejiejay.application.SelectTabActivity;
-import cn.rejiejay.application.component.Login;
+import cn.rejiejay.application.component.AutoHeightListView;
 import cn.rejiejay.application.component.RxGet;
 import cn.rejiejay.application.utils.Consequent;
-import cn.rejiejay.application.utils.InternalStorage;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
-import mehdi.sakout.fancybuttons.FancyButton;
 
 import com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class RecordFragment extends Fragment {
     private Context mContext;
 
+    // 页面组件
     public QMUISpanTouchFixTextView sequenceBtn; // 排序按钮
     public QMUISpanTouchFixTextView tabBtn; // 标签按钮
     public QMUISpanTouchFixTextView dateBtn; // 日期按钮
     QMUISpanTouchFixTextView addRecordBtn;
     QMUISpanTouchFixTextView addEventBtn;
+
+    // 数据
+    List<RecordFragmentListDate> listDatas = new ArrayList<>();
+    int dataTotal = 0; // 页数 默认0页
+
 
     @Nullable
     @Override
@@ -72,7 +80,11 @@ public class RecordFragment extends Fragment {
                 .load(url)
                 .into(myImage2);
 
-        initPageComponent(view); // 初始化 绑定 组件的方法
+        // 初始化 绑定 组件的方法
+        initPageComponent(view);
+
+        // 初始化 listView
+        initListViewComponent(view);
 
         // 初始化排序的方法
         initSortHandle();
@@ -86,43 +98,8 @@ public class RecordFragment extends Fragment {
         // 跳转到 新增页面
         jumpToAddActivity();
 
-        // 测试网络请求
-        FancyButton k_a_x_w_d_f = view.findViewById(R.id.k_a_x_w_d_f);
-        k_a_x_w_d_f.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View thisView) {
-                Log.d("addd", "点击-------------------------------------------------------------------");
-
-                Observer<Consequent> observer = new Observer<Consequent>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                        Log.d("onSubscribe2", "onSubscribe2");
-                    }
-
-                    @Override
-                    public void onNext(Consequent value) {
-                        Log.d("onNext", value.getJsonStringMessage());
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.d("onError", e.toString());
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        Log.d("onComplete", "onComplete");
-                    }
-                };
-
-                RxGet httpRxGet = new RxGet(mContext, "/security", "");
-                httpRxGet.observable().subscribe(observer);
-
-//                Login httpLogin = new Login();
-//                httpLogin.observable().subscribe(observer);
-            }
-        });
-
+        // 加载页面数据
+        initPageData();
     }
 
     /**
@@ -134,6 +111,67 @@ public class RecordFragment extends Fragment {
         dateBtn = view.findViewById(R.id.main_record_date);
         addRecordBtn = view.findViewById(R.id.add_record_btn);
         addEventBtn = view.findViewById(R.id.add_event_btn);
+    }
+
+    /**
+     * 初始化 listView
+     */
+    public void initListViewComponent(View view) {
+        AutoHeightListView listViewComponent = view.findViewById(R.id.record_event_list_view);
+
+//        mAdapter = new NodeTreeAdapter(this, mListView, mLinkedList);
+//        mListView.setAdapter(mAdapter);
+        // 首先要数据，并且数据要进行转换一波
+    }
+
+    /**
+     * 加载页面数据
+     */
+    public void initPageData() {
+        Observer<Consequent> observer = new Observer<Consequent>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+            }
+
+            @Override
+            public void onNext(Consequent value) {
+                if (value.getResult() == 1) {
+                    // 总页码
+                    dataTotal = value.getData().getIntValue("total");
+
+                    // 数据库数据转换为页面数据
+                    JSONArray dataList = value.getData().getJSONArray("list");
+
+                    listDatas = new ArrayList<>();
+                    for (int i = 0; i < dataList.size(); i++) {
+                        RecordFragmentListDate targetItem = new RecordFragmentListDate();
+                        JSONObject item = (JSONObject) dataList.get(i);
+
+                        targetItem.setType(item.getString("type"));
+
+                        listDatas.add(targetItem);
+                    }
+
+                } else {
+                    // 弹出重新加载（暂不实现
+                    Log.d("a","a");
+                }
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                // 弹出重新加载（暂不实现
+                Log.d("a","a");
+            }
+
+            @Override
+            public void onComplete() {
+            }
+        };
+
+        RxGet httpRxGet = new RxGet(mContext, "/recordevent/list", "");
+        httpRxGet.observable().subscribe(observer);
     }
 
     /**

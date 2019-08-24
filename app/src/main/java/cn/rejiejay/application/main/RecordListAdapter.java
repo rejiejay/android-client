@@ -95,16 +95,17 @@ public class RecordListAdapter extends BaseAdapter {
         }
 
         // 根据标 加载 图片（暂时不实现
-        // String url = item.getImageidentity();
+        // String imgId = item.getImageidentity();
+        // String url = item.getImageurl();
         String url = "https://rejiejay-1251940173.cos.ap-guangzhou.myqcloud.com/myweb/mobile-list/articles-1.png";
         if (type.equals("record")) {
-            holder.recordImage.setVisibility(View.VISIBLE); // 为了解决高度问题
+            holder.recordImage.setVisibility(View.VISIBLE); // 为了解决高度自适应问题
             holder.eventImage.setVisibility(View.GONE);
             Glide.with(context)
                 .load(url)
                 .into(holder.recordImage);
         } else {
-            holder.recordImage.setVisibility(View.GONE); // 为了解决高度问题
+            holder.recordImage.setVisibility(View.GONE); // 为了解决高度自适应问题
             holder.eventImage.setVisibility(View.VISIBLE);
             Glide.with(context)
                     .load(url)

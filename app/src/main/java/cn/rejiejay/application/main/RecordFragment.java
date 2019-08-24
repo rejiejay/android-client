@@ -150,6 +150,7 @@ public class RecordFragment extends Fragment {
                         targetItem.setAndroidid(item.getIntValue("androidid"));
                         targetItem.setType(item.getString("type"));
                         targetItem.setImageidentity(item.getString("imageidentity"));
+                        targetItem.setImageurl(item.getString("imageurl"));
                         targetItem.setTimestamp(item.getLong("timestamp"));
                         targetItem.setFullyear(item.getIntValue("fullyear"));
                         targetItem.setMonth(item.getIntValue("month"));

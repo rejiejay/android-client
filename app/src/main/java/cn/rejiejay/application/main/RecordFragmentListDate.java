@@ -6,6 +6,7 @@ public class RecordFragmentListDate {
     private int androidid; // 唯一标识
     private String type; // event record
     private String imageidentity = ""; // 图片标识
+    private String imageurl = ""; // 图片地址
     private long timestamp; // 时间
     private int fullyear; // 时间
     private int month; // 时间
@@ -45,6 +46,14 @@ public class RecordFragmentListDate {
 
     public void setImageidentity(String imageidentity) {
         this.imageidentity = imageidentity;
+    }
+
+    public String getImageurl() {
+        return imageurl;
+    }
+
+    public void setImageurl(String imageurl) {
+        this.imageurl = imageurl;
     }
 
     public long getTimestamp() {

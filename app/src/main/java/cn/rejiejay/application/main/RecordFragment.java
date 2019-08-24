@@ -41,12 +41,12 @@ public class RecordFragment extends Fragment {
     public QMUISpanTouchFixTextView sequenceBtn; // 排序按钮
     public QMUISpanTouchFixTextView tabBtn; // 标签按钮
     public QMUISpanTouchFixTextView dateBtn; // 日期按钮
-    QMUISpanTouchFixTextView addRecordBtn;
-    QMUISpanTouchFixTextView addEventBtn;
+    public QMUISpanTouchFixTextView addRecordBtn;
+    public QMUISpanTouchFixTextView addEventBtn;
 
     // 数据
-    List<RecordFragmentListDate> listDatas = new ArrayList<>();
-    int dataTotal = 0; // 页数 默认0页
+    public List<RecordFragmentListDate> listData = new ArrayList<>();
+    public int dataTotal = 0; // 页数 默认0页
 
 
     @Nullable
@@ -119,9 +119,13 @@ public class RecordFragment extends Fragment {
     public void initListViewComponent(View view) {
         AutoHeightListView listViewComponent = view.findViewById(R.id.record_event_list_view);
 
-//        mAdapter = new NodeTreeAdapter(this, mListView, mLinkedList);
-//        mListView.setAdapter(mAdapter);
-        // 首先要数据，并且数据要进行转换一波
+        // 避免一条数据都没有
+        RecordFragmentListDate targetItem = new RecordFragmentListDate();
+        targetItem.setType("record");
+        listData.add(targetItem);
+
+        RecordListAdapter mAdapter = new RecordListAdapter(mContext, listViewComponent, listData);
+        listViewComponent.setAdapter(mAdapter);
     }
 
     /**
@@ -142,19 +146,19 @@ public class RecordFragment extends Fragment {
                     // 数据库数据转换为页面数据
                     JSONArray dataList = value.getData().getJSONArray("list");
 
-                    listDatas = new ArrayList<>();
+                    listData = new ArrayList<>();
                     for (int i = 0; i < dataList.size(); i++) {
                         RecordFragmentListDate targetItem = new RecordFragmentListDate();
                         JSONObject item = (JSONObject) dataList.get(i);
 
                         targetItem.setType(item.getString("type"));
 
-                        listDatas.add(targetItem);
+                        listData.add(targetItem);
                     }
 
                 } else {
                     // 弹出重新加载（暂不实现
-                    Log.d("a","a");
+                    Log.d("a", "a");
                 }
 
             }
@@ -162,7 +166,7 @@ public class RecordFragment extends Fragment {
             @Override
             public void onError(Throwable e) {
                 // 弹出重新加载（暂不实现
-                Log.d("a","a");
+                Log.d("a", "a");
             }
 
             @Override

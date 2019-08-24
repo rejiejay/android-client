@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -24,8 +23,6 @@ import cn.rejiejay.application.utils.DigitalSignature;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
 
 public class RxGet extends HTTP {
     private Context mContext;
@@ -176,12 +173,14 @@ public class RxGet extends HTTP {
                 handler.sendMessage(msg);
 
             } else {
+                cancelProgressDialog();
                 msg.what = 2;
                 emitter.onError(new Throwable(connection.getResponseMessage())); // In case there are network errors
             }
 
 
         } catch (Exception e) {
+            cancelProgressDialog();
             msg.what = 3;
             msg.obj = e;
             handler.sendMessage(msg);

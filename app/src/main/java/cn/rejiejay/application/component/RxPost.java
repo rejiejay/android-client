@@ -171,13 +171,17 @@ public class RxPost extends HTTP {
                 msg.what = 1;
                 msg.obj = responsebody;
                 handler.sendMessage(msg);
+
             } else {
+                cancelProgressDialog();
                 msg.what = 2;
-                emitter.onError(new Throwable(connection.getResponseMessage())); // In case there are network errors
+                msg.obj = connection.getResponseMessage();
+                handler.sendMessage(msg);
             }
 
 
         } catch (Exception e) {
+            cancelProgressDialog();
             msg.what = 3;
             msg.obj = e;
             handler.sendMessage(msg);
@@ -233,7 +237,7 @@ public class RxPost extends HTTP {
             case 2:
                 cancelProgressDialog();
                 showErrorModal(mContext, "服务器数据有误", msg.obj.toString());
-                emitter.onError((Throwable) msg.obj);
+                emitter.onError(new Throwable(msg.obj.toString()));
                 break;
 
             /**
@@ -242,7 +246,7 @@ public class RxPost extends HTTP {
             default:
                 cancelProgressDialog();
                 showErrorModal(mContext, "请求出错", msg.obj.toString());
-                emitter.onError((Throwable) msg.obj);
+                emitter.onError(new Throwable(msg.obj.toString()));
         }
     }
 
@@ -310,6 +314,7 @@ public class RxPost extends HTTP {
                 // 判断JSON格式是否有误
                 if (!isJSONValid(responsebody)) {
                     cancelProgressDialog();
+                    showErrorModal(mContext, "服务器数据错误", "JSON格式有误");
                     emitter.onError(new Throwable(responsebody));
                     return;
                 }

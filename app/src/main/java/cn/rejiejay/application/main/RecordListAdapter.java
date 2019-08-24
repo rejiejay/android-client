@@ -2,6 +2,7 @@ package cn.rejiejay.application.main;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,8 +11,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.bumptech.glide.Glide;
 import com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import cn.rejiejay.application.R;
@@ -84,12 +88,51 @@ public class RecordListAdapter extends BaseAdapter {
         // 根据标签显示
         if (type.equals("record")) {
             holder.recordModel.setVisibility(View.VISIBLE);
+            holder.eventModel.setVisibility(View.GONE);
         } else {
+            holder.recordModel.setVisibility(View.GONE);
             holder.eventModel.setVisibility(View.VISIBLE);
         }
 
-        // 加载数据
+        // 根据标 加载 图片（暂时不实现
+        // String url = item.getImageidentity();
+        String url = "https://rejiejay-1251940173.cos.ap-guangzhou.myqcloud.com/myweb/mobile-list/articles-1.png";
+        if (type.equals("record")) {
+            holder.recordImage.setVisibility(View.VISIBLE); // 为了解决高度问题
+            holder.eventImage.setVisibility(View.GONE);
+            Glide.with(context)
+                .load(url)
+                .into(holder.recordImage);
+        } else {
+            holder.recordImage.setVisibility(View.GONE); // 为了解决高度问题
+            holder.eventImage.setVisibility(View.VISIBLE);
+            Glide.with(context)
+                    .load(url)
+                    .into(holder.eventImage);
+        }
 
+        holder.recordTab.setText(item.getTag());
+        holder.recordTitle.setText(item.getRecordtitle());
+        holder.recordThink.setText(item.getRecordmaterial());
+        holder.recordContent.setText(item.getRecordcontent());
+
+        Date nowDate = new Date(item.getTimestamp());
+        // 获取天数
+        SimpleDateFormat getDate = new SimpleDateFormat("dd");
+        String dd = getDate.format(nowDate);
+        // 获取星期
+        SimpleDateFormat getDay = new SimpleDateFormat("EEEE");
+        String EEEE = getDate.format(nowDate);
+        String eventDateStr = String.valueOf(item.getFullyear()) + "y " + dd + "d " + String.valueOf(item.getMonth()) + "月 第" + String.valueOf(item.getWeek()) + "周 " + "周" + EEEE;
+        holder.eventDate.setText(eventDateStr);
+        String eventCauseStr = "起因: " + item.getEventcause();
+        holder.eventCause.setText(eventCauseStr);
+        String eventHandleStr ="过程: " + item.getEventprocess();
+        holder.eventHandle.setText(eventHandleStr);
+        String eventResultStr ="结果: " + item.getEventresult();
+        holder.eventResult.setText(eventResultStr);
+        String eventConclusionStr = "结论: " + item.getEventconclusion();
+        holder.eventConclusion.setText(eventConclusionStr);
 
         return view;
     }

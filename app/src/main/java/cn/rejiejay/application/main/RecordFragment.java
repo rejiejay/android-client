@@ -147,7 +147,23 @@ public class RecordFragment extends Fragment {
                         RecordFragmentListDate targetItem = new RecordFragmentListDate();
                         JSONObject item = (JSONObject) dataList.get(i);
 
+                        targetItem.setAndroidid(item.getIntValue("androidid"));
                         targetItem.setType(item.getString("type"));
+                        targetItem.setImageidentity(item.getString("imageidentity"));
+                        targetItem.setTimestamp(item.getLong("timestamp"));
+                        targetItem.setFullyear(item.getIntValue("fullyear"));
+                        targetItem.setMonth(item.getIntValue("month"));
+                        targetItem.setWeek(item.getIntValue("week"));
+                        targetItem.setTag(item.getString("tag"));
+
+                        targetItem.setRecordtitle(item.getString("recordtitle"));
+                        targetItem.setRecordmaterial(item.getString("recordmaterial"));
+                        targetItem.setRecordcontent(item.getString("recordcontent"));
+
+                        targetItem.setEventcause(item.getString("eventcause"));
+                        targetItem.setEventprocess(item.getString("eventprocess"));
+                        targetItem.setEventresult(item.getString("eventresult"));
+                        targetItem.setEventconclusion(item.getString("eventconclusion"));
 
                         listData.add(targetItem);
                     }

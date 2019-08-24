@@ -17,8 +17,40 @@
         <ImageView
             android:id="@+id/record_item_image"
             android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:contentDescription="@string/img_des"
+            android:scaleType="fitXY"
+            android:visibility="gone" />
+
+        <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
+            android:id="@+id/record_item_title"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:ellipsize="end"
+            android:gravity="center_vertical|start"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:singleLine="true"
+            android:textColor="@color/dark2"
+            android:textSize="16sp" />
+
+        <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
+            android:id="@+id/record_item_think"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/img_des" />
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textColor="@color/dark3"
+            android:textSize="14sp" />
+
+        <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
+            android:id="@+id/record_item_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textColor="@color/dark3"
+            android:textSize="14sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -30,6 +62,15 @@
             android:paddingEnd="16dp"
             android:paddingBottom="16dp">
 
+            <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
+                android:id="@+id/record_item_tab"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_weight="1"
+                android:textColor="@color/dark3"
+                android:textSize="14sp" />
+
             <ImageView
                 android:layout_width="18dp"
                 android:layout_height="18dp"
@@ -37,50 +78,7 @@
                 android:contentDescription="@string/img_des"
                 android:src="@drawable/ic_del" />
 
-            <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
-                android:id="@+id/record_item_tab"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_weight="1"
-                android:text="@string/record_list_test_tab"
-                android:textColor="@color/dark3"
-                android:textSize="14sp" />
-
         </LinearLayout>
-
-        <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
-            android:id="@+id/record_item_title"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:ellipsize="end"
-            android:gravity="center_vertical|start"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:singleLine="true"
-            android:text="@string/record_list_test_title"
-            android:textColor="@color/dark2"
-            android:textSize="16sp" />
-
-        <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
-            android:id="@+id/record_item_think"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:text="@string/record_list_test_think"
-            android:textColor="@color/dark3"
-            android:textSize="14sp" />
-
-        <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
-            android:id="@+id/record_item_content"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:text="@string/record_list_test_content"
-            android:textColor="@color/dark3"
-            android:textSize="14sp" />
 
     </LinearLayout>
 
@@ -97,36 +95,10 @@
         <ImageView
             android:id="@+id/event_item_image"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/img_des" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp">
-
-
-            <ImageView
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:layout_weight="0"
-                android:contentDescription="@string/img_des"
-                android:src="@drawable/ic_del" />
-
-            <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
-            android:id="@+id/event_item_date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_weight="1"
-                android:text="@string/record_list_test_date"
-                android:textColor="@color/dark3"
-                android:textSize="14sp" />
-
-        </LinearLayout>
+            android:layout_height="150dp"
+            android:contentDescription="@string/img_des"
+            android:scaleType="fitXY"
+            android:visibility="gone" />
 
         <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
             android:id="@+id/event_item_cause"
@@ -135,7 +107,6 @@
             android:layout_marginTop="16dp"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            android:text="@string/record_list_test_cause"
             android:textColor="@color/dark3"
             android:textSize="14sp" />
 
@@ -145,7 +116,6 @@
             android:layout_height="wrap_content"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            android:text="@string/record_list_test_handle"
             android:textColor="@color/dark3"
             android:textSize="14sp" />
 
@@ -155,7 +125,6 @@
             android:layout_height="wrap_content"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            android:text="@string/record_list_test_result"
             android:textColor="@color/dark3"
             android:textSize="14sp" />
 
@@ -165,9 +134,35 @@
             android:layout_height="wrap_content"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            android:text="@string/record_list_test_conclusion"
             android:textColor="@color/dark3"
             android:textSize="14sp" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
+
+            <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
+                android:id="@+id/event_item_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_weight="1"
+                android:textColor="@color/dark3"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_weight="0"
+                android:contentDescription="@string/img_des"
+                android:src="@drawable/ic_del" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

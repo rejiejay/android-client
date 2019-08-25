@@ -29,7 +29,18 @@ public class DigitalSignature {
 		// digest()最后确定返回md5 hash值，返回值为8为字符串。因为md5 hash值是16位的hex值，实际上就是8位的字符
 		byte[] secretBytes = md.digest();
 		// BigInteger函数则将8位的字符串转换成16位hex值，用字符串来表示；得到字符串形式的hash值
-		return new BigInteger(1, secretBytes).toString(16);
+		String Md5Str = new BigInteger(1, secretBytes).toString(16);
+		/**
+		 * 因为字符串需要 32 位 ，但是 MD5加密也有不满32位的情况，所以这里我们手动填充
+		 */
+		if (Md5Str.length() >= 32) {
+			return Md5Str;
+		}
+		int diff = 32 - Md5Str.length();
+		for (int i = 0; i < diff; i++) {
+			Md5Str += "0";
+		}
+		return Md5Str;
 	}
 	
 	/**

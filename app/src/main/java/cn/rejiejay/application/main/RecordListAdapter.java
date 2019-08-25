@@ -2,6 +2,8 @@ package cn.rejiejay.application.main;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
+import android.text.Spanned;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -103,8 +105,8 @@ public class RecordListAdapter extends BaseAdapter {
             holder.recordImage.setVisibility(View.VISIBLE); // 为了解决高度自适应问题
             holder.eventImage.setVisibility(View.GONE);
             Glide.with(context)
-                .load(url)
-                .into(holder.recordImage);
+                    .load(url)
+                    .into(holder.recordImage);
         } else {
             holder.recordImage.setVisibility(View.GONE); // 为了解决高度自适应问题
             holder.eventImage.setVisibility(View.VISIBLE);
@@ -113,10 +115,21 @@ public class RecordListAdapter extends BaseAdapter {
                     .into(holder.eventImage);
         }
 
-        holder.recordTab.setText(item.getTag());
+        String myTag = item.getTag();
+        if (myTag.equals("")) {
+            myTag = "无分类";
+        }
+        holder.recordTab.setText(myTag);
         holder.recordTitle.setText(item.getRecordtitle());
-        holder.recordThink.setText(item.getRecordmaterial());
-        holder.recordContent.setText(item.getRecordcontent());
+
+        String recordThinkStr = item.getRecordmaterial().trim().replace("\\n", "\n");;
+        if (recordThinkStr.equals("") || recordThinkStr.length() == 0) {
+            holder.recordThink.setVisibility(View.GONE);
+        } else {
+            holder.recordThink.setVisibility(View.VISIBLE);
+        }
+        holder.recordThink.setText(recordThinkStr);
+        holder.recordContent.setText(item.getRecordcontent().trim().replace("\\n", "\n"));
 
         DateFormat thisDate = new DateFormat(new Date(item.getTimestamp()));
         // 获取天数
@@ -128,11 +141,11 @@ public class RecordListAdapter extends BaseAdapter {
         holder.eventDate.setText(eventDateStr);
         String eventCauseStr = "起因: " + item.getEventcause();
         holder.eventCause.setText(eventCauseStr);
-        String eventHandleStr ="过程: " + item.getEventprocess();
+        String eventHandleStr = "过程: " + item.getEventprocess().trim().replace("\\n", "\n");
         holder.eventHandle.setText(eventHandleStr);
-        String eventResultStr ="结果: " + item.getEventresult();
+        String eventResultStr = "结果: " + item.getEventresult().trim().replace("\\n", "\n");
         holder.eventResult.setText(eventResultStr);
-        String eventConclusionStr = "结论: " + item.getEventconclusion();
+        String eventConclusionStr = "结论: " + item.getEventconclusion().trim().replace("\\n", "\n");
         holder.eventConclusion.setText(eventConclusionStr);
 
         return view;

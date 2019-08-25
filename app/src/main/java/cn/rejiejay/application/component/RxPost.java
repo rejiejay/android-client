@@ -139,6 +139,8 @@ public class RxPost extends HTTP {
             connection.setDoOutput(true); // 允许写出
             connection.setDoInput(true); // 允许读入
             connection.setUseCaches(false); // 不使用缓存
+            connection.setConnectTimeout(600000);
+            connection.setReadTimeout(600000);
             connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
             connection.setRequestProperty("x-rejiejay-authorization", signature);
 
@@ -172,6 +174,8 @@ public class RxPost extends HTTP {
                 msg.obj = responsebody;
                 handler.sendMessage(msg);
 
+                inputStream.close();
+
             } else {
                 cancelProgressDialog();
                 msg.what = 2;
@@ -179,6 +183,7 @@ public class RxPost extends HTTP {
                 handler.sendMessage(msg);
             }
 
+            connection.disconnect();
 
         } catch (Exception e) {
             cancelProgressDialog();
@@ -282,6 +287,8 @@ public class RxPost extends HTTP {
             connection.setDoOutput(true); // 允许写出
             connection.setDoInput(true); // 允许读入
             connection.setUseCaches(false); // 不使用缓存
+            connection.setConnectTimeout(600000);
+            connection.setReadTimeout(600000);
             connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
             connection.setRequestProperty("x-rejiejay-authorization", signature);
 
@@ -344,7 +351,7 @@ public class RxPost extends HTTP {
                     emitter.onComplete();
                 }
 
-
+                inputStream.close();
             } else {
                 String message = connection.getResponseMessage();
 
@@ -355,6 +362,8 @@ public class RxPost extends HTTP {
                 emitter.onNext(consequent.setMessage(message));
                 emitter.onComplete();
             }
+
+            connection.disconnect();
 
         } catch (Exception e) {
             String message = e.toString();

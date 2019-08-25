@@ -32,14 +32,22 @@
             android:textColor="@color/dark2"
             android:textSize="16sp" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/dark3"
+            />
+
         <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
             android:id="@+id/record_item_think"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
             android:textColor="@color/dark3"
-            android:textSize="14sp" />
+            android:textSize="16sp" />
 
         <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
             android:id="@+id/record_item_content"
@@ -129,7 +137,6 @@
             android:paddingEnd="16dp"
             android:textColor="@color/dark3"
             android:textSize="14sp" />
-
 
         <LinearLayout
             android:layout_width="match_parent"

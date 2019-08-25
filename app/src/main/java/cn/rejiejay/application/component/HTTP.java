@@ -54,10 +54,9 @@ class HTTP {
      * 关闭加载框
      */
     void cancelProgressDialog() {
-        if (progressDialog != null)
-            if (progressDialog.isShowing()) {
-                progressDialog.dismiss();
-            }
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
     }
 
     /**
@@ -66,14 +65,18 @@ class HTTP {
     boolean isJSONValid(String test) {
         try {
             JSONObject.parseObject(test);
+            return true;
+
         } catch (JSONException ex) {
             try {
                 JSONObject.parseArray(test);
+                return true;
+
             } catch (JSONException ex1) {
                 return false;
+
             }
         }
-        return true;
     }
 
     /**

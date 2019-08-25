@@ -26,8 +26,12 @@ import java.io.File;
 import java.util.Date;
 import java.util.List;
 
+import cn.rejiejay.application.component.RxPost;
+import cn.rejiejay.application.utils.Consequent;
 import cn.rejiejay.application.utils.DateFormat;
 import cn.rejiejay.application.utils.UIoperate;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 import mehdi.sakout.fancybuttons.FancyButton;
 
 
@@ -356,8 +360,7 @@ public class RecordEventActivity extends AppCompatActivity {
         submitData.put("recordtitle", recordtitle);
 
         // 素材
-        String recordmaterial = Html.toHtml(recordThoughtEdit.getText());
-        submitData.put("recordmaterial", recordmaterial);
+        submitData.put("recordmaterial", recordThoughtEdit.getText().toString());
 
         // 内容
         String recordcontentStr = recordContentEdit.getText().toString();
@@ -365,9 +368,39 @@ public class RecordEventActivity extends AppCompatActivity {
             UIoperate.showErrorModal(mContext, "提示", "内容不能为空");
             return;
         }
-        String recordcontentHtml = Html.toHtml(recordContentEdit.getText());
-        submitData.put("recordcontent", recordcontentHtml);
+        submitData.put("recordcontent", recordcontentStr);
 
         Log.d("submitData", submitData.toJSONString());
+
+
+        Observer<Consequent> observer = new Observer<Consequent>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+            }
+
+            @Override
+            public void onNext(Consequent value) {
+                if (value.getResult() == 1) {
+                    Intent intent = new Intent();
+                    setResult(32201, intent);
+                    finish();
+                } else {
+                    // 弹出重新加载（暂不实现
+                }
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                // 弹出重新加载（暂不实现
+            }
+
+            @Override
+            public void onComplete() {
+            }
+        };
+
+        RxPost httpRxGet = new RxPost(mContext, "/android/record/add", submitData.toJSONString());
+        httpRxGet.observable().subscribe(observer);
     }
 }

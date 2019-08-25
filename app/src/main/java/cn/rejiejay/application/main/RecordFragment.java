@@ -261,7 +261,7 @@ public class RecordFragment extends Fragment {
 
                 // 在Intent对象当中添加一个键值对
                 intent.putExtra("type", "record");
-                startActivity(intent);
+                startActivityForResult(intent, 32201);
             }
         });
 
@@ -273,7 +273,7 @@ public class RecordFragment extends Fragment {
                 intent.setClass(getActivity(), RecordEventActivity.class);
                 // 在Intent对象当中添加一个键值对
                 intent.putExtra("type", "event");
-                startActivity(intent);
+                startActivityForResult(intent, 32202);
             }
         });
     }
@@ -285,10 +285,25 @@ public class RecordFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        // 这个是标签 选择
-        if (resultCode == 20132) {
-            String result = data.getStringExtra("tab");
-            Log.d("标签 选择", result);
+        Log.d("resultCode", String.valueOf(resultCode));
+
+        switch (resultCode) {
+            // 标签 选择
+            case 20132:
+                String result = data.getStringExtra("tab");
+                Log.d("标签 选择", result);
+                break;
+
+            // 新增 记录
+            case 32201:
+                initPageData();
+                break;
+
+            // 新增 事件
+            case 32202:
+                initPageData();
+                break;
+
         }
     }
 }

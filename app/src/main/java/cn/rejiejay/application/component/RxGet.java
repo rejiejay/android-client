@@ -145,6 +145,8 @@ public class RxGet extends HTTP {
             connection.setDoOutput(false); // 禁止 URL 连接进行输出，默认为“false”
             connection.setDoInput(true); // 使用 URL 连接进行输入，默认为“true”
             connection.setUseCaches(false); // 忽略缓存
+            connection.setConnectTimeout(600000);
+            connection.setReadTimeout(600000);
             connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
             connection.setRequestProperty("x-rejiejay-authorization", signature);
 
@@ -165,12 +167,13 @@ public class RxGet extends HTTP {
                     sb.append(line + "\n");
                 }
 
-                String reponse = sb.toString();
                 String responsebody = sb.toString();
 
                 msg.what = 1;
                 msg.obj = responsebody;
                 handler.sendMessage(msg);
+
+                reader.close();
 
             } else {
                 cancelProgressDialog();
@@ -178,6 +181,8 @@ public class RxGet extends HTTP {
                 msg.obj = connection.getResponseMessage();
                 handler.sendMessage(msg);
             }
+
+            connection.disconnect();
 
         } catch (Exception e) {
             cancelProgressDialog();
@@ -282,6 +287,8 @@ public class RxGet extends HTTP {
             connection.setDoOutput(true); // 允许写出
             connection.setDoInput(true); // 允许读入
             connection.setUseCaches(false); // 不使用缓存
+            connection.setConnectTimeout(600000);
+            connection.setReadTimeout(600000);
             connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
             connection.setRequestProperty("x-rejiejay-authorization", signature);
 
@@ -344,6 +351,7 @@ public class RxGet extends HTTP {
                     emitter.onComplete();
                 }
 
+                inputStream.close();
 
             } else {
                 String message = connection.getResponseMessage();
@@ -355,6 +363,8 @@ public class RxGet extends HTTP {
                 emitter.onNext(consequent.setMessage(message));
                 emitter.onComplete();
             }
+
+            connection.disconnect();
 
         } catch (Exception e) {
             String message = e.toString();

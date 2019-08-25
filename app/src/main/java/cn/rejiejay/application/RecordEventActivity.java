@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.alibaba.fastjson.JSONObject;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
@@ -22,15 +23,31 @@ import com.luck.picture.lib.entity.LocalMedia;
 import com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView;
 
 import java.io.File;
+import java.util.Date;
 import java.util.List;
 
+import cn.rejiejay.application.utils.DateFormat;
+import cn.rejiejay.application.utils.UIoperate;
 import mehdi.sakout.fancybuttons.FancyButton;
 
 
 public class RecordEventActivity extends AppCompatActivity {
     private Context mContext;
+    // 图片
     private String previewRecordImageImageSrc; // null 表示未上传图片
-    ImageView previewRecordImage;
+    private ImageView previewRecordImage;
+    // 标签
+    private FancyButton eventSelectTab;
+    private String Tab = "";
+    // 记录编辑
+    private EditText recordTitleEdit;
+    private EditText recordThoughtEdit;
+    private EditText recordContentEdit;
+    // 事件编辑
+    private EditText eventCauseEdit;
+    private EditText eventProcessEdit;
+    private EditText eventResultEdit;
+    private EditText eventConclusionEdit;
 
     /**
      * 页面状态
@@ -74,6 +91,18 @@ public class RecordEventActivity extends AppCompatActivity {
     public void initComponent() {
         recordTabView = findViewById(R.id.record_event_tab_left);
         eventTabView = findViewById(R.id.record_event_tab_right);
+        eventSelectTab = findViewById(R.id.record_event_select_tab);
+
+        // 记录编辑
+        recordTitleEdit = findViewById(R.id.record_event_record_edit_title);
+        recordThoughtEdit = findViewById(R.id.record_event_record_edit_thought);
+        recordContentEdit = findViewById(R.id.record_event_record_edit_content);
+
+        // 事件编辑
+        eventCauseEdit = findViewById(R.id.record_event_event_edit_cause);
+        eventProcessEdit = findViewById(R.id.record_event_event_edit_process);
+        eventResultEdit = findViewById(R.id.record_event_event_edit_result);
+        eventConclusionEdit = findViewById(R.id.record_event_event_edit_conclusion);
     }
 
     /**
@@ -130,8 +159,6 @@ public class RecordEventActivity extends AppCompatActivity {
      * 初始化 选择标签
      */
     public void initSelectTab() {
-        FancyButton eventSelectTab = findViewById(R.id.record_event_select_tab);
-
         eventSelectTab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View thisView) {
@@ -220,7 +247,7 @@ public class RecordEventActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 /**
-                 * 这个是旋转图片的
+                 * 这个是选择图片的
                  */
                 case PictureConfig.CHOOSE_REQUEST:
                     // 图片、视频、音频选择结果回调
@@ -260,26 +287,87 @@ public class RecordEventActivity extends AppCompatActivity {
          */
         if (resultCode == 20132) {
             String result = data.getStringExtra("tab");
-            Log.d("标签 选择", result);
+            Tab = result;
+            eventSelectTab.setText(result);
         }
     }
 
     // 初始化 确认
     private void initConfirmSubmit() {
+        // 记录
         FancyButton recordConfirm = findViewById(R.id.record_event_record_confirm);
-
-        final EditText eventEditThought = findViewById(R.id.record_event_edit_thought);
-        eventEditThought.setText(Html.fromHtml("")); // Html 转为 EditText
 
         recordConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View thisView) {
-                /**
-                 * 将 EditText 转为 Html
-                 */
-                String htmlString = Html.toHtml(eventEditThought.getText());
+                recordDataSubmit();
             }
         });
 
+
+        // 事件
+//        FancyButton eventConfirm = findViewById(R.id.record_event_event_confirm);
+//
+//        final EditText eventEditThought = findViewById(R.id.record_event_edit_thought);
+//        eventEditThought.setText(Html.fromHtml("")); // Html 转为 EditText
+//
+//        eventConfirm.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View thisView) {
+//                /**
+//                 * 将 EditText 转为 Html
+//                 */
+//                String htmlString = Html.toHtml(eventEditThought.getText());
+//            }
+//        });
+
+    }
+
+    // 新增记录
+    private void recordDataSubmit() {
+        JSONObject submitData = new JSONObject();
+        DateFormat thisDate = new DateFormat();
+
+        // 获取标签
+        submitData.put("tag", Tab);
+
+        // 获取时间戳
+        submitData.put("timestamp", new Date().getTime());
+
+        // 年
+        submitData.put("fullyear", thisDate.getFullYear());
+
+        // 月
+        submitData.put("month", thisDate.getMonth());
+
+        // 日
+        submitData.put("week", thisDate.getWeekInMonth());
+
+        // 图片
+        if (previewRecordImageImageSrc != null && previewRecordImageImageSrc.length() > 0) {
+            submitData.put("imageidentity",previewRecordImageImageSrc);
+        }
+
+        // 标题
+        String recordtitle = recordTitleEdit.getText().toString();
+        if (recordtitle.equals("") || recordtitle.length() == 0) {
+            recordtitle = thisDate.getYYmmDDww();
+        }
+        submitData.put("recordtitle", recordtitle);
+
+        // 素材
+        String recordmaterial = Html.toHtml(recordThoughtEdit.getText());
+        submitData.put("recordmaterial", recordmaterial);
+
+        // 内容
+        String recordcontentStr = recordContentEdit.getText().toString();
+        if (recordcontentStr.equals("") || recordcontentStr.length() == 0) {
+            UIoperate.showErrorModal(mContext, "提示", "内容不能为空");
+            return;
+        }
+        String recordcontentHtml = Html.toHtml(recordContentEdit.getText());
+        submitData.put("recordcontent", recordcontentHtml);
+
+        Log.d("submitData", submitData.toJSONString());
     }
 }

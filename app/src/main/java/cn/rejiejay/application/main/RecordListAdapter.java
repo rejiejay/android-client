@@ -19,6 +19,7 @@ import java.util.Date;
 import java.util.List;
 
 import cn.rejiejay.application.R;
+import cn.rejiejay.application.utils.DateFormat;
 
 public class RecordListAdapter extends BaseAdapter {
     private Context context;
@@ -117,14 +118,13 @@ public class RecordListAdapter extends BaseAdapter {
         holder.recordThink.setText(item.getRecordmaterial());
         holder.recordContent.setText(item.getRecordcontent());
 
-        Date nowDate = new Date(item.getTimestamp());
+        DateFormat thisDate = new DateFormat(new Date(item.getTimestamp()));
         // 获取天数
-        SimpleDateFormat getDate = new SimpleDateFormat("dd");
-        String dd = getDate.format(nowDate);
+        String dd = String.valueOf(thisDate.getDay());
         // 获取星期
-        SimpleDateFormat getDay = new SimpleDateFormat("EEEE");
-        String EEEE = getDate.format(nowDate);
-        String eventDateStr = String.valueOf(item.getFullyear()) + "y " + dd + "d " + String.valueOf(item.getMonth()) + "月 第" + String.valueOf(item.getWeek()) + "周 " + "周" + EEEE;
+        String EEEE = thisDate.getWeekCn();
+
+        String eventDateStr = String.valueOf(item.getFullyear()) + "y " + dd + "d " + String.valueOf(item.getMonth()) + "月 第" + String.valueOf(item.getWeek()) + "周 " + EEEE;
         holder.eventDate.setText(eventDateStr);
         String eventCauseStr = "起因: " + item.getEventcause();
         holder.eventCause.setText(eventCauseStr);

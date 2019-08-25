@@ -12,11 +12,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.bumptech.glide.Glide;
 
 import cn.rejiejay.application.SelectDateActivity;
 import cn.rejiejay.application.R;
@@ -32,7 +30,6 @@ import com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 public class RecordFragment extends Fragment {
     private Context mContext;
@@ -120,7 +117,23 @@ public class RecordFragment extends Fragment {
     public void initListViewComponent(View view) {
         AutoHeightListView listViewComponent = view.findViewById(R.id.record_event_list_view);
 
-        mAdapter = new RecordListAdapter(mContext, listViewComponent, listData);
+        // 注册 RxAndroid 进行页面通信
+        Observer<Consequent> observer = new Observer<Consequent>() {
+            @Override
+            public void onSubscribe(Disposable d) { }
+            @Override
+            public void onNext(Consequent value) {
+                if (value.getResult() == 1931) {
+                    initPageData();
+                }
+            }
+            @Override
+            public void onError(Throwable e) { }
+            @Override
+            public void onComplete() { }
+        };
+
+        mAdapter = new RecordListAdapter(mContext, listViewComponent, listData, observer);
         listViewComponent.setAdapter(mAdapter);
     }
 

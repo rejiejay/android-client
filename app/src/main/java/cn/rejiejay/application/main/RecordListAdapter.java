@@ -1,9 +1,9 @@
 package cn.rejiejay.application.main;
 
+import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
-import android.text.Html;
-import android.text.Spanned;
+import android.content.DialogInterface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,28 +13,47 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.alibaba.fastjson.JSONObject;
 import com.bumptech.glide.Glide;
 import com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
 import cn.rejiejay.application.R;
+import cn.rejiejay.application.component.RxPost;
+import cn.rejiejay.application.utils.Consequent;
 import cn.rejiejay.application.utils.DateFormat;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 
 public class RecordListAdapter extends BaseAdapter {
     private Context context;
+
+    // RxAndroid 进行页面通信
+    private ObservableEmitter<Consequent> emitter;
+
     private LayoutInflater inflater;
     private List<RecordFragmentListDate> listData;
 
-    public RecordListAdapter(Context context, ListView listView, List listData) {
+    RecordListAdapter(Context context, ListView listView, List listData, Observer<Consequent> observer) {
         this.context = context;
         this.listData = listData;
         this.inflater = LayoutInflater.from(context);
 
         // 用于绑定点击事件
         // listView;
+
+        // 注册 RxAndroid 进行页面通信
+        Observable.create(new ObservableOnSubscribe<Consequent>() {
+            @Override
+            public void subscribe(ObservableEmitter<Consequent> thisEmitter) {
+                emitter = thisEmitter; // 核心
+            }
+        }).subscribe(observer);
     }
 
     @Override
@@ -72,6 +91,7 @@ public class RecordListAdapter extends BaseAdapter {
             holder.recordTitle = view.findViewById(R.id.record_item_title); // 标题
             holder.recordThink = view.findViewById(R.id.record_item_think); // 联想
             holder.recordContent = view.findViewById(R.id.record_item_content); // 内容
+            holder.recordDel = view.findViewById(R.id.record_item_del); // 删除
 
 
             // 事件模块
@@ -82,13 +102,48 @@ public class RecordListAdapter extends BaseAdapter {
             holder.eventHandle = view.findViewById(R.id.event_item_handle); // 过程
             holder.eventResult = view.findViewById(R.id.event_item_result); // 结果
             holder.eventConclusion = view.findViewById(R.id.event_item_conclusion); // 结论
+            holder.eventDel = view.findViewById(R.id.event_item_del); // 删除
 
             view.setTag(holder);
         } else {
             holder = (ViewHolder) view.getTag();
         }
 
-        // 根据标签显示
+        initPageType(type, holder); // 根据标签显示不同页面
+
+        initImage(item, holder); // 根据标 加载 图片（暂时不实现
+
+        initPageDate(item, holder); // 加载页面 数据
+
+        initDel(i, holder); // 绑定删除
+
+        return view;
+    }
+
+    class ViewHolder {
+        LinearLayout recordModel; // 记录模块
+        ImageView recordImage;
+        QMUISpanTouchFixTextView recordTab;
+        QMUISpanTouchFixTextView recordTitle;
+        QMUISpanTouchFixTextView recordThink;
+        QMUISpanTouchFixTextView recordContent;
+        ImageView recordDel;
+
+
+        LinearLayout eventModel; // 事件模块
+        ImageView eventImage;
+        QMUISpanTouchFixTextView eventDate;
+        QMUISpanTouchFixTextView eventCause;
+        QMUISpanTouchFixTextView eventHandle;
+        QMUISpanTouchFixTextView eventResult;
+        QMUISpanTouchFixTextView eventConclusion;
+        ImageView eventDel;
+    }
+
+    /**
+     * 根据标签显示不同页面
+     */
+    private void initPageType(String type, ViewHolder holder) {
         if (type.equals("record")) {
             holder.recordModel.setVisibility(View.VISIBLE);
             holder.eventModel.setVisibility(View.GONE);
@@ -96,8 +151,14 @@ public class RecordListAdapter extends BaseAdapter {
             holder.recordModel.setVisibility(View.GONE);
             holder.eventModel.setVisibility(View.VISIBLE);
         }
+    }
 
-        // 根据标 加载 图片（暂时不实现
+    /**
+     * 初始化图片（暂时不实现
+     */
+    private void initImage(RecordFragmentListDate item, ViewHolder holder) {
+        String type = item.getType();
+
         // String imgId = item.getImageidentity();
         // String url = item.getImageurl();
         String url = "https://rejiejay-1251940173.cos.ap-guangzhou.myqcloud.com/myweb/mobile-list/articles-1.png";
@@ -115,6 +176,12 @@ public class RecordListAdapter extends BaseAdapter {
                     .into(holder.eventImage);
         }
 
+    }
+
+    /**
+     * 加载页面
+     */
+    private void initPageDate(RecordFragmentListDate item, ViewHolder holder) {
         String myTag = item.getTag();
         if (myTag.equals("")) {
             myTag = "无分类";
@@ -122,7 +189,7 @@ public class RecordListAdapter extends BaseAdapter {
         holder.recordTab.setText(myTag);
         holder.recordTitle.setText(item.getRecordtitle());
 
-        String recordThinkStr = item.getRecordmaterial().trim().replace("\\n", "\n");;
+        String recordThinkStr = item.getRecordmaterial().trim().replace("\\n", "\n");
         if (recordThinkStr.equals("") || recordThinkStr.length() == 0) {
             holder.recordThink.setVisibility(View.GONE);
         } else {
@@ -147,26 +214,89 @@ public class RecordListAdapter extends BaseAdapter {
         holder.eventResult.setText(eventResultStr);
         String eventConclusionStr = "结论: " + item.getEventconclusion().trim().replace("\\n", "\n");
         holder.eventConclusion.setText(eventConclusionStr);
-
-        return view;
     }
 
-    class ViewHolder {
-        LinearLayout recordModel; // 记录模块
-        ImageView recordImage;
-        QMUISpanTouchFixTextView recordTab;
-        QMUISpanTouchFixTextView recordTitle;
-        QMUISpanTouchFixTextView recordThink;
-        QMUISpanTouchFixTextView recordContent;
+    /**
+     * 绑定删除
+     */
+    private void initDel(int i, ViewHolder holder) {
+        final RecordFragmentListDate item = listData.get(i);
 
+        // 删除
+        class DelItemById {
+            DelItemById() {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle("删除");
+                builder.setMessage("你确定要删除这条信息?");
+                // 点击对话框以外的区域是否让对话框消失
+                builder.setCancelable(true);
+                // 设置正面按钮
+                builder.setPositiveButton("是", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        delAjax(); // 避免嵌套过深
+                    }
+                });
+                // 设置反面按钮
+                builder.setNegativeButton("否", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) { /* 不需要处理 */ }
+                });
+                AlertDialog dialog = builder.create();
+                // 显示对话框
+                dialog.show();
+            }
 
-        LinearLayout eventModel; // 事件模块
-        ImageView eventImage;
-        QMUISpanTouchFixTextView eventDate;
-        QMUISpanTouchFixTextView eventCause;
-        QMUISpanTouchFixTextView eventHandle;
-        QMUISpanTouchFixTextView eventResult;
-        QMUISpanTouchFixTextView eventConclusion;
+            private void delAjax() {
+
+                JSONObject submitData = new JSONObject();
+                submitData.put("androidid", item.getAndroidid());
+
+                Observer<Consequent> observer = new Observer<Consequent>() {
+                    @Override
+                    public void onSubscribe(Disposable d) { /* 不需要处理 */}
+
+                    @Override
+                    public void onNext(Consequent value) {
+                        Consequent consequent = new Consequent();
+
+                        if (value.getResult() == 1) {
+                            emitter.onNext(consequent.setResult(1931)); // 1931 表示删除成功 刷新页面
+                            emitter.onComplete();
+
+                        } else {
+                            /* 报错信息暂不处理 */
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) { /* 报错信息暂不处理 */ }
+
+                    @Override
+                    public void onComplete() { /* 不需要处理 */ }
+                };
+
+                RxPost httpRxGet = new RxPost(context, "/android/recordevent/del", submitData.toJSONString());
+                httpRxGet.observable().subscribe(observer);
+
+            }
+        }
+
+        holder.recordDel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View thisView) {
+                new DelItemById();
+            }
+        });
+
+        holder.eventDel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View thisView) {
+                new DelItemById();
+            }
+        });
     }
+
 }
 

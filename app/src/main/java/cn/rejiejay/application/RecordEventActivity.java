@@ -103,11 +103,7 @@ public class RecordEventActivity extends AppCompatActivity {
         recordTitleEdit = findViewById(R.id.record_event_record_edit_title);
         recordThoughtEdit = findViewById(R.id.record_event_record_edit_thought);
         recordContentEdit = findViewById(R.id.record_event_record_edit_content);
-        recordTitleEdit.setText(recordTitle);
-        recordThoughtEdit.setText(recordThought);
-        recordContentEdit.setText(recordContent);
         recordConfirm = findViewById(R.id.record_event_record_confirm);
-
 
         // 事件编辑
         eventCauseEdit = findViewById(R.id.record_event_event_edit_cause);
@@ -116,7 +112,8 @@ public class RecordEventActivity extends AppCompatActivity {
         eventConclusionEdit = findViewById(R.id.record_event_event_edit_conclusion);
         eventConfirm = findViewById(R.id.record_event_event_confirm);
 
-        if (intent != null) { // 从Intent当中根据key取得value
+        // 从Intent当中根据key取得value
+        if (intent != null) {
             pageType = intent.getStringExtra("type");
             isEdit = intent.getBooleanExtra("isEdit", false); // 获取失败默认就是否
 
@@ -140,6 +137,10 @@ public class RecordEventActivity extends AppCompatActivity {
             recordConfirm.setText("编辑");
             eventConfirm.setText("编辑");
         }
+
+        recordTitleEdit.setText(recordTitle);
+        recordThoughtEdit.setText(recordThought);
+        recordContentEdit.setText(recordContent);
     }
 
     /**

@@ -1,6 +1,7 @@
 package cn.rejiejay.application.main;
 
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -339,6 +340,7 @@ public class RecordFragment extends Fragment {
 
             // 新增 事件
             case 32202:
+                Log.d("新增事件", "1");
                 initPageData();
                 break;
 

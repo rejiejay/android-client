@@ -3,6 +3,8 @@ package cn.rejiejay.application.main;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,26 +36,19 @@ public class RecordListAdapter extends BaseAdapter {
     private Context context;
 
     // RxAndroid 进行页面通信
-    private ObservableEmitter<Consequent> emitter;
+    private Observer<Consequent> observer;
 
     private LayoutInflater inflater;
     private List<RecordFragmentListDate> listData;
 
-    RecordListAdapter(Context context, ListView listView, List listData, Observer<Consequent> observer) {
+    RecordListAdapter(Context context, ListView listView, List<RecordFragmentListDate> listData, Observer<Consequent> observer) {
         this.context = context;
+        this.observer = observer;
         this.listData = listData;
         this.inflater = LayoutInflater.from(context);
 
         // 用于绑定点击事件
         // listView;
-
-        // 注册 RxAndroid 进行页面通信
-        Observable.create(new ObservableOnSubscribe<Consequent>() {
-            @Override
-            public void subscribe(ObservableEmitter<Consequent> thisEmitter) {
-                emitter = thisEmitter; // 核心
-            }
-        }).subscribe(observer);
     }
 
     @Override
@@ -83,7 +78,7 @@ public class RecordListAdapter extends BaseAdapter {
             view = inflater.inflate(R.layout.main_record_list, null);
 
             holder = new ViewHolder();
-            holder.emitter = emitter; // 这个也缓存下来，因为好像会丢失
+            holder.observer = observer; // 这个也缓存下来，因为好像会丢失
 
             // 记录模块
             holder.recordModel = view.findViewById(R.id.record_item_view);
@@ -124,7 +119,7 @@ public class RecordListAdapter extends BaseAdapter {
     }
 
     class ViewHolder {
-        ObservableEmitter<Consequent> emitter;
+        Observer<Consequent> observer;
 
         LinearLayout recordModel; // 记录模块
         ImageView recordImage;
@@ -263,11 +258,16 @@ public class RecordListAdapter extends BaseAdapter {
 
                     @Override
                     public void onNext(Consequent value) {
-                        Consequent consequent = new Consequent();
+                        final Consequent consequent = new Consequent();
 
                         if (value.getResult() == 1) {
-                            holder.emitter.onNext(consequent.setResult(1931)); // 1931 表示删除成功 刷新页面
-                            holder.emitter.onComplete();
+                            Observable.create(new ObservableOnSubscribe<Consequent>() {
+                                @Override
+                                public void subscribe(ObservableEmitter<Consequent> thisEmitter) {
+                                    thisEmitter.onNext(consequent.setResult(1931)); // 1932 表示编辑 跳转到 编辑记录页面
+                                    thisEmitter.onComplete();
+                                }
+                            }).subscribe(holder.observer);
 
                         } else {
                             /* 报错信息暂不处理 */
@@ -312,21 +312,33 @@ public class RecordListAdapter extends BaseAdapter {
         class JumpToRecord {
             JumpToRecord() {
                 Log.d("跳转", "JumpToRecord");
-                Consequent consequent = new Consequent();
+                final Consequent consequent = new Consequent();
 
-                consequent.setData(JSON.parseObject(JSON.toJSONString(item)));
-                holder.emitter.onNext(consequent.setResult(1932)); // 1932 表示编辑 跳转到 编辑记录页面
-                holder.emitter.onComplete();
+                consequent.setData(JSON.parseObject(JSON.toJSONString(item))).setResult(1932); // 1932 表示编辑 跳转到 编辑记录页面
+
+                Observable.create(new ObservableOnSubscribe<Consequent>() {
+                    @Override
+                    public void subscribe(ObservableEmitter<Consequent> thisEmitter) {
+                        thisEmitter.onNext(consequent);
+                        thisEmitter.onComplete();
+                    }
+                }).subscribe(holder.observer);
             }
         }
         class JumpToEvent {
             JumpToEvent() {
                 Log.d("跳转", "JumpToEvent");
-                Consequent consequent = new Consequent();
+                final Consequent consequent = new Consequent();
 
-                consequent.setData(JSON.parseObject(JSON.toJSONString(item)));
-                holder.emitter.onNext(consequent.setResult(1933)); // 1933 表示编辑 跳转到 编辑事件页面
-                holder.emitter.onComplete();
+                consequent.setData(JSON.parseObject(JSON.toJSONString(item))).setResult(1933); // 1933 表示编辑 跳转到 编辑事件页面
+
+                Observable.create(new ObservableOnSubscribe<Consequent>() {
+                    @Override
+                    public void subscribe(ObservableEmitter<Consequent> thisEmitter) {
+                        thisEmitter.onNext(consequent);
+                        thisEmitter.onComplete();
+                    }
+                }).subscribe(holder.observer);
             }
         }
 

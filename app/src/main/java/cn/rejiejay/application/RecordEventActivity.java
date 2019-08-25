@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
@@ -37,30 +38,35 @@ import mehdi.sakout.fancybuttons.FancyButton;
 
 public class RecordEventActivity extends AppCompatActivity {
     private Context mContext;
+    private int androidid;
     // 图片
-    private String previewRecordImageImageSrc; // null 表示未上传图片
+    private String imageidentity = ""; // 图片唯一标识
+    private String previewRecordImageImageSrc = ""; // null 表示未上传图片
     private ImageView previewRecordImage;
     // 标签
     private FancyButton eventSelectTab;
     private String Tab = "";
     // 记录编辑
     private EditText recordTitleEdit;
+    private String recordTitle = "";
     private EditText recordThoughtEdit;
+    private String recordThought = "";
     private EditText recordContentEdit;
+    private String recordContent = "";
+    private FancyButton recordConfirm;
     // 事件编辑
     private EditText eventCauseEdit;
     private EditText eventProcessEdit;
     private EditText eventResultEdit;
     private EditText eventConclusionEdit;
+    private FancyButton eventConfirm;
 
-    /**
-     * 页面状态
-     * record 记录页面 event 事件页面
-     */
-    String pageType = "record";
-
+    // 页面状态
+    Boolean isEdit = false; // 是否编辑状态
+    String pageType = "record"; // record 记录页面 event 事件页面
     QMUISpanTouchFixTextView recordTabView;
     QMUISpanTouchFixTextView eventTabView;
+
 
     // 生命周期的 onCreate 周期
     @Override
@@ -69,13 +75,6 @@ public class RecordEventActivity extends AppCompatActivity {
         setContentView(R.layout.recordevent);
 
         mContext = this;
-
-        // 取得从上一个Activity当中传递过来的Intent对象
-        Intent intent = getIntent();
-        //从Intent当中根据key取得value
-        if (intent != null) {
-            pageType = intent.getStringExtra("type");
-        }
 
         initComponent(); // 初始化頁面组件
 
@@ -93,6 +92,9 @@ public class RecordEventActivity extends AppCompatActivity {
      * 初始化頁面组件
      */
     public void initComponent() {
+        // 取得从上一个Activity当中传递过来的Intent对象
+        Intent intent = getIntent();
+
         recordTabView = findViewById(R.id.record_event_tab_left);
         eventTabView = findViewById(R.id.record_event_tab_right);
         eventSelectTab = findViewById(R.id.record_event_select_tab);
@@ -101,12 +103,43 @@ public class RecordEventActivity extends AppCompatActivity {
         recordTitleEdit = findViewById(R.id.record_event_record_edit_title);
         recordThoughtEdit = findViewById(R.id.record_event_record_edit_thought);
         recordContentEdit = findViewById(R.id.record_event_record_edit_content);
+        recordTitleEdit.setText(recordTitle);
+        recordThoughtEdit.setText(recordThought);
+        recordContentEdit.setText(recordContent);
+        recordConfirm = findViewById(R.id.record_event_record_confirm);
+
 
         // 事件编辑
         eventCauseEdit = findViewById(R.id.record_event_event_edit_cause);
         eventProcessEdit = findViewById(R.id.record_event_event_edit_process);
         eventResultEdit = findViewById(R.id.record_event_event_edit_result);
         eventConclusionEdit = findViewById(R.id.record_event_event_edit_conclusion);
+        eventConfirm = findViewById(R.id.record_event_event_confirm);
+
+        if (intent != null) { // 从Intent当中根据key取得value
+            pageType = intent.getStringExtra("type");
+            isEdit = intent.getBooleanExtra("isEdit", false); // 获取失败默认就是否
+
+            String editRecordJsonStr = intent.getStringExtra("editRecordJSON");
+            if (editRecordJsonStr != null && editRecordJsonStr.length() > 0) {
+                JSONObject editRecordJSON = JSON.parseObject(editRecordJsonStr);
+
+                androidid = editRecordJSON.getIntValue("androidid");
+                Tab = editRecordJSON.getString("tag");
+
+                // 图片的晚点再搞，这个有点复杂
+                // imageidentity = editRecordJSON.getString("imageidentity");
+
+                recordTitle = editRecordJSON.getString("recordtitle");
+                recordThought = editRecordJSON.getString("recordmaterial");
+                recordContent = editRecordJSON.getString("recordcontent");
+            }
+        }
+
+        if (isEdit) {
+            recordConfirm.setText("编辑");
+            eventConfirm.setText("编辑");
+        }
     }
 
     /**
@@ -298,9 +331,6 @@ public class RecordEventActivity extends AppCompatActivity {
 
     // 初始化 确认
     private void initConfirmSubmit() {
-        // 记录
-        FancyButton recordConfirm = findViewById(R.id.record_event_record_confirm);
-
         recordConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View thisView) {
@@ -349,7 +379,7 @@ public class RecordEventActivity extends AppCompatActivity {
 
         // 图片
         if (previewRecordImageImageSrc != null && previewRecordImageImageSrc.length() > 0) {
-            submitData.put("imageidentity",previewRecordImageImageSrc);
+            submitData.put("imageidentity", previewRecordImageImageSrc);
         }
 
         // 标题
@@ -371,7 +401,6 @@ public class RecordEventActivity extends AppCompatActivity {
         submitData.put("recordcontent", recordcontentStr);
 
         Log.d("submitData", submitData.toJSONString());
-
 
         Observer<Consequent> observer = new Observer<Consequent>() {
             @Override

@@ -123,8 +123,31 @@ public class RecordFragment extends Fragment {
             public void onSubscribe(Disposable d) { }
             @Override
             public void onNext(Consequent value) {
-                if (value.getResult() == 1931) {
-                    initPageData();
+                Intent intent = new Intent();
+                intent.setClass(getActivity(), RecordEventActivity.class);
+
+                switch (value.getResult()) {
+                    case 1931:
+                        initPageData(); // 1931 表示删除成功 刷新页面
+                        break;
+
+                    case 1932: // 1932 表示编辑 跳转到 编辑记录页面
+
+                        // 在Intent对象当中添加一个键值对
+                        intent.putExtra("type", "record");
+                        intent.putExtra("isEdit", true);
+                        intent.putExtra("editRecordJSON", value.getData().toJSONString());
+                        startActivityForResult(intent, 32201);
+                        break;
+
+                    case 1933: // 1933 表示编辑 跳转到 编辑事件页面
+
+                        // 在Intent对象当中添加一个键值对
+                        intent.putExtra("type", "record");
+                        intent.putExtra("isEdit", true);
+                        intent.putExtra("editEventJSON", value.getData().toJSONString());
+                        startActivityForResult(intent, 32202);
+                        break;
                 }
             }
             @Override
@@ -148,6 +171,8 @@ public class RecordFragment extends Fragment {
 
             @Override
             public void onNext(Consequent value) {
+                Log.d("加载页面数据", value.getJsonStringMessage());
+
                 if (value.getResult() == 1) {
                     // 总页码
                     dataTotal = value.getData().getIntValue("total");

@@ -1,7 +1,6 @@
 package cn.rejiejay.application.main;
 
 import android.app.AlertDialog;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.util.Log;
@@ -13,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.bumptech.glide.Glide;
 import com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView;
@@ -83,6 +83,7 @@ public class RecordListAdapter extends BaseAdapter {
             view = inflater.inflate(R.layout.main_record_list, null);
 
             holder = new ViewHolder();
+            holder.emitter = emitter; // 这个也缓存下来，因为好像会丢失
 
             // 记录模块
             holder.recordModel = view.findViewById(R.id.record_item_view);
@@ -117,10 +118,14 @@ public class RecordListAdapter extends BaseAdapter {
 
         initDel(i, holder); // 绑定删除
 
+        initEdit(i, holder); // 绑定编辑
+
         return view;
     }
 
     class ViewHolder {
+        ObservableEmitter<Consequent> emitter;
+
         LinearLayout recordModel; // 记录模块
         ImageView recordImage;
         QMUISpanTouchFixTextView recordTab;
@@ -219,7 +224,7 @@ public class RecordListAdapter extends BaseAdapter {
     /**
      * 绑定删除
      */
-    private void initDel(int i, ViewHolder holder) {
+    private void initDel(int i, final ViewHolder holder) {
         final RecordFragmentListDate item = listData.get(i);
 
         // 删除
@@ -261,8 +266,8 @@ public class RecordListAdapter extends BaseAdapter {
                         Consequent consequent = new Consequent();
 
                         if (value.getResult() == 1) {
-                            emitter.onNext(consequent.setResult(1931)); // 1931 表示删除成功 刷新页面
-                            emitter.onComplete();
+                            holder.emitter.onNext(consequent.setResult(1931)); // 1931 表示删除成功 刷新页面
+                            holder.emitter.onComplete();
 
                         } else {
                             /* 报错信息暂不处理 */
@@ -298,5 +303,94 @@ public class RecordListAdapter extends BaseAdapter {
         });
     }
 
+    /**
+     * 绑定 编辑
+     */
+    private void initEdit(int i, final ViewHolder holder) {
+        final RecordFragmentListDate item = listData.get(i);
+
+        class JumpToRecord {
+            JumpToRecord() {
+                Log.d("跳转", "JumpToRecord");
+                Consequent consequent = new Consequent();
+
+                consequent.setData(JSON.parseObject(JSON.toJSONString(item)));
+                holder.emitter.onNext(consequent.setResult(1932)); // 1932 表示编辑 跳转到 编辑记录页面
+                holder.emitter.onComplete();
+            }
+        }
+        class JumpToEvent {
+            JumpToEvent() {
+                Log.d("跳转", "JumpToEvent");
+                Consequent consequent = new Consequent();
+
+                consequent.setData(JSON.parseObject(JSON.toJSONString(item)));
+                holder.emitter.onNext(consequent.setResult(1933)); // 1933 表示编辑 跳转到 编辑事件页面
+                holder.emitter.onComplete();
+            }
+        }
+
+        if (item.getType().equals("record")) {
+            holder.recordImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View thisView) {
+                    new JumpToRecord();
+                }
+            });
+            holder.recordTitle.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View thisView) {
+                    new JumpToRecord();
+                }
+            });
+            holder.recordThink.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View thisView) {
+                    new JumpToRecord();
+                }
+            });
+            holder.recordContent.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View thisView) {
+                    new JumpToRecord();
+                }
+            });
+
+
+        } else {
+            holder.eventImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View thisView) {
+                    new JumpToEvent();
+                }
+            });
+            holder.eventCause.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View thisView) {
+                    new JumpToEvent();
+                }
+            });
+            holder.eventHandle.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View thisView) {
+                    new JumpToEvent();
+                }
+            });
+            holder.eventResult.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View thisView) {
+                    new JumpToEvent();
+                }
+            });
+            holder.eventConclusion.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View thisView) {
+                    new JumpToEvent();
+                }
+            });
+
+        }
+
+    }
 }
 

@@ -47,6 +47,23 @@
                 android:orientation="horizontal">
 
                 <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
+                    android:id="@+id/main_record_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:text="@string/record_operating_type"
+                    android:textColor="@color/dark3"
+                    android:textSize="14sp" />
+
+                <View
+                    android:layout_width="1px"
+                    android:layout_height="23dp"
+                    android:layout_gravity="center"
+                    android:background="@color/dark2" />
+
+                <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
                     android:id="@+id/main_record_tab"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"

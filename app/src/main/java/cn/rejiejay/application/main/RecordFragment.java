@@ -38,6 +38,7 @@ public class RecordFragment extends Fragment {
 
     // 页面组件
     public QMUISpanTouchFixTextView sequenceBtn; // 排序按钮
+    public QMUISpanTouchFixTextView dataTypeBtn; // 数据类型按钮
     public QMUISpanTouchFixTextView tabBtn; // 标签按钮
     public QMUISpanTouchFixTextView dateBtn; // 日期按钮
 
@@ -71,39 +72,32 @@ public class RecordFragment extends Fragment {
     /**
      * 这里加载图片会报错
      */
-    // @Override
-    // public void onCreate(@Nullable Bundle savedInstanceState) {
-    //     super.onCreate(savedInstanceState);
-    // }
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // 加载图片示例
-//        String url = "https://rejiejay-1251940173.cos.ap-guangzhou.myqcloud.com/myweb/mobile-list/articles-1.png";
-//        ImageView myImage = view.findViewById(R.id.record_item_img);
-//        ImageView myImage2 = view.findViewById(R.id.record_item_img2);
-//        Glide.with(this)
-//                .load(url)
-//                .into(myImage);
-//        Glide.with(this)
-//                .load(url)
-//                .into(myImage2);
-
         // 初始化 绑定 组件的方法
         initPageComponent(view);
 
-        // 初始化 listView
+        // listView
         initListViewComponent(view);
 
-        // 加载页面数据
+        // 页面数据
         initPageData();
 
-        // 初始化加载更多的方法
+        // 加载更多
         initLoadMore();
 
-        // 初始化排序的方法
+        // 排序
         initSortHandle();
+
+        // 数据类型
+        initSortType();
 
         // 跳转到 标签选择页面
         jumpToSelectTabActivity();
@@ -120,6 +114,7 @@ public class RecordFragment extends Fragment {
      */
     public void initPageComponent(View view) {
         sequenceBtn = view.findViewById(R.id.main_record_sequence);
+        dataTypeBtn = view.findViewById(R.id.main_record_type);
         tabBtn = view.findViewById(R.id.main_record_tab);
         dateBtn = view.findViewById(R.id.main_record_date);
         addRecordBtn = view.findViewById(R.id.add_record_btn);
@@ -261,6 +256,14 @@ public class RecordFragment extends Fragment {
 
         String url = "/android/recordevent/list?sort=" + sort + "&pageNo=" + pageNo;
 
+        if (!sortType.equals("all")) {
+            url += "&type=" + sortType;
+        }
+
+        if (!sortTag.equals("all")) {
+            url += "&tag=" + sortTag;
+        }
+
         RxGet httpRxGet = new RxGet(mContext, url, "");
         httpRxGet.observable().subscribe(observer);
     }
@@ -310,6 +313,61 @@ public class RecordFragment extends Fragment {
                             pageNo = 1;
                             sequenceBtn.setText("随机排序");
                             initPageData();
+                        }
+
+                        dialog.dismiss();
+                    }
+                });
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
+    }
+
+    /**
+     * 初始化 数据类型 的方法
+     */
+    public void initSortType() {
+        dataTypeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View thisView) {
+                String[] single_list = {"所有", "记录类型", "事件类型", "取消选择"};
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("请选择数据类型");
+
+                int checkeItem = 0;
+                if (sortType.equals("record")) {
+                    checkeItem = 1;
+
+                } else if (sortType.equals("event")) {
+                    checkeItem = 2;
+
+                }
+
+                builder.setSingleChoiceItems(single_list, checkeItem, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        switch (which) {
+                            case 0:
+                                sortType = "all";
+                                pageNo = 1;
+                                dataTypeBtn.setText("数据类型");
+                                initPageData();
+
+                            case 1:
+                                sortType = "record";
+                                pageNo = 1;
+                                dataTypeBtn.setText("记录类型");
+                                initPageData();
+
+                            case 2:
+                                sortType = "event";
+                                pageNo = 1;
+                                dataTypeBtn.setText("事件类型");
+                                initPageData();
                         }
 
                         dialog.dismiss();
@@ -396,10 +454,11 @@ public class RecordFragment extends Fragment {
         switch (resultCode) {
             // 标签 选择
             case 20132:
-                String type = data.getStringExtra("type");
                 String tag = data.getStringExtra("tag");
-                sortType = type;
-                sortTag = tag;
+                if (tag != null && tag.length() > 0) {
+                    sortTag = tag;
+                }
+
                 initPageData();
 
                 break;

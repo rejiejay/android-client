@@ -26,6 +26,7 @@ import cn.rejiejay.application.component.RxGet;
 import cn.rejiejay.application.utils.Consequent;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
+import mehdi.sakout.fancybuttons.FancyButton;
 
 import com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView;
 
@@ -39,14 +40,20 @@ public class RecordFragment extends Fragment {
     public QMUISpanTouchFixTextView sequenceBtn; // 排序按钮
     public QMUISpanTouchFixTextView tabBtn; // 标签按钮
     public QMUISpanTouchFixTextView dateBtn; // 日期按钮
-    public QMUISpanTouchFixTextView addRecordBtn;
+
+    public QMUISpanTouchFixTextView addRecordBtn; // 新增
     public QMUISpanTouchFixTextView addEventBtn;
+
     public RecordListAdapter mAdapter;
+
+    public FancyButton loadMore; // 加载更多
 
     // 数据
     public List<RecordFragmentListDate> listData = new ArrayList<>();
-    public int dataTotal = 0; // 页数 默认0页
-
+    public int pageNo = 1; // 当前页码
+    public int dataTotal = 0; // 总页数 默认0页
+    public Boolean isAdd = false; // 是否添加页面数据
+    public String sort = "time"; // 目前2种排序 random 默认 time
 
     @Nullable
     @Override
@@ -85,6 +92,12 @@ public class RecordFragment extends Fragment {
         // 初始化 listView
         initListViewComponent(view);
 
+        // 加载页面数据
+        initPageData();
+
+        // 初始化加载更多的方法
+        initLoadMore();
+
         // 初始化排序的方法
         initSortHandle();
 
@@ -96,9 +109,6 @@ public class RecordFragment extends Fragment {
 
         // 跳转到 新增页面
         jumpToAddActivity();
-
-        // 加载页面数据
-        initPageData();
     }
 
     /**
@@ -110,6 +120,7 @@ public class RecordFragment extends Fragment {
         dateBtn = view.findViewById(R.id.main_record_date);
         addRecordBtn = view.findViewById(R.id.add_record_btn);
         addEventBtn = view.findViewById(R.id.add_event_btn);
+        loadMore = view.findViewById(R.id.main_record_load_more);
     }
 
     /**
@@ -121,7 +132,9 @@ public class RecordFragment extends Fragment {
         // 注册 RxAndroid 进行页面通信
         Observer<Consequent> observer = new Observer<Consequent>() {
             @Override
-            public void onSubscribe(Disposable d) { }
+            public void onSubscribe(Disposable d) {
+            }
+
             @Override
             public void onNext(Consequent value) {
                 Intent intent = new Intent();
@@ -151,10 +164,14 @@ public class RecordFragment extends Fragment {
                         break;
                 }
             }
+
             @Override
-            public void onError(Throwable e) { }
+            public void onError(Throwable e) {
+            }
+
             @Override
-            public void onComplete() { }
+            public void onComplete() {
+            }
         };
 
         mAdapter = new RecordListAdapter(mContext, listViewComponent, listData, observer);
@@ -181,7 +198,9 @@ public class RecordFragment extends Fragment {
                     // 数据库数据转换为页面数据
                     JSONArray dataList = value.getData().getJSONArray("list");
 
-                    listData.clear();
+                    if (!isAdd) {
+                        listData.clear();
+                    }
                     for (int i = 0; i < dataList.size(); i++) {
                         RecordFragmentListDate targetItem = new RecordFragmentListDate();
                         JSONObject item = (JSONObject) dataList.get(i);
@@ -208,6 +227,16 @@ public class RecordFragment extends Fragment {
                         listData.add(targetItem);
                     }
 
+                    // 加载更多按钮
+                    isAdd = false; // 返回初始化状态
+                    if (sort.equals("random")) {
+                        loadMore.setVisibility(View.VISIBLE);
+                    } else if ((pageNo * 10) > dataTotal) {
+                        loadMore.setVisibility(View.GONE);
+                    } else {
+                        loadMore.setVisibility(View.VISIBLE);
+                    }
+
                     mAdapter.notifyDataSetChanged();
 
                 } else {
@@ -226,8 +255,25 @@ public class RecordFragment extends Fragment {
             }
         };
 
-        RxGet httpRxGet = new RxGet(mContext, "/android/recordevent/list", "");
+        String url = "/android/recordevent/list?sort=" + sort + "&pageNo=" + pageNo;
+
+        RxGet httpRxGet = new RxGet(mContext, url, "");
         httpRxGet.observable().subscribe(observer);
+    }
+
+
+    /**
+     * 初始化加载更多的方法
+     */
+    public void initLoadMore() {
+        loadMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View thisView) {
+                isAdd = true;
+                pageNo++;
+                initPageData();
+            }
+        });
     }
 
     /**
@@ -242,9 +288,26 @@ public class RecordFragment extends Fragment {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder.setTitle("请选择排序方式");
 
-                builder.setSingleChoiceItems(single_list, 0, new DialogInterface.OnClickListener() {
+                int checkeItem = 0;
+                if (sort.equals("random")) {
+                    checkeItem = 1;
+                }
+
+                builder.setSingleChoiceItems(single_list, checkeItem, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        if (which == 0) {
+                            sort = "time";
+                            pageNo = 1;
+                            sequenceBtn.setText("时间排序");
+                            initPageData();
+                        } else {
+                            sort = "random";
+                            pageNo = 1;
+                            sequenceBtn.setText("随机排序");
+                            initPageData();
+                        }
+
                         dialog.dismiss();
                     }
                 });

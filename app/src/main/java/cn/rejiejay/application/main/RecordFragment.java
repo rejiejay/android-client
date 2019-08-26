@@ -53,7 +53,11 @@ public class RecordFragment extends Fragment {
     public int pageNo = 1; // 当前页码
     public int dataTotal = 0; // 总页数 默认0页
     public Boolean isAdd = false; // 是否添加页面数据
+
+    // 排序
     public String sort = "time"; // 目前2种排序 random 默认 time
+    public String sortType = "all"; // 目前3种排序 record event 默认 all
+    public String sortTag = "all"; // 默认 all
 
     @Nullable
     @Override
@@ -392,8 +396,12 @@ public class RecordFragment extends Fragment {
         switch (resultCode) {
             // 标签 选择
             case 20132:
-                String result = data.getStringExtra("tab");
-                Log.d("标签 选择", result);
+                String type = data.getStringExtra("type");
+                String tag = data.getStringExtra("tag");
+                sortType = type;
+                sortTag = tag;
+                initPageData();
+
                 break;
 
             // 新增 记录

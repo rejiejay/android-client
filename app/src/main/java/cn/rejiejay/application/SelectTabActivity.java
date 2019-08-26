@@ -31,13 +31,15 @@ public class SelectTabActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.selecttab);
 
-        initListView(); // 初始化 标签列表
+        initListView(); // 列表
 
-        initCreateNewTab(); // 初始化 新增标签
+        initCreateNewTag(); // 新增
 
-        initDelTab(); // 初始化 删除标签
+        initDelTag(); // 删除
 
-        initSelectAllTab(); // 初始化 选择所有标签
+        initSelectTag(R.id.select_tab_all_tab_btn, "all", "all"); // 所有
+        initSelectTag(R.id.select_tab_record_tab_btn, "all", "record"); // 记录
+        initSelectTag(R.id.select_tab_event_tab_btn, "all", "event"); // 事件
     }
 
     /**
@@ -79,7 +81,7 @@ public class SelectTabActivity extends AppCompatActivity {
     /**
      * 初始化 新增标签
      */
-    public void initCreateNewTab() {
+    public void initCreateNewTag() {
         LinearLayout createNewTabView = findViewById(R.id.createNewTab);
 
         createNewTabView.setOnClickListener(new View.OnClickListener() {
@@ -118,7 +120,7 @@ public class SelectTabActivity extends AppCompatActivity {
      * 初始化 删除标签
      * ListView数据动态刷新: https://blog.csdn.net/cshichao/article/details/9333497
      */
-    public void initDelTab() {
+    public void initDelTag() {
         LinearLayout delTabView = findViewById(R.id.delTabView);
 
         delTabView.setOnClickListener(new View.OnClickListener() {
@@ -136,26 +138,26 @@ public class SelectTabActivity extends AppCompatActivity {
     }
 
     /**
-     * 初始化 选择所有标签
+     * 初始化 通用标签
      */
-    public void initSelectAllTab() {
-        LinearLayout allTabBtn = findViewById(R.id.select_tab_all_tab_btn);
+    public void initSelectTag(int id, final String tag, final String type) {
+        LinearLayout allTabBtn = findViewById(id);
 
         allTabBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View thisView) {
-                moveBack("所有btn");
+                submitConfirm(tag, type);
             }
         });
     }
 
     /**
      * 返回上一页
-     * @param tab
      */
-    public void moveBack(String tab) {
+    public void submitConfirm(String tag, String type) {
         Intent intent = new Intent();
-        intent.putExtra("tab", tab);
+        intent.putExtra("tag", tag);
+        intent.putExtra("type", type);
         setResult(20132, intent); // 代码是固定的
         finish();
     }

@@ -79,7 +79,6 @@
             android:layout_marginBottom="5dp"
             android:background="@color/dark2" />
 
-
         <!--所有分类-->
         <View
             android:layout_width="match_parent"
@@ -113,6 +112,68 @@
                 android:src="@drawable/ic_right_arrow" />
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/dark2" />
+
+        <!--选择记录-->
+        <LinearLayout
+            android:id="@+id/select_tab_record_tab_btn"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="#fff"
+            android:gravity="center|start"
+            android:orientation="horizontal">
+
+            <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_weight="1"
+                android:text="@string/tab_select_record"
+                android:textColor="@color/dark2"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_weight="0"
+                android:contentDescription="@string/img_des"
+                android:src="@drawable/ic_right_arrow" />
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/dark2" />
+
+        <!--选择事件-->
+        <LinearLayout
+            android:id="@+id/select_tab_event_tab_btn"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="#fff"
+            android:gravity="center|start"
+            android:orientation="horizontal">
+
+            <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_weight="1"
+                android:text="@string/tab_select_event"
+                android:textColor="@color/dark2"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_weight="0"
+                android:contentDescription="@string/img_des"
+                android:src="@drawable/ic_right_arrow" />
+        </LinearLayout>
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"

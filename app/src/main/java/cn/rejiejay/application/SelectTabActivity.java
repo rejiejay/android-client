@@ -1,6 +1,7 @@
 package cn.rejiejay.application;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,13 +14,23 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.rejiejay.application.component.RxGet;
 import cn.rejiejay.application.selecttab.Tab;
 import cn.rejiejay.application.selecttab.TabArrayAdapter;
+import cn.rejiejay.application.utils.Consequent;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 
 public class SelectTabActivity extends AppCompatActivity {
+    private Context mContext;
+
     private List<Tab> mData = new ArrayList<>();
     private TabArrayAdapter adapter;
 
@@ -31,15 +42,17 @@ public class SelectTabActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.selecttab);
 
+        mContext = this;
+
         initListView(); // 列表
 
         initCreateNewTag(); // 新增
 
-        initDelTag(); // 删除
+        // initDelTag(); // 删除
 
-        initSelectTag(R.id.select_tab_all_tab_btn, "all", "all"); // 所有
-        initSelectTag(R.id.select_tab_record_tab_btn, "all", "record"); // 记录
-        initSelectTag(R.id.select_tab_event_tab_btn, "all", "event"); // 事件
+        initSelectTag(R.id.select_tab_all_tab_btn, "all"); // 所有
+        // initSelectTag(R.id.select_tab_record_tab_btn, "all", "record"); // 记录
+        // initSelectTag(R.id.select_tab_event_tab_btn, "all", "event"); // 事件
     }
 
     /**
@@ -66,16 +79,67 @@ public class SelectTabActivity extends AppCompatActivity {
          */
         LayoutInflater inflater = getLayoutInflater(); // 调用Activity的getLayoutInflater() 获得 LayoutInflater 实例
 
-        // 从服务器初始化数据
-        // initData();
-        mData.add(new Tab("张三", false));
-        mData.add(new Tab("张三", false));
-        mData.add(new Tab("张三", false));
-        mData.add(new Tab("张三", false));
+        // 注册 RxAndroid 进行页面通信
+        Observer<Consequent> observer = new Observer<Consequent>() {
+            @Override
+            public void onSubscribe(Disposable d) { /** 不需要处理 */}
+            @Override
+            public void onNext(Consequent value) {
+                Log.d("注册 RxAndroid 进行页面通信", value.getJsonStringMessage());
 
-        adapter = new TabArrayAdapter(inflater, mData);
+                if (value.getResult() == 1930) {
+                    submitConfirm(value.getData().getString("name"));
+                }
+            }
+            @Override
+            public void onError(Throwable e) {/** 暂不处理 */}
+            @Override
+            public void onComplete() { /** 不需要处理 */}
+        };
+
+        adapter = new TabArrayAdapter(inflater, mData, observer);
 
         myListView.setAdapter(adapter);
+
+        initData();
+    }
+
+    // 从服务器初始化数据
+    public void initData() {
+
+        Observer<Consequent> observer = new Observer<Consequent>() {
+            @Override
+            public void onSubscribe(Disposable d) {/* 不需要操作*/ }
+
+            @Override
+            public void onNext(Consequent value) {
+                Log.d("加载页面数据", value.getJsonStringMessage());
+
+                if (value.getResult() == 1) {
+
+                    JSONArray dataList = value.getData().getJSONArray("list");
+
+                    Log.d("dataList", dataList.toJSONString());
+
+                    for (int i = 0; i < dataList.size(); i++) {
+                        JSONObject item = JSONObject.parseObject(JSON.toJSONString(dataList.get(i)));
+
+                        mData.add(new Tab(item.getIntValue("tagid"), item.getString("tagname"), false));
+                    }
+                }
+
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onError(Throwable e) { /* 暂不实现*/ }
+
+            @Override
+            public void onComplete() {/* 不需要操作*/}
+        };
+
+        RxGet httpRxGet = new RxGet(mContext, "/android/recordevent/tag/get/", "");
+        httpRxGet.observable().subscribe(observer);
     }
 
     /**
@@ -117,36 +181,36 @@ public class SelectTabActivity extends AppCompatActivity {
     }
 
     /**
-     * 初始化 删除标签
+     * 初始化 删除标签 (不需要实现
      * ListView数据动态刷新: https://blog.csdn.net/cshichao/article/details/9333497
      */
-    public void initDelTag() {
-        LinearLayout delTabView = findViewById(R.id.delTabView);
-
-        delTabView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View thisView) {
-                isDelete = !isDelete;
-
-                for (int index = 0; index < mData.size(); index++) {
-                    mData.get(index).setDelete(isDelete);
-                }
-
-                adapter.notifyDataSetChanged();
-            }
-        });
-    }
+    //public void initDelTag() {
+    //    LinearLayout delTabView = findViewById(R.id.delTabView);
+    //
+    //    delTabView.setOnClickListener(new View.OnClickListener() {
+    //        @Override
+    //        public void onClick(View thisView) {
+    //            isDelete = !isDelete;
+    //
+    //            for (int index = 0; index < mData.size(); index++) {
+    //                mData.get(index).setDelete(isDelete);
+    //            }
+    //
+    //            adapter.notifyDataSetChanged();
+    //        }
+    //    });
+    //}
 
     /**
      * 初始化 通用标签
      */
-    public void initSelectTag(int id, final String tag, final String type) {
+    public void initSelectTag(int id, final String tag) {
         LinearLayout allTabBtn = findViewById(id);
 
         allTabBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View thisView) {
-                submitConfirm(tag, type);
+                submitConfirm(tag);
             }
         });
     }
@@ -154,10 +218,9 @@ public class SelectTabActivity extends AppCompatActivity {
     /**
      * 返回上一页
      */
-    public void submitConfirm(String tag, String type) {
+    public void submitConfirm(String tag) {
         Intent intent = new Intent();
         intent.putExtra("tag", tag);
-        intent.putExtra("type", type);
         setResult(20132, intent); // 代码是固定的
         finish();
     }

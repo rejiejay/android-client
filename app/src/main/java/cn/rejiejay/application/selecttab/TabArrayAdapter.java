@@ -5,12 +5,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
+import com.alibaba.fastjson.JSONObject;
 import com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView;
 
 import java.util.List;
 
 import cn.rejiejay.application.R;
+import cn.rejiejay.application.utils.Consequent;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.Observer;
 
 /**
  * 自定义Adapter，创建一个类继承BaseAdapter。
@@ -23,13 +30,17 @@ import cn.rejiejay.application.R;
  */
 public class TabArrayAdapter extends BaseAdapter {
 
+    // RxAndroid 进行页面通信
+    private Observer<Consequent> observer;
+
     private List<Tab> mData; // 定义数据
     private LayoutInflater mInflater; // 定义Inflater,加载我们自定义的布局。
 
-    // 构造函数，在Activity创建对象Adapter的时候将数据data和Inflater传入自定义的Adapter中进行处理。
-    public TabArrayAdapter(LayoutInflater inflater, List<Tab> data) {
+    // 构造函数 （在Activity创建对象Adapter的时候将数据data和Inflater传入自定义的Adapter中进行处理。
+    public TabArrayAdapter(LayoutInflater inflater, List<Tab> data, Observer<Consequent> observer) {
         mData = data;
         mInflater = inflater;
+        this.observer = observer;
     }
 
     @Override
@@ -37,19 +48,28 @@ public class TabArrayAdapter extends BaseAdapter {
         // 获得ListView中的view
         View viewTab = mInflater.inflate(R.layout.selecttab_item, null);
 
+        initPageDate(position, viewTab); // 初始化页面
+
+        initConfirmSubmit(position, viewTab); // 初始点击
+
+        return viewTab;
+    }
+
+    // 初始化页面
+    private void initPageDate(int position, View viewTab) {
         // 获得标签对象
         Tab myTab = mData.get(position);
-//        myTab.getImage();
 
         // 获得自定义布局中每一个控件的对象
         QMUISpanTouchFixTextView tabName = viewTab.findViewById(R.id.tab_item_name);
         ImageView tabAddImageView = viewTab.findViewById(R.id.tab_add_icon);
         ImageView tabDelImageView = viewTab.findViewById(R.id.tab_del_icon);
 
-
         // 将数据添加到自定义的布局中。
         tabName.setText(myTab.getName());
-        if (myTab.getDelete()) { // 判断是否删除
+
+        // 删除功能(废弃
+        if (myTab.getDelete()) {
             tabAddImageView.setVisibility(View.INVISIBLE);
             tabDelImageView.setVisibility(View.VISIBLE);
         } else {
@@ -57,7 +77,33 @@ public class TabArrayAdapter extends BaseAdapter {
             tabDelImageView.setVisibility(View.INVISIBLE);
         }
 
-        return viewTab;
+    }
+
+    // 初始点击
+    private void initConfirmSubmit(int position, View viewTab) {
+        final Tab myTab = mData.get(position);
+
+        RelativeLayout mainBtn = viewTab.findViewById(R.id.tab_item_main);
+
+        mainBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View thisView) {
+
+                Observable.create(new ObservableOnSubscribe<Consequent>() {
+                    @Override
+                    public void subscribe(ObservableEmitter<Consequent> thisEmitter) {
+                        Consequent consequent = new Consequent();
+                        JSONObject selectedData = new JSONObject();
+                        selectedData.put("id", myTab.getId());
+                        selectedData.put("name", myTab.getName());
+                        consequent.setData(selectedData).setResult(1930);
+                        thisEmitter.onNext(consequent);
+                        thisEmitter.onComplete();
+                    }
+                }).subscribe(observer);
+
+            }
+        });
     }
 
     @Override

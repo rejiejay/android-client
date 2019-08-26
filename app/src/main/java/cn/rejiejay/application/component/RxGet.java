@@ -176,7 +176,8 @@ public class RxGet extends HTTP {
                 reader.close();
 
             } else {
-                cancelProgressDialog();
+                // 因为是子线程，所以不能执行UI操作
+                // cancelProgressDialog();
                 msg.what = 2;
                 msg.obj = connection.getResponseMessage();
                 handler.sendMessage(msg);
@@ -185,7 +186,8 @@ public class RxGet extends HTTP {
             connection.disconnect();
 
         } catch (Exception e) {
-            cancelProgressDialog();
+            // 因为是子线程，所以不能执行UI操作
+            // cancelProgressDialog();
             msg.what = 3;
             msg.obj = e;
             handler.sendMessage(msg);
@@ -270,8 +272,8 @@ public class RxGet extends HTTP {
 
             Consequent consequent = new Consequent();
 
-            cancelProgressDialog();
-            showErrorModal(mContext, "主动刷新token失败,原因创建签名出错", message);
+            // cancelProgressDialog(); 因为是子线程，所以不能执行UI操作
+            // showErrorModal(mContext, "主动刷新token失败,原因创建签名出错", message);
             emitter.onNext(consequent.setMessage(message));
             emitter.onComplete();
             return;
@@ -320,8 +322,9 @@ public class RxGet extends HTTP {
 
                 // 判断JSON格式是否有误
                 if (!isJSONValid(responsebody)) {
-                    cancelProgressDialog();
-                    showErrorModal(mContext, "服务器数据错误", "JSON格式有误");
+                    // 因为是子线程，所以不能执行UI操作
+                    // cancelProgressDialog();
+                    // showErrorModal(mContext, "服务器数据错误", "JSON格式有误");
                     emitter.onError(new Throwable(responsebody));
                     return;
                 }
@@ -343,10 +346,11 @@ public class RxGet extends HTTP {
                     rxGetThread(); // 再执行一次请求
 
                 } else {
-                    cancelProgressDialog();
+                    // 因为是子线程，所以不能执行UI操作
+                    // cancelProgressDialog();
+                    // showErrorModal(mContext, "主动刷新token失败", mag);
 
                     Consequent consequent = new Consequent();
-                    showErrorModal(mContext, "主动刷新token失败", mag);
                     emitter.onNext(consequent.setMessage(mag));
                     emitter.onComplete();
                 }
@@ -358,8 +362,9 @@ public class RxGet extends HTTP {
 
                 Consequent consequent = new Consequent();
 
-                cancelProgressDialog();
-                showErrorModal(mContext, "主动刷新token失败，数据有误", message);
+                // 因为是子线程，所以不能执行UI操作
+                // cancelProgressDialog();
+                // showErrorModal(mContext, "主动刷新token失败，数据有误", message);
                 emitter.onNext(consequent.setMessage(message));
                 emitter.onComplete();
             }
@@ -371,8 +376,9 @@ public class RxGet extends HTTP {
 
             Consequent consequent = new Consequent();
 
-            cancelProgressDialog();
-            showErrorModal(mContext, "主动刷新token失败, 原因创建签名出错", message);
+            // 因为是子线程，所以不能执行UI操作
+            // cancelProgressDialog();
+            // showErrorModal(mContext, "主动刷新token失败, 原因创建签名出错", message);
             emitter.onNext(consequent.setMessage(message));
             emitter.onComplete();
 

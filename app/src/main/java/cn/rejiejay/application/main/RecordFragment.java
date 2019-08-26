@@ -131,9 +131,7 @@ public class RecordFragment extends Fragment {
         // 注册 RxAndroid 进行页面通信
         Observer<Consequent> observer = new Observer<Consequent>() {
             @Override
-            public void onSubscribe(Disposable d) {
-            }
-
+            public void onSubscribe(Disposable d) { /** 不需要处理 */}
             @Override
             public void onNext(Consequent value) {
                 Intent intent = new Intent();
@@ -163,14 +161,10 @@ public class RecordFragment extends Fragment {
                         break;
                 }
             }
-
             @Override
-            public void onError(Throwable e) {
-            }
-
+            public void onError(Throwable e) {/** 暂不处理 */}
             @Override
-            public void onComplete() {
-            }
+            public void onComplete() { /** 不需要处理 */}
         };
 
         mAdapter = new RecordListAdapter(mContext, listViewComponent, listData, observer);
@@ -183,8 +177,7 @@ public class RecordFragment extends Fragment {
     public void initPageData() {
         Observer<Consequent> observer = new Observer<Consequent>() {
             @Override
-            public void onSubscribe(Disposable d) {
-            }
+            public void onSubscribe(Disposable d) {/* 不需要操作*/ }
 
             @Override
             public void onNext(Consequent value) {
@@ -245,13 +238,10 @@ public class RecordFragment extends Fragment {
             }
 
             @Override
-            public void onError(Throwable e) {
-                // 弹出重新加载（暂不实现
-            }
+            public void onError(Throwable e) { /* 暂不实现*/ }
 
             @Override
-            public void onComplete() {
-            }
+            public void onComplete() {/* 不需要操作*/}
         };
 
         String url = "/android/recordevent/list?sort=" + sort + "&pageNo=" + pageNo;
@@ -456,10 +446,17 @@ public class RecordFragment extends Fragment {
             case 20132:
                 String tag = data.getStringExtra("tag");
                 if (tag != null && tag.length() > 0) {
-                    sortTag = tag;
-                }
 
-                initPageData();
+                    if (tag.equals("all")) {
+                        sortTag = "";
+                        tabBtn.setText("标签");
+                    } else {
+                        sortTag = tag;
+                        tabBtn.setText(tag);
+                    }
+
+                    initPageData();
+                }
 
                 break;
 

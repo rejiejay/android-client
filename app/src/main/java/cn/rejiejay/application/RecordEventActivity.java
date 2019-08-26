@@ -332,10 +332,149 @@ public class RecordEventActivity extends AppCompatActivity {
 
     // 初始化 确认
     private void initConfirmSubmit() {
+        class Submit {
+            Submit(Boolean isEdit) {
+                if (isEdit) {
+                    editRecordData();
+                } else {
+                    addRecordData();
+                }
+            }
+
+            // 新增记录
+            private void addRecordData() {
+                JSONObject submitData = new JSONObject();
+                DateFormat thisDate = new DateFormat();
+
+                // 获取标签
+                submitData.put("tag", Tab);
+
+                // 获取时间戳
+                submitData.put("timestamp", new Date().getTime());
+
+                // 年
+                submitData.put("fullyear", thisDate.getFullYear());
+
+                // 月
+                submitData.put("month", thisDate.getMonth());
+
+                // 日
+                submitData.put("week", thisDate.getWeekInMonth());
+
+                // 图片
+                if (imageidentity != null && imageidentity.length() > 0) {
+                    submitData.put("imageidentity", imageidentity);
+                }
+
+                // 标题
+                String recordtitle = recordTitleEdit.getText().toString();
+                if (recordtitle.equals("") || recordtitle.length() == 0) {
+                    recordtitle = thisDate.getYYmmDDww();
+                }
+                submitData.put("recordtitle", recordtitle);
+
+                // 素材
+                submitData.put("recordmaterial", recordThoughtEdit.getText().toString());
+
+                // 内容
+                String recordcontentStr = recordContentEdit.getText().toString();
+                if (recordcontentStr.equals("") || recordcontentStr.length() == 0) {
+                    UIoperate.showErrorModal(mContext, "提示", "内容不能为空");
+                    return;
+                }
+                submitData.put("recordcontent", recordcontentStr);
+
+                Log.d("submitData", submitData.toJSONString());
+
+                Observer<Consequent> observer = new Observer<Consequent>() {
+                    @Override
+                    public void onSubscribe(Disposable d) { /* 不需要其他操作 */ }
+
+                    @Override
+                    public void onNext(Consequent value) {
+                        if (value.getResult() == 1) {
+                            Intent intent = new Intent();
+                            setResult(32201, intent);
+                            finish();
+                        } else { /* 暂不实现 */ }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) { /* 暂不实现 */ }
+
+                    @Override
+                    public void onComplete() { /* 不需要其他操作 */ }
+                };
+
+                RxPost httpRxGet = new RxPost(mContext, "/android/record/add", submitData.toJSONString());
+                httpRxGet.observable().subscribe(observer);
+            }
+
+            // 新增记录
+            private void editRecordData() {
+                JSONObject submitData = new JSONObject();
+                DateFormat thisDate = new DateFormat();
+
+                submitData.put("androidid", androidid);
+
+                // 标签
+                submitData.put("tag", Tab);
+
+                // 图片
+                if (imageidentity != null && imageidentity.length() > 0) {
+                    submitData.put("imageidentity", imageidentity);
+                }
+
+                // 标题
+                String recordtitle = recordTitleEdit.getText().toString();
+                if (recordtitle.equals("") || recordtitle.length() == 0) {
+                    recordtitle = thisDate.getYYmmDDww();
+                }
+                submitData.put("recordtitle", recordtitle);
+
+                // 素材
+                submitData.put("recordmaterial", recordThoughtEdit.getText().toString());
+
+                // 内容
+                String recordcontentStr = recordContentEdit.getText().toString();
+                if (recordcontentStr.equals("") || recordcontentStr.length() == 0) {
+                    UIoperate.showErrorModal(mContext, "提示", "内容不能为空");
+                    return;
+                }
+                submitData.put("recordcontent", recordcontentStr);
+
+                Log.d("editRecordData", submitData.toJSONString());
+
+                Observer<Consequent> observer = new Observer<Consequent>() {
+                    @Override
+                    public void onSubscribe(Disposable d) { /* 不需要其他操作 */ }
+
+                    @Override
+                    public void onNext(Consequent value) {
+                        if (value.getResult() == 1) {
+                            Intent intent = new Intent();
+                            setResult(32201, intent);
+                            finish();
+                        } else { /* 暂不实现 */ }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) { /* 暂不实现 */ }
+
+                    @Override
+                    public void onComplete() { /* 不需要其他操作 */ }
+                };
+
+                RxPost httpRxGet = new RxPost(mContext, "/android/record/edit", submitData.toJSONString());
+                httpRxGet.observable().subscribe(observer);
+            }
+        }
+
+
         recordConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View thisView) {
-                recordDataSubmit();
+                new Submit(isEdit);
             }
         });
 
@@ -356,81 +495,5 @@ public class RecordEventActivity extends AppCompatActivity {
 //            }
 //        });
 
-    }
-
-    // 新增记录
-    private void recordDataSubmit() {
-        JSONObject submitData = new JSONObject();
-        DateFormat thisDate = new DateFormat();
-
-        // 获取标签
-        submitData.put("tag", Tab);
-
-        // 获取时间戳
-        submitData.put("timestamp", new Date().getTime());
-
-        // 年
-        submitData.put("fullyear", thisDate.getFullYear());
-
-        // 月
-        submitData.put("month", thisDate.getMonth());
-
-        // 日
-        submitData.put("week", thisDate.getWeekInMonth());
-
-        // 图片
-        if (previewRecordImageImageSrc != null && previewRecordImageImageSrc.length() > 0) {
-            submitData.put("imageidentity", previewRecordImageImageSrc);
-        }
-
-        // 标题
-        String recordtitle = recordTitleEdit.getText().toString();
-        if (recordtitle.equals("") || recordtitle.length() == 0) {
-            recordtitle = thisDate.getYYmmDDww();
-        }
-        submitData.put("recordtitle", recordtitle);
-
-        // 素材
-        submitData.put("recordmaterial", recordThoughtEdit.getText().toString());
-
-        // 内容
-        String recordcontentStr = recordContentEdit.getText().toString();
-        if (recordcontentStr.equals("") || recordcontentStr.length() == 0) {
-            UIoperate.showErrorModal(mContext, "提示", "内容不能为空");
-            return;
-        }
-        submitData.put("recordcontent", recordcontentStr);
-
-        Log.d("submitData", submitData.toJSONString());
-
-        Observer<Consequent> observer = new Observer<Consequent>() {
-            @Override
-            public void onSubscribe(Disposable d) {
-            }
-
-            @Override
-            public void onNext(Consequent value) {
-                if (value.getResult() == 1) {
-                    Intent intent = new Intent();
-                    setResult(32201, intent);
-                    finish();
-                } else {
-                    // 弹出重新加载（暂不实现
-                }
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                // 弹出重新加载（暂不实现
-            }
-
-            @Override
-            public void onComplete() {
-            }
-        };
-
-        RxPost httpRxGet = new RxPost(mContext, "/android/record/add", submitData.toJSONString());
-        httpRxGet.observable().subscribe(observer);
     }
 }

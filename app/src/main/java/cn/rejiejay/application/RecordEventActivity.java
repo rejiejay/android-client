@@ -324,9 +324,17 @@ public class RecordEventActivity extends AppCompatActivity {
          * 这个是标签 选择
          */
         if (resultCode == 20132) {
-            String result = data.getStringExtra("tab");
-            Tab = result;
-            eventSelectTab.setText(result);
+
+            String tag = data.getStringExtra("tag");
+            if (tag != null && tag.length() > 0) {
+                if (tag.equals("all")) {
+                    Tab = "";
+                    eventSelectTab.setText("标签");
+                } else {
+                    Tab = tag;
+                    eventSelectTab.setText(tag);
+                }
+            }
         }
     }
 

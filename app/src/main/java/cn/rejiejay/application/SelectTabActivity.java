@@ -83,6 +83,7 @@ public class SelectTabActivity extends AppCompatActivity {
         Observer<Consequent> observer = new Observer<Consequent>() {
             @Override
             public void onSubscribe(Disposable d) { /** 不需要处理 */}
+
             @Override
             public void onNext(Consequent value) {
                 Log.d("注册 RxAndroid 进行页面通信", value.getJsonStringMessage());
@@ -91,8 +92,10 @@ public class SelectTabActivity extends AppCompatActivity {
                     submitConfirm(value.getData().getString("name"));
                 }
             }
+
             @Override
             public void onError(Throwable e) {/** 暂不处理 */}
+
             @Override
             public void onComplete() { /** 不需要处理 */}
         };
@@ -121,6 +124,7 @@ public class SelectTabActivity extends AppCompatActivity {
 
                     Log.d("dataList", dataList.toJSONString());
 
+                    mData.clear();
                     for (int i = 0; i < dataList.size(); i++) {
                         JSONObject item = JSONObject.parseObject(JSON.toJSONString(dataList.get(i)));
 
@@ -148,6 +152,33 @@ public class SelectTabActivity extends AppCompatActivity {
     public void initCreateNewTag() {
         LinearLayout createNewTabView = findViewById(R.id.createNewTab);
 
+        class CreateNewTag {
+            CreateNewTag(String editText) {
+
+                Observer<Consequent> observer = new Observer<Consequent>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {/* 不需要操作*/ }
+
+                    @Override
+                    public void onNext(Consequent value) {
+
+                        if (value.getResult() == 1) {
+                            initData();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) { /* 暂不实现*/ }
+
+                    @Override
+                    public void onComplete() {/* 不需要操作*/}
+                };
+
+                RxGet httpRxGet = new RxGet(mContext, "/android/recordevent/tag/add?", "tag=" + editText);
+                httpRxGet.observable().subscribe(observer);
+            }
+        }
+
         createNewTabView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View thisView) {
@@ -161,19 +192,21 @@ public class SelectTabActivity extends AppCompatActivity {
                 builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(SelectTabActivity.this, "你输入的是: " + edit.getText().toString(), Toast.LENGTH_SHORT).show();
+                        String editText = edit.getText().toString();
+                        if (editText.length() > 0) {
+                            new CreateNewTag(editText);
+                        } else {
+                            Toast.makeText(SelectTabActivity.this, "输入的标签不能为空 ", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
                 builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(SelectTabActivity.this, "你点了取消", Toast.LENGTH_SHORT).show();
-                    }
+                    public void onClick(DialogInterface dialog, int which) { /* 不作操作 */ }
                 });
                 builder.setCancelable(true);    // 设置按钮是否可以按返回键取消,false则不可以取消
                 final AlertDialog dialog = builder.create();  // 创建对话框
-                dialog.setCanceledOnTouchOutside(true); // 设置弹出框失去焦点是否隐藏,即点击屏蔽其它地方是否隐藏
-
+                dialog.setCanceledOnTouchOutside(true); // 设置弹出框失去焦点是否隐藏, 即点击屏蔽其它地方是否隐藏
                 dialog.show();
             }
         });

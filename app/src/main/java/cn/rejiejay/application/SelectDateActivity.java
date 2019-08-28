@@ -270,8 +270,8 @@ public class SelectDateActivity extends AppCompatActivity {
     public void submitConfirm(String name, long minTimestamp, long maxTimestamp) {
         Intent intent = new Intent();
         intent.putExtra("name", name);
-        intent.putExtra("name", minTimestamp);
-        intent.putExtra("name", maxTimestamp);
+        intent.putExtra("minTimestamp", minTimestamp);
+        intent.putExtra("maxTimestamp", maxTimestamp);
         setResult(20133, intent); // 代码是固定的
         finish();
     }

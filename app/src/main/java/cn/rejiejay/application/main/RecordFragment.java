@@ -134,6 +134,7 @@ public class RecordFragment extends Fragment {
         Observer<Consequent> observer = new Observer<Consequent>() {
             @Override
             public void onSubscribe(Disposable d) { /** 不需要处理 */}
+
             @Override
             public void onNext(Consequent value) {
                 Intent intent = new Intent();
@@ -163,8 +164,10 @@ public class RecordFragment extends Fragment {
                         break;
                 }
             }
+
             @Override
             public void onError(Throwable e) {/** 暂不处理 */}
+
             @Override
             public void onComplete() { /** 不需要处理 */}
         };
@@ -254,6 +257,15 @@ public class RecordFragment extends Fragment {
 
         if (!sortTag.equals("all")) {
             url += "&tag=" + sortTag;
+        }
+
+        /*
+         * 判断是否日期选择
+         */
+        if (minTimestamp > 0 && maxTimestamp > 0) {
+            url = "/android/recordevent/getbytime?pageNo=" + pageNo
+                    + "&minTimestamp=" + minTimestamp
+                    + "&maxTimestamp=" + maxTimestamp;
         }
 
         RxGet httpRxGet = new RxGet(mContext, url, "");
@@ -473,12 +485,16 @@ public class RecordFragment extends Fragment {
                     dateBtn.setText(name);
                     minTimestamp = thisMinTimestamp;
                     maxTimestamp = thisMaxTimestamp;
+                    isAdd = false;
+                    int pageNo = 1;
                     initPageData();
 
                 } else {
                     dateBtn.setText("日期");
                     minTimestamp = 0;
                     maxTimestamp = 0;
+                    isAdd = false;
+                    int pageNo = 1;
                     initPageData();
                 }
 

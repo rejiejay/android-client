@@ -1,9 +1,12 @@
 package cn.rejiejay.application;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.alibaba.fastjson.JSONArray;
@@ -36,6 +39,7 @@ public class SelectDateActivity extends AppCompatActivity {
         mContext = this;
 
         initTreeNode(); // 初始化节点
+        initSelectAll(); // 初始化选择全部
     }
 
     /**
@@ -45,66 +49,34 @@ public class SelectDateActivity extends AppCompatActivity {
     public void initTreeNode() {
         ListView mListView = findViewById(R.id.data_tree_node);
 
-        mAdapter = new NodeTreeAdapter(this, mListView, mLinkedList);
+        // 注册 RxAndroid 进行页面通信
+        Observer<Consequent> observer = new Observer<Consequent>() {
+            @Override
+            public void onSubscribe(Disposable d) { /* 不需要处理 */}
+
+            @Override
+            public void onNext(Consequent value) {
+                Log.d("注册 RxAndroid 进行页面通信", value.getJsonStringMessage());
+                if (value.getResult() == 1) {
+                    JSONObject thisData = value.getData();
+                    String name = thisData.getString("name");
+                    long minTimestamp = thisData.getLongValue("minTimestamp");
+                    long maxTimestamp = thisData.getLongValue("maxTimestamp");
+                    submitConfirm(name, minTimestamp, maxTimestamp);
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {/* 暂不处理 */}
+
+            @Override
+            public void onComplete() { /* 不需要处理 */}
+        };
+
+        mAdapter = new NodeTreeAdapter(this, mListView, mLinkedList, observer);
         mListView.setAdapter(mAdapter);
 
         getStatisticData(); // 获取统计数据
-    }
-
-    /**
-     * 初始化数据
-     */
-    private void initData() {
-        List<Node> data = new ArrayList<>();
-        addOne(data);
-        mLinkedList.addAll(NodeHelper.sortNodes(data));
-        mAdapter.notifyDataSetChanged();
-    }
-
-
-    private void addOne(List<Node> data) {
-        data.add(new Dept(1, 0, "总公司"));//可以直接注释掉此项，即可构造一个森林
-        data.add(new Dept(2, 1, "一级部一级部门一级部门一级部门门级部门一级部门级部门一级部门一级部门门级部一级"));
-        data.add(new Dept(3, 1, "一级部门"));
-        data.add(new Dept(4, 1, "一级部门"));
-
-        data.add(new Dept(222, 5, "二级部门--测试1"));
-        data.add(new Dept(223, 5, "二级部门--测试2"));
-
-        data.add(new Dept(5, 1, "一级部门"));
-
-        data.add(new Dept(224, 5, "二级部门--测试3"));
-        data.add(new Dept(225, 5, "二级部门--测试4"));
-
-        data.add(new Dept(6, 1, "一级部门"));
-        data.add(new Dept(7, 1, "一级部门"));
-        data.add(new Dept(8, 1, "一级部门"));
-        data.add(new Dept(9, 1, "一级部门"));
-        data.add(new Dept(10, 1, "一级部门"));
-
-        for (int i = 2; i <= 10; i++) {
-            for (int j = 0; j < 10; j++) {
-                data.add(new Dept(1 + (i - 1) * 10 + j, i, "二级部门" + j));
-            }
-        }
-
-        for (int i = 0; i < 5; i++) {
-            data.add(new Dept(101 + i, 11, "三级部门" + i));
-        }
-
-        for (int i = 0; i < 5; i++) {
-            data.add(new Dept(106 + i, 22, "三级部门" + i));
-        }
-        for (int i = 0; i < 5; i++) {
-            data.add(new Dept(111 + i, 33, "三级部门" + i));
-        }
-        for (int i = 0; i < 5; i++) {
-            data.add(new Dept(115 + i, 44, "三级部门" + i));
-        }
-
-        for (int i = 0; i < 5; i++) {
-            data.add(new Dept(401 + i, 101, "四级部门" + i));
-        }
     }
 
     // 获取统计数据
@@ -269,10 +241,38 @@ public class SelectDateActivity extends AppCompatActivity {
             int id = item.getIntValue("id");
             int parentId = item.getIntValue("parentId");
             String name = item.getString("name");
-            data.add(new Dept(id, parentId, name));
+            long minTimestamp = item.getLongValue("minTimestamp");
+            long maxTimestamp = item.getLongValue("maxTimestamp");
+            data.add(new Dept(id, parentId, name, minTimestamp, maxTimestamp));
         }
 
         mLinkedList.addAll(NodeHelper.sortNodes(data));
         mAdapter.notifyDataSetChanged();
+    }
+
+    /**
+     * 保存并返回上一页
+     */
+    public void initSelectAll() {
+        LinearLayout selectAll = findViewById(R.id.select_date_select_all);
+
+        selectAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                submitConfirm("", 0, 0);
+            }
+        });
+    }
+
+    /**
+     * 保存并返回上一页
+     */
+    public void submitConfirm(String name, long minTimestamp, long maxTimestamp) {
+        Intent intent = new Intent();
+        intent.putExtra("name", name);
+        intent.putExtra("name", minTimestamp);
+        intent.putExtra("name", maxTimestamp);
+        setResult(20133, intent); // 代码是固定的
+        finish();
     }
 }

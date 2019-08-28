@@ -96,4 +96,14 @@ public abstract class Node<T> {
         return _childrenList.size() <= 0;
     }
 
+    @Override
+    public String toString() {
+        return "Node{" +
+                "_level=" + _level +
+                ", _childrenList=" + _childrenList +
+                ", _parent=" + _parent +
+                ", _icon=" + _icon +
+                ", isExpand=" + isExpand +
+                '}';
+    }
 }

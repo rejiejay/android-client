@@ -9,17 +9,21 @@ package cn.rejiejay.application.selectdate;
  */
 public class Dept extends Node<Integer> {
 
-    private int id;//部门ID
-    private int parentId;//父亲节点ID
-    private String name;//部门名称
+    private int id; // 日期唯一标识
+    private int parentId; // 父亲节点ID
+    private String name; // 日期名称
+    private long minTimestamp; // 最小 时间戳
+    private long maxTimestamp; // 最大 时间戳
 
     public Dept() {
     }
 
-    public Dept(int id, int parentId, String name) {
+    public Dept(int id, int parentId, String name, long minTimestamp, long maxTimestamp) {
         this.id = id;
         this.parentId = parentId;
         this.name = name;
+        this.minTimestamp = minTimestamp;
+        this.maxTimestamp = maxTimestamp;
     }
 
     /**
@@ -85,5 +89,32 @@ public class Dept extends Node<Integer> {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public long getMinTimestamp() {
+        return minTimestamp;
+    }
+
+    public void setMinTimestamp(long minTimestamp) {
+        this.minTimestamp = minTimestamp;
+    }
+
+    public long getMaxTimestamp() {
+        return maxTimestamp;
+    }
+
+    public void setMaxTimestamp(long maxTimestamp) {
+        this.maxTimestamp = maxTimestamp;
+    }
+
+    @Override
+    public String toString() {
+        return "Dept{" +
+                "id=" + id +
+                ", parentId=" + parentId +
+                ", name='" + name + '\'' +
+                ", minTimestamp=" + minTimestamp +
+                ", maxTimestamp=" + maxTimestamp +
+                '}';
     }
 }

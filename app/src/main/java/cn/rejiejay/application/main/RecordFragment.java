@@ -59,6 +59,8 @@ public class RecordFragment extends Fragment {
     public String sort = "time"; // 目前2种排序 random 默认 time
     public String sortType = "all"; // 目前3种排序 record event 默认 all
     public String sortTag = "all"; // 默认 all
+    public long minTimestamp = 0; // 时间戳排序
+    public long maxTimestamp = 0;
 
     @Nullable
     @Override
@@ -386,7 +388,7 @@ public class RecordFragment extends Fragment {
     }
 
     /**
-     * 跳转到 标签选择页面
+     * 跳转到 日期选择页面
      */
     public void jumpToSelectDateActivity() {
         dateBtn.setOnClickListener(new View.OnClickListener() {
@@ -455,6 +457,28 @@ public class RecordFragment extends Fragment {
                         tabBtn.setText(tag);
                     }
 
+                    initPageData();
+                }
+
+                break;
+
+            // 日期 选择
+            case 20133:
+                String name = data.getStringExtra("name");
+                long thisMinTimestamp = data.getLongExtra("minTimestamp", 0);
+                long thisMaxTimestamp = data.getLongExtra("maxTimestamp", 0);
+
+                // 判断是否选择全部
+                if (thisMinTimestamp > 0 && thisMaxTimestamp > 0) {
+                    dateBtn.setText(name);
+                    minTimestamp = thisMinTimestamp;
+                    maxTimestamp = thisMaxTimestamp;
+                    initPageData();
+
+                } else {
+                    dateBtn.setText("日期");
+                    minTimestamp = 0;
+                    maxTimestamp = 0;
                     initPageData();
                 }
 

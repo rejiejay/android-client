@@ -8,7 +8,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Html;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -24,10 +24,14 @@ import com.luck.picture.lib.entity.LocalMedia;
 import com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
 
 import cn.rejiejay.application.component.RxPost;
+import cn.rejiejay.application.component.RxUpload;
 import cn.rejiejay.application.utils.Consequent;
 import cn.rejiejay.application.utils.DateFormat;
 import cn.rejiejay.application.utils.UIoperate;
@@ -282,41 +286,33 @@ public class RecordEventActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == RESULT_OK) {
-            switch (requestCode) {
-                /**
-                 * 这个是选择图片的
-                 */
-                case PictureConfig.CHOOSE_REQUEST:
-                    // 图片、视频、音频选择结果回调
-                    List<LocalMedia> selectList = PictureSelector.obtainMultipleResult(data);
-                    // 例如 LocalMedia 里面返回三种path
-                    // 1.media.getPath(); 为原图path
-                    // 2.media.getCutPath();为裁剪后path，需判断media.isCut();是否为true  注意：音视频除外
-                    // 3.media.getCompressPath();为压缩后path，需判断media.isCompressed();是否为true  注意：音视频除外
-                    // 如果裁剪并压缩了，以取压缩路径为准，因为是先裁剪后压缩的
+        if (resultCode == RESULT_OK && requestCode == PictureConfig.CHOOSE_REQUEST) {
+            // 图片、视频、音频选择结果回调
+            List<LocalMedia> selectList = PictureSelector.obtainMultipleResult(data);
+            // 例如 LocalMedia 里面返回三种path
+            // 1.media.getPath(); 为原图path
+            // 2.media.getCutPath();为裁剪后path，需判断media.isCut();是否为true  注意：音视频除外
+            // 3.media.getCompressPath();为压缩后path，需判断media.isCompressed();是否为true  注意：音视频除外
+            // 如果裁剪并压缩了，以取压缩路径为准，因为是先裁剪后压缩的
 
-                    /**
-                     * 结果必须要大于零
+            /*
+             * 结果必须要大于零
+             */
+            if (selectList.size() > 0) {
+                LocalMedia media = selectList.get(0);
+                previewRecordImageImageSrc = media.getPath();
+                if (previewRecordImageImageSrc != null) {
+
+                    /*
+                     * 缓存清除
+                     * 包括裁剪和压缩后的缓存，要在上传成功后调用
                      */
-                    if (selectList.size() > 0) {
-                        LocalMedia media = selectList.get(0);
-                        previewRecordImageImageSrc = media.getPath();
-                        if (previewRecordImageImageSrc != null) {
-
-                            /**
-                             * 缓存清除
-                             * 包括裁剪和压缩后的缓存，要在上传成功后调用
-                             *
-                             */
-                            previewRecordImage.setImageURI(Uri.fromFile(new File(previewRecordImageImageSrc)));
-                            previewRecordImage.setVisibility(View.VISIBLE);
-                            // PictureFileUtils.deleteCacheDirFile(MainActivity.this);
-                            // Log.d("media", media.getPath());
-                        }
-                    }
-
-                    break;
+                    previewRecordImage.setImageURI(Uri.fromFile(new File(previewRecordImageImageSrc)));
+                    previewRecordImage.setVisibility(View.VISIBLE);
+                    uploadImageByBase64(previewRecordImageImageSrc);
+                    // PictureFileUtils.deleteCacheDirFile(MainActivity.this);
+                    // Log.d("media", media.getPath());
+                }
             }
         }
 
@@ -503,5 +499,63 @@ public class RecordEventActivity extends AppCompatActivity {
 //            }
 //        });
 
+    }
+
+    private void uploadImageByBase64(String imagePath) {
+        String base64 = encodeBase64File(imagePath); // 将 文件地址 转为 base64位字符串
+
+        Observer<Consequent> observer = new Observer<Consequent>() {
+            @Override
+            public void onSubscribe(Disposable d) { /* 不需要处理 */}
+
+            @Override
+            public void onNext(Consequent value) {
+
+                if (value.getResult() == 1) {
+                    imageidentity = value.getData().getString("fileId");
+                } else {
+                    /* 报错操作暂不处理 */
+                }
+
+            }
+
+            @Override
+            public void onError(Throwable e) { /* 报错信息暂不处理 */ }
+
+            @Override
+            public void onComplete() { /* 不需要处理 */ }
+        };
+
+        RxUpload httpRxGet = new RxUpload(mContext, "/upload/", base64);
+        httpRxGet.observable().subscribe(observer);
+    }
+
+    /**
+     * 图片转为Base64位字符串
+     */
+    private String encodeBase64File(String path) {
+
+        String base64 = null;
+        InputStream in = null;
+        try {
+            in = new FileInputStream(path);
+            byte[] bytes = new byte[in.available()];
+            int length = in.read(bytes);
+            base64 = Base64.encodeToString(bytes, 0, length, Base64.DEFAULT);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } finally {
+            try {
+                if (in != null) {
+                    in.close();
+                }
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+
+        return base64;
     }
 }

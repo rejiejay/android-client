@@ -1,6 +1,7 @@
 package cn.rejiejay.application;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -29,6 +31,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -63,9 +66,15 @@ public class RecordEventActivity extends AppCompatActivity {
     private FancyButton recordConfirm;
     // 事件编辑
     private EditText eventCauseEdit;
+    private String eventCause = "";
     private EditText eventProcessEdit;
+    private String eventProcess = "";
     private EditText eventResultEdit;
+    private String eventResult = "";
     private EditText eventConclusionEdit;
+    private String eventConclusion = "";
+    private FancyButton datePicker;
+    private long eventTimestamp = 0;
     private FancyButton eventConfirm;
 
     // 页面状态
@@ -86,13 +95,18 @@ public class RecordEventActivity extends AppCompatActivity {
         initComponent(); // 初始化頁面组件
 
         initPageType(); // 根据 pageType 改变页面状态
-        initTopTab(); // 初始化 顶部
 
-        initSelectTab(); // 初始化选择分类
+        initTopTab(); // 顶部 切换
 
-        initUploadView(); // 初始化上传图片
+        initSelectTab(); // 选择分类
 
-        initConfirmSubmit(); // 初始化 确认
+        initUploadView(); // 上传图片
+
+        initRecordConfirmSubmit(); // 记录 确认
+
+        initDatePicker(); // 事件 日期选择
+
+        initEventConfirmSubmit(); // 事件 确认
     }
 
     /**
@@ -110,25 +124,26 @@ public class RecordEventActivity extends AppCompatActivity {
         recordTitleEdit = findViewById(R.id.record_event_record_edit_title);
         recordThoughtEdit = findViewById(R.id.record_event_record_edit_thought);
         recordContentEdit = findViewById(R.id.record_event_record_edit_content);
-        recordConfirm = findViewById(R.id.record_event_record_confirm);
         previewRecordImage = findViewById(R.id.preview_record_image);
+        recordConfirm = findViewById(R.id.record_event_record_confirm);
 
         // 事件编辑
         eventCauseEdit = findViewById(R.id.record_event_event_edit_cause);
         eventProcessEdit = findViewById(R.id.record_event_event_edit_process);
         eventResultEdit = findViewById(R.id.record_event_event_edit_result);
         eventConclusionEdit = findViewById(R.id.record_event_event_edit_conclusion);
-        eventConfirm = findViewById(R.id.record_event_event_confirm);
         previewEventImage = findViewById(R.id.preview_event_image);
+        datePicker = findViewById(R.id.record_event_event_date_picker);
+        eventConfirm = findViewById(R.id.record_event_event_confirm);
 
         // 从Intent当中根据key取得value
         if (intent != null) {
             pageType = intent.getStringExtra("type");
             isEdit = intent.getBooleanExtra("isEdit", false); // 获取失败默认就是否
 
-            String editRecordJsonStr = intent.getStringExtra("editRecordJSON");
-            if (editRecordJsonStr != null && editRecordJsonStr.length() > 0) {
-                JSONObject editRecordJSON = JSON.parseObject(editRecordJsonStr);
+            String editRecordEventJSONStr = intent.getStringExtra("editRecordEventJSON");
+            if (editRecordEventJSONStr != null && editRecordEventJSONStr.length() > 0) {
+                JSONObject editRecordJSON = JSON.parseObject(editRecordEventJSONStr);
 
                 androidid = editRecordJSON.getIntValue("androidid");
                 Tab = editRecordJSON.getString("tag");
@@ -136,21 +151,31 @@ public class RecordEventActivity extends AppCompatActivity {
                 // 加载图片
                 imageidentity = editRecordJSON.getString("imageidentity");
                 imageurl = editRecordJSON.getString("imageurl");
-                if (pageType.equals("record")) {
-                    Glide.with(mContext)
-                            .load(imageurl)
-                            .into(previewRecordImage);
-                    previewRecordImage.setVisibility(View.VISIBLE);
-                } else {
-                    Glide.with(mContext)
-                            .load(imageurl)
-                            .into(previewEventImage);
-                    previewEventImage.setVisibility(View.VISIBLE);
+                if (imageidentity != null && imageidentity.length() > 0) {
+                    if (pageType.equals("record")) {
+                        Glide.with(mContext)
+                                .load(imageurl)
+                                .into(previewRecordImage);
+                        previewRecordImage.setVisibility(View.VISIBLE);
+                    } else {
+                        Glide.with(mContext)
+                                .load(imageurl)
+                                .into(previewEventImage);
+                        previewEventImage.setVisibility(View.VISIBLE);
+                    }
                 }
 
+                // 记录
                 recordTitle = editRecordJSON.getString("recordtitle");
                 recordThought = editRecordJSON.getString("recordmaterial");
                 recordContent = editRecordJSON.getString("recordcontent");
+
+                // 事件
+                eventCause = editRecordJSON.getString("eventcause");
+                eventProcess = editRecordJSON.getString("eventprocess");
+                eventResult = editRecordJSON.getString("eventresult");
+                eventConclusion = editRecordJSON.getString("eventconclusion");
+                eventTimestamp = editRecordJSON.getLongValue("timestamp");
             }
         }
 
@@ -162,6 +187,16 @@ public class RecordEventActivity extends AppCompatActivity {
         recordTitleEdit.setText(recordTitle);
         recordThoughtEdit.setText(recordThought);
         recordContentEdit.setText(recordContent);
+
+        eventCauseEdit.setText(eventCause);
+        eventProcessEdit.setText(eventProcess);
+        eventResultEdit.setText(eventResult);
+        eventConclusionEdit.setText(eventConclusion);
+
+        if (eventTimestamp > 0) {
+            DateFormat thisDate = new DateFormat(new Date(eventTimestamp));
+            datePicker.setText(thisDate.getFullYear() + "-" + thisDate.getMonth() + "-" + thisDate.getDay() + "-" + thisDate.getWeekCn());
+        }
     }
 
     /**
@@ -235,6 +270,7 @@ public class RecordEventActivity extends AppCompatActivity {
      * https://github.com/LuckSiege/PictureSelector
      */
     private void initUploadView() {
+        // 记录
         FancyButton recordImageBtn = findViewById(R.id.record_event_record_image_btn);
 
         recordImageBtn.setOnClickListener(new View.OnClickListener() {
@@ -252,6 +288,25 @@ public class RecordEventActivity extends AppCompatActivity {
             }
         });
 
+        // 事件
+        FancyButton eventImageBtn = findViewById(R.id.record_event_event_image_btn);
+
+        eventImageBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View thisView) {
+                PictureSelector.create(RecordEventActivity.this)
+                        .openGallery(PictureMimeType.ofImage()) // 全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
+                        .maxSelectNum(1) // 最大图片选择数量 int
+                        .previewImage(true) // 是否可预览图片 true or false
+                        .isCamera(true) // 是否显示拍照按钮 true or false
+                        .compress(true) // 是否压缩 true or false
+                        .minimumCompressSize(300)// 小于300kb的图片不压缩
+                        .isGif(false) // 是否显示gif图片 true or false
+                        .forResult(PictureConfig.CHOOSE_REQUEST); // 结果回调onActivityResult code
+            }
+        });
+
+        // 删除
         previewRecordImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View thisView) {
@@ -269,6 +324,50 @@ public class RecordEventActivity extends AppCompatActivity {
                         imageidentity = "";
                         imageurl = null;
                         previewRecordImage.setVisibility(View.GONE);
+                    }
+                });
+                // 设置反面按钮
+                builder.setNegativeButton("不是", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                //对话框显示的监听事件
+                dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                    @Override
+                    public void onShow(DialogInterface dialog) {
+                    }
+                });
+                //对话框消失的监听事件
+                dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialog) {
+                    }
+                });
+                //显示对话框
+                dialog.show();
+            }
+        });
+
+        // 删除
+        previewEventImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View thisView) {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                builder.setTitle("删除");
+                builder.setMessage("你确定要删除这张图片?");
+                builder.setIcon(R.mipmap.ic_launcher_round);
+                // 点击对话框以外的区域是否让对话框消失
+                builder.setCancelable(true);
+                // 设置正面按钮
+                builder.setPositiveButton("是", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        imageidentity = "";
+                        imageurl = null;
+                        previewEventImage.setVisibility(View.GONE);
                     }
                 });
                 // 设置反面按钮
@@ -326,6 +425,8 @@ public class RecordEventActivity extends AppCompatActivity {
                      */
                     previewRecordImage.setImageURI(Uri.fromFile(new File(imageurl)));
                     previewRecordImage.setVisibility(View.VISIBLE);
+                    previewEventImage.setImageURI(Uri.fromFile(new File(imageurl)));
+                    previewEventImage.setVisibility(View.VISIBLE);
                     uploadImageByBase64(imageurl); // 上传
                 }
             }
@@ -349,8 +450,8 @@ public class RecordEventActivity extends AppCompatActivity {
         }
     }
 
-    // 初始化 确认
-    private void initConfirmSubmit() {
+    // 初始化 记录 确认
+    private void initRecordConfirmSubmit() {
         class Submit {
             Submit(Boolean isEdit) {
                 if (isEdit) {
@@ -429,7 +530,7 @@ public class RecordEventActivity extends AppCompatActivity {
                 httpRxGet.observable().subscribe(observer);
             }
 
-            // 新增记录
+            // 编辑记录
             private void editRecordData() {
                 JSONObject submitData = new JSONObject();
                 DateFormat thisDate = new DateFormat();
@@ -496,24 +597,6 @@ public class RecordEventActivity extends AppCompatActivity {
                 new Submit(isEdit);
             }
         });
-
-
-        // 事件
-//        FancyButton eventConfirm = findViewById(R.id.record_event_event_confirm);
-//
-//        final EditText eventEditThought = findViewById(R.id.record_event_edit_thought);
-//        eventEditThought.setText(Html.fromHtml("")); // Html 转为 EditText
-//
-//        eventConfirm.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View thisView) {
-//                /**
-//                 * 将 EditText 转为 Html
-//                 */
-//                String htmlString = Html.toHtml(eventEditThought.getText());
-//            }
-//        });
-
     }
 
     private void uploadImageByBase64(String imagePath) {
@@ -573,5 +656,137 @@ public class RecordEventActivity extends AppCompatActivity {
         }
 
         return base64;
+    }
+
+    /**
+     * 事件 日期选择
+     */
+    public void initDatePicker() {
+        datePicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View thisView) {
+                final Calendar calendar = Calendar.getInstance();
+                DatePickerDialog dialog = new DatePickerDialog(mContext,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                                eventTimestamp = DateFormat.getTimeByyyyyMMdd(year, month + 1, dayOfMonth);
+                                DateFormat thisDate = new DateFormat(new Date(eventTimestamp));
+                                datePicker.setText(thisDate.getFullYear() + "-" + thisDate.getMonth() + "-" + thisDate.getDay() + "-" + thisDate.getWeekCn());
+                            }
+                        },
+                        calendar.get(Calendar.YEAR),
+                        calendar.get(Calendar.MONTH),
+                        calendar.get(Calendar.DAY_OF_MONTH));
+                dialog.show();
+            }
+        });
+    }
+
+    // 初始化 事件 确认
+    private void initEventConfirmSubmit() {
+        class Submit {
+            Submit(Boolean isEdit) {
+                if (isEdit) {
+                    confirmSubmitData("edit");
+                } else {
+                    confirmSubmitData("add");
+                }
+            }
+
+            private void confirmSubmitData(String submitType) {
+                JSONObject submitData = new JSONObject();
+                DateFormat thisDate;
+                if (eventTimestamp > 0) {
+                    thisDate = new DateFormat(new Date(eventTimestamp));
+                } else {
+                    thisDate = new DateFormat();
+                }
+
+                if (submitType.equals("edit")) {
+                    submitData.put("androidid", androidid);
+                }
+
+                // 获取时间戳
+                if (eventTimestamp > 0) {
+                    submitData.put("timestamp", eventTimestamp);
+                } else {
+                    submitData.put("timestamp", new Date().getTime());
+                }
+
+                // 年
+                submitData.put("fullyear", thisDate.getFullYear());
+
+                // 月
+                submitData.put("month", thisDate.getMonth());
+
+                // 日
+                submitData.put("week", thisDate.getWeekInMonth());
+
+                // 图片
+                if (imageidentity != null && imageidentity.length() > 0) {
+                    submitData.put("imageidentity", imageidentity);
+                }
+
+                // 起因
+                String eventCauseEditStr = eventCauseEdit.getText().toString();
+                if (eventCauseEditStr.equals("") || eventCauseEditStr.length() == 0) {
+                    UIoperate.showErrorModal(mContext, "提示", "起因不能为空");
+                    return;
+                }
+                submitData.put("eventcause", eventCauseEditStr);
+
+                // 过程
+                String eventProcessEditStr = eventProcessEdit.getText().toString();
+                if (eventProcessEditStr.equals("") || eventProcessEditStr.length() == 0) {
+                    UIoperate.showErrorModal(mContext, "提示", "过程不能为空");
+                    return;
+                }
+                submitData.put("eventprocess", eventCauseEditStr);
+
+                // 结果
+                String eventResultEditStr = eventResultEdit.getText().toString();
+                if (eventResultEditStr.equals("") || eventResultEditStr.length() == 0) {
+                    UIoperate.showErrorModal(mContext, "提示", "结果不能为空");
+                    return;
+                }
+                submitData.put("eventresult", eventResultEditStr);
+
+                // 结论
+                submitData.put("eventconclusion",  eventConclusionEdit.getText().toString());
+
+                Observer<Consequent> observer = new Observer<Consequent>() {
+                    @Override
+                    public void onSubscribe(Disposable d) { /* 不需要其他操作 */ }
+
+                    @Override
+                    public void onNext(Consequent value) {
+                        if (value.getResult() == 1) {
+                            Intent intent = new Intent();
+                            setResult(32202, intent);
+                            finish();
+                        } else { /* 暂不实现 */ }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) { /* 暂不实现 */ }
+
+                    @Override
+                    public void onComplete() { /* 不需要其他操作 */ }
+                };
+
+                Log.d("/android/event/" + submitType, submitData.toJSONString());
+
+                RxPost httpRxGet = new RxPost(mContext, "/android/event/" + submitType, submitData.toJSONString());
+                httpRxGet.observable().subscribe(observer);
+            }
+        }
+        eventConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View thisView) {
+                new Submit(isEdit);
+            }
+        });
+
     }
 }

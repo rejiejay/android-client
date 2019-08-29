@@ -150,16 +150,16 @@ public class RecordFragment extends Fragment {
                         // 在Intent对象当中添加一个键值对
                         intent.putExtra("type", "record");
                         intent.putExtra("isEdit", true);
-                        intent.putExtra("editRecordJSON", value.getData().toJSONString());
+                        intent.putExtra("editRecordEventJSON", value.getData().toJSONString());
                         startActivityForResult(intent, 32201);
                         break;
 
                     case 1933: // 1933 表示编辑 跳转到 编辑事件页面
 
                         // 在Intent对象当中添加一个键值对
-                        intent.putExtra("type", "record");
+                        intent.putExtra("type", "event");
                         intent.putExtra("isEdit", true);
-                        intent.putExtra("editEventJSON", value.getData().toJSONString());
+                        intent.putExtra("editRecordEventJSON", value.getData().toJSONString());
                         startActivityForResult(intent, 32202);
                         break;
                 }

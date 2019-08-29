@@ -1,5 +1,7 @@
 package cn.rejiejay.application.utils;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -77,5 +79,40 @@ public class DateFormat {
         String weekInMonth = String.valueOf(getWeekInMonth());
 
         return yy + "y " + mm + "月 " + dd + "d 第" + weekInMonth + "周 " + week;
+    }
+    
+    public static long getTimeByyyyyMMdd(int yyyy, int mm, int dd) {
+    	
+    	String dateString = "";
+    	
+    	dateString += String.valueOf(yyyy);
+    	
+    	dateString += "-";
+    	
+    	if (mm < 10) {
+    		dateString += "0";
+    		dateString += String.valueOf(mm);
+    	} else {
+    		dateString += String.valueOf(mm);
+    	}
+    	
+    	dateString += "-";
+    	
+    	if (dd < 10) {
+    		dateString += "0";
+    		dateString += String.valueOf(dd);
+    	} else {
+    		dateString += String.valueOf(dd);
+    	}
+    	
+		try {
+			Date date =  new SimpleDateFormat("yyyy-MM-dd").parse(dateString);
+
+			return date.getTime();
+			
+		} catch (ParseException e) {
+			// 一般都不会有错的
+			return new Date().getTime();
+		}
     }
 }

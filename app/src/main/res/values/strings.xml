@@ -60,6 +60,7 @@
     <string name="record_event_process">过程</string>
     <string name="record_event_result">结果</string>
     <string name="record_event_conclusion">结论-总结</string>
+    <string name="record_event_event_date_picker">选择时间</string>
 
     <!-- Components 系列界面 -->
     <string name="common_example">示例图片</string>

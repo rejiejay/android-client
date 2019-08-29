@@ -160,8 +160,12 @@ public class RecordListAdapter extends BaseAdapter {
         String type = item.getType();
 
         // String imgId = item.getImageidentity();
-        // String url = item.getImageurl();
-        String url = "https://rejiejay-1251940173.cos.ap-guangzhou.myqcloud.com/myweb/mobile-list/articles-1.png";
+        String url = item.getImageurl();
+        if (url == null || url.length() <= 0) {
+            holder.recordImage.setVisibility(View.GONE); // 为了解决高度自适应问题
+            holder.eventImage.setVisibility(View.GONE);
+            return;
+        }
         if (type.equals("record")) {
             holder.recordImage.setVisibility(View.VISIBLE); // 为了解决高度自适应问题
             holder.eventImage.setVisibility(View.GONE);

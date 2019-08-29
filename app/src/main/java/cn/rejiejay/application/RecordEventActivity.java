@@ -17,10 +17,12 @@ import android.widget.LinearLayout;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.bumptech.glide.Glide;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
+import com.luck.picture.lib.tools.PictureFileUtils;
 import com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView;
 
 import java.io.File;
@@ -45,8 +47,9 @@ public class RecordEventActivity extends AppCompatActivity {
     private int androidid;
     // 图片
     private String imageidentity = ""; // 图片唯一标识
-    private String previewRecordImageImageSrc = ""; // null 表示未上传图片
+    private String imageurl = ""; // null 表示未上传图片
     private ImageView previewRecordImage;
+    private ImageView previewEventImage;
     // 标签
     private FancyButton eventSelectTab;
     private String Tab = "";
@@ -108,6 +111,7 @@ public class RecordEventActivity extends AppCompatActivity {
         recordThoughtEdit = findViewById(R.id.record_event_record_edit_thought);
         recordContentEdit = findViewById(R.id.record_event_record_edit_content);
         recordConfirm = findViewById(R.id.record_event_record_confirm);
+        previewRecordImage = findViewById(R.id.preview_record_image);
 
         // 事件编辑
         eventCauseEdit = findViewById(R.id.record_event_event_edit_cause);
@@ -115,6 +119,7 @@ public class RecordEventActivity extends AppCompatActivity {
         eventResultEdit = findViewById(R.id.record_event_event_edit_result);
         eventConclusionEdit = findViewById(R.id.record_event_event_edit_conclusion);
         eventConfirm = findViewById(R.id.record_event_event_confirm);
+        previewEventImage = findViewById(R.id.preview_event_image);
 
         // 从Intent当中根据key取得value
         if (intent != null) {
@@ -128,8 +133,20 @@ public class RecordEventActivity extends AppCompatActivity {
                 androidid = editRecordJSON.getIntValue("androidid");
                 Tab = editRecordJSON.getString("tag");
 
-                // 图片的晚点再搞，这个有点复杂
-                // imageidentity = editRecordJSON.getString("imageidentity");
+                // 加载图片
+                imageidentity = editRecordJSON.getString("imageidentity");
+                imageurl = editRecordJSON.getString("imageurl");
+                if (pageType.equals("record")) {
+                    Glide.with(mContext)
+                            .load(imageurl)
+                            .into(previewRecordImage);
+                    previewRecordImage.setVisibility(View.VISIBLE);
+                } else {
+                    Glide.with(mContext)
+                            .load(imageurl)
+                            .into(previewEventImage);
+                    previewEventImage.setVisibility(View.VISIBLE);
+                }
 
                 recordTitle = editRecordJSON.getString("recordtitle");
                 recordThought = editRecordJSON.getString("recordmaterial");
@@ -219,7 +236,6 @@ public class RecordEventActivity extends AppCompatActivity {
      */
     private void initUploadView() {
         FancyButton recordImageBtn = findViewById(R.id.record_event_record_image_btn);
-        previewRecordImage = findViewById(R.id.preview_record_image);
 
         recordImageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -250,7 +266,8 @@ public class RecordEventActivity extends AppCompatActivity {
                 builder.setPositiveButton("是", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        previewRecordImageImageSrc = null;
+                        imageidentity = "";
+                        imageurl = null;
                         previewRecordImage.setVisibility(View.GONE);
                     }
                 });
@@ -300,23 +317,21 @@ public class RecordEventActivity extends AppCompatActivity {
              */
             if (selectList.size() > 0) {
                 LocalMedia media = selectList.get(0);
-                previewRecordImageImageSrc = media.getPath();
-                if (previewRecordImageImageSrc != null) {
+                imageurl = media.getPath();
+                if (imageurl != null) {
 
                     /*
                      * 缓存清除
                      * 包括裁剪和压缩后的缓存，要在上传成功后调用
                      */
-                    previewRecordImage.setImageURI(Uri.fromFile(new File(previewRecordImageImageSrc)));
+                    previewRecordImage.setImageURI(Uri.fromFile(new File(imageurl)));
                     previewRecordImage.setVisibility(View.VISIBLE);
-                    uploadImageByBase64(previewRecordImageImageSrc);
-                    // PictureFileUtils.deleteCacheDirFile(MainActivity.this);
-                    // Log.d("media", media.getPath());
+                    uploadImageByBase64(imageurl); // 上传
                 }
             }
         }
 
-        /**
+        /*
          * 这个是标签 选择
          */
         if (resultCode == 20132) {
@@ -526,8 +541,9 @@ public class RecordEventActivity extends AppCompatActivity {
             public void onComplete() { /* 不需要处理 */ }
         };
 
-        RxUpload httpRxGet = new RxUpload(mContext, "/upload/", base64);
+        RxUpload httpRxGet = new RxUpload(mContext, "/upload/", "data:image/png;base64," + base64);
         httpRxGet.observable().subscribe(observer);
+        PictureFileUtils.deleteCacheDirFile(mContext); // 清空图片选择器的缓存
     }
 
     /**

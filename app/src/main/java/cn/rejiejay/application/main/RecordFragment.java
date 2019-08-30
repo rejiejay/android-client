@@ -299,12 +299,12 @@ public class RecordFragment extends Fragment {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder.setTitle("请选择排序方式");
 
-                int checkeItem = 0;
+                int checkingItem = 0;
                 if (sort.equals("random")) {
-                    checkeItem = 1;
+                    checkingItem = 1;
                 }
 
-                builder.setSingleChoiceItems(single_list, checkeItem, new DialogInterface.OnClickListener() {
+                builder.setSingleChoiceItems(single_list, checkingItem, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == 0) {

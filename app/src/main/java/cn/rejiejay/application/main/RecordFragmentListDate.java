@@ -19,8 +19,10 @@ public class RecordFragmentListDate {
     private String recordcontent = ""; // 内容
 
     // event
-    private String eventcause = ""; // 起因
-    private String eventprocess = ""; // 过程
+    private String eventtitle = ""; // 标题
+    private String eventsituation = ""; // 情况
+    private String eventtarget = ""; // 目标
+    private String eventaction = ""; // 行动
     private String eventresult = ""; // 结果
     private String eventconclusion = ""; // 结论
 
@@ -120,20 +122,36 @@ public class RecordFragmentListDate {
         this.recordcontent = recordcontent;
     }
 
-    public String getEventcause() {
-        return eventcause;
+    public String getEventtitle() {
+        return eventtitle;
     }
 
-    public void setEventcause(String eventcause) {
-        this.eventcause = eventcause;
+    public void setEventtitle(String eventtitle) {
+        this.eventtitle = eventtitle;
     }
 
-    public String getEventprocess() {
-        return eventprocess;
+    public String getEventsituation() {
+        return eventsituation;
     }
 
-    public void setEventprocess(String eventprocess) {
-        this.eventprocess = eventprocess;
+    public void setEventsituation(String eventsituation) {
+        this.eventsituation = eventsituation;
+    }
+
+    public String getEventtarget() {
+        return eventtarget;
+    }
+
+    public void setEventtarget(String eventtarget) {
+        this.eventtarget = eventtarget;
+    }
+
+    public String getEventaction() {
+        return eventaction;
+    }
+
+    public void setEventaction(String eventaction) {
+        this.eventaction = eventaction;
     }
 
     public String getEventresult() {
@@ -158,15 +176,19 @@ public class RecordFragmentListDate {
                 "androidid=" + androidid +
                 ", type='" + type + '\'' +
                 ", imageidentity='" + imageidentity + '\'' +
+                ", imageurl='" + imageurl + '\'' +
                 ", timestamp=" + timestamp +
                 ", fullyear=" + fullyear +
                 ", month=" + month +
                 ", week=" + week +
+                ", tag='" + tag + '\'' +
                 ", recordtitle='" + recordtitle + '\'' +
                 ", recordmaterial='" + recordmaterial + '\'' +
                 ", recordcontent='" + recordcontent + '\'' +
-                ", eventcause='" + eventcause + '\'' +
-                ", eventprocess='" + eventprocess + '\'' +
+                ", eventtitle='" + eventtitle + '\'' +
+                ", eventsituation='" + eventsituation + '\'' +
+                ", eventtarget='" + eventtarget + '\'' +
+                ", eventaction='" + eventaction + '\'' +
                 ", eventresult='" + eventresult + '\'' +
                 ", eventconclusion='" + eventconclusion + '\'' +
                 '}';

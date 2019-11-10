@@ -36,13 +36,13 @@
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:background="@color/dark3"
+            android:layout_marginBottom="6dp"
             />
 
         <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
             android:id="@+id/record_item_think"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="8dp"
             android:paddingBottom="8dp"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
@@ -103,7 +103,7 @@
             android:visibility="gone" />
 
         <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
-            android:id="@+id/event_item_cause"
+            android:id="@+id/event_item_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -113,7 +113,26 @@
             android:textSize="14sp" />
 
         <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
-            android:id="@+id/event_item_handle"
+            android:id="@+id/event_item_situation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textColor="@color/dark3"
+            android:textSize="14sp" />
+
+        <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
+            android:id="@+id/event_item_target"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textColor="@color/dark3"
+            android:textSize="14sp" />
+
+        <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
+            android:id="@+id/event_item_action"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingStart="16dp"

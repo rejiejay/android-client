@@ -56,8 +56,9 @@
     <string name="record_event_select_tab">选择分类</string>
     <string name="record_event_confirm">确认</string>
     <string name="record_event_del">删除</string>
-    <string name="record_event_cause">起因</string>
-    <string name="record_event_process">过程</string>
+    <string name="record_event_situation">情况</string>
+    <string name="record_event_target">目标</string>
+    <string name="record_event_action">行动</string>
     <string name="record_event_result">结果</string>
     <string name="record_event_conclusion">结论-总结</string>
     <string name="record_event_event_date_picker">选择时间</string>

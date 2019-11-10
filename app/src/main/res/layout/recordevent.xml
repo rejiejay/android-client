@@ -164,6 +164,9 @@
                 fancy:fb_text="@string/record_event_confirm"
                 fancy:fb_textColor="#FFFFFF" />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="345dp"/>
         </LinearLayout>
 
         <!-- 事件部分 -->
@@ -175,11 +178,11 @@
             android:padding="16dp">
 
             <EditText
-                android:id="@+id/record_event_event_edit_cause"
+                android:id="@+id/record_event_event_edit_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:hint="@string/record_event_cause"
+                android:hint="@string/record_event_title"
                 android:inputType="text"
                 android:singleLine="true"
                 android:textColor="@color/dark2"
@@ -196,12 +199,40 @@
                 android:visibility="gone" />
 
             <EditText
-                android:id="@+id/record_event_event_edit_process"
+                android:id="@+id/record_event_event_edit_situation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:gravity="start|top"
-                android:hint="@string/record_event_process"
+                android:hint="@string/record_event_situation"
+                android:inputType="textMultiLine"
+                android:minLines="6"
+                android:textColor="@color/dark2"
+                android:textColorHint="@color/dark3"
+                android:textSize="14sp"
+                tools:ignore="autoFill" />
+
+            <EditText
+                android:id="@+id/record_event_event_edit_target"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:gravity="start|top"
+                android:hint="@string/record_event_target"
+                android:inputType="textMultiLine"
+                android:minLines="6"
+                android:textColor="@color/dark2"
+                android:textColorHint="@color/dark3"
+                android:textSize="14sp"
+                tools:ignore="autoFill" />
+
+            <EditText
+                android:id="@+id/record_event_event_edit_action"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:gravity="start|top"
+                android:hint="@string/record_event_action"
                 android:inputType="textMultiLine"
                 android:minLines="6"
                 android:textColor="@color/dark2"
@@ -296,6 +327,9 @@
                 fancy:fb_text="@string/record_event_confirm"
                 fancy:fb_textColor="#FFFFFF" />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="345dp"/>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

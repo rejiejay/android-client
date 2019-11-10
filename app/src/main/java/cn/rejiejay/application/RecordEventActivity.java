@@ -65,10 +65,14 @@ public class RecordEventActivity extends AppCompatActivity {
     private String recordContent = "";
     private FancyButton recordConfirm;
     // 事件编辑
-    private EditText eventCauseEdit;
-    private String eventCause = "";
-    private EditText eventProcessEdit;
-    private String eventProcess = "";
+    private EditText eventTitleEdit;
+    private String eventTitle = "";
+    private EditText eventSituationEdit;
+    private String eventSituation = "";
+    private EditText eventTargetEdit;
+    private String eventTarget = "";
+    private EditText eventActionEdit;
+    private String eventAction = "";
     private EditText eventResultEdit;
     private String eventResult = "";
     private EditText eventConclusionEdit;
@@ -128,8 +132,10 @@ public class RecordEventActivity extends AppCompatActivity {
         recordConfirm = findViewById(R.id.record_event_record_confirm);
 
         // 事件编辑
-        eventCauseEdit = findViewById(R.id.record_event_event_edit_cause);
-        eventProcessEdit = findViewById(R.id.record_event_event_edit_process);
+        eventTitleEdit = findViewById(R.id.record_event_event_edit_title);
+        eventSituationEdit = findViewById(R.id.record_event_event_edit_situation);
+        eventTargetEdit = findViewById(R.id.record_event_event_edit_target);
+        eventActionEdit = findViewById(R.id.record_event_event_edit_action);
         eventResultEdit = findViewById(R.id.record_event_event_edit_result);
         eventConclusionEdit = findViewById(R.id.record_event_event_edit_conclusion);
         previewEventImage = findViewById(R.id.preview_event_image);
@@ -171,8 +177,10 @@ public class RecordEventActivity extends AppCompatActivity {
                 recordContent = editRecordJSON.getString("recordcontent");
 
                 // 事件
-                eventCause = editRecordJSON.getString("eventcause");
-                eventProcess = editRecordJSON.getString("eventprocess");
+                eventTitle = editRecordJSON.getString("eventtitle");
+                eventSituation = editRecordJSON.getString("eventsituation");
+                eventTarget = editRecordJSON.getString("eventtarget");
+                eventAction = editRecordJSON.getString("eventaction");
                 eventResult = editRecordJSON.getString("eventresult");
                 eventConclusion = editRecordJSON.getString("eventconclusion");
                 eventTimestamp = editRecordJSON.getLongValue("timestamp");
@@ -188,8 +196,10 @@ public class RecordEventActivity extends AppCompatActivity {
         recordThoughtEdit.setText(recordThought);
         recordContentEdit.setText(recordContent);
 
-        eventCauseEdit.setText(eventCause);
-        eventProcessEdit.setText(eventProcess);
+        eventTitleEdit.setText(eventTitle);
+        eventSituationEdit.setText(eventSituation);
+        eventTargetEdit.setText(eventTarget);
+        eventActionEdit.setText(eventAction);
         eventResultEdit.setText(eventResult);
         eventConclusionEdit.setText(eventConclusion);
 
@@ -728,21 +738,37 @@ public class RecordEventActivity extends AppCompatActivity {
                     submitData.put("imageidentity", imageidentity);
                 }
 
-                // 起因
-                String eventCauseEditStr = eventCauseEdit.getText().toString();
-                if (eventCauseEditStr.equals("") || eventCauseEditStr.length() == 0) {
-                    UIoperate.showErrorModal(mContext, "提示", "起因不能为空");
+                // 标题
+                String eventTitleEditStr = eventTitleEdit.getText().toString();
+                if (eventTitleEditStr.equals("") || eventTitleEditStr.length() == 0) {
+                    UIoperate.showErrorModal(mContext, "提示", "标题不能为空");
                     return;
                 }
-                submitData.put("eventcause", eventCauseEditStr);
+                submitData.put("eventtitle", eventTitleEditStr);
 
-                // 过程
-                String eventProcessEditStr = eventProcessEdit.getText().toString();
-                if (eventProcessEditStr.equals("") || eventProcessEditStr.length() == 0) {
-                    UIoperate.showErrorModal(mContext, "提示", "过程不能为空");
+                // 情况
+                String eventSituationEditStr = eventSituationEdit.getText().toString();
+                if (eventSituationEditStr.equals("") || eventSituationEditStr.length() == 0) {
+                    UIoperate.showErrorModal(mContext, "提示", "情况不能为空");
                     return;
                 }
-                submitData.put("eventprocess", eventCauseEditStr);
+                submitData.put("eventsituation", eventSituationEditStr);
+
+                // 目标
+                String eventTargetEditStr = eventTargetEdit.getText().toString();
+                if (eventTargetEditStr.equals("") || eventTargetEditStr.length() == 0) {
+                    UIoperate.showErrorModal(mContext, "提示", "目标不能为空");
+                    return;
+                }
+                submitData.put("eventtarget", eventTargetEditStr);
+
+                // 标题
+                String eventActionEditStr = eventActionEdit.getText().toString();
+                if (eventActionEditStr.equals("") || eventActionEditStr.length() == 0) {
+                    UIoperate.showErrorModal(mContext, "提示", "行动不能为空");
+                    return;
+                }
+                submitData.put("eventaction", eventActionEditStr);
 
                 // 结果
                 String eventResultEditStr = eventResultEdit.getText().toString();

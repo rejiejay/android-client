@@ -94,8 +94,10 @@ public class RecordListAdapter extends BaseAdapter {
             holder.eventModel = view.findViewById(R.id.event_item_view);
             holder.eventImage = view.findViewById(R.id.event_item_image); // 图片
             holder.eventDate = view.findViewById(R.id.event_item_date); // 日期
-            holder.eventCause = view.findViewById(R.id.event_item_cause); // 原因
-            holder.eventHandle = view.findViewById(R.id.event_item_handle); // 过程
+            holder.eventTitle = view.findViewById(R.id.event_item_title); // 标题
+            holder.eventSituation = view.findViewById(R.id.event_item_situation); // 情况
+            holder.eventTarget = view.findViewById(R.id.event_item_target); // 目标
+            holder.eventAction = view.findViewById(R.id.event_item_action); // 行动
             holder.eventResult = view.findViewById(R.id.event_item_result); // 结果
             holder.eventConclusion = view.findViewById(R.id.event_item_conclusion); // 结论
             holder.eventDel = view.findViewById(R.id.event_item_del); // 删除
@@ -133,8 +135,10 @@ public class RecordListAdapter extends BaseAdapter {
         LinearLayout eventModel; // 事件模块
         ImageView eventImage;
         QMUISpanTouchFixTextView eventDate;
-        QMUISpanTouchFixTextView eventCause;
-        QMUISpanTouchFixTextView eventHandle;
+        QMUISpanTouchFixTextView eventTitle;
+        QMUISpanTouchFixTextView eventSituation;
+        QMUISpanTouchFixTextView eventTarget;
+        QMUISpanTouchFixTextView eventAction;
         QMUISpanTouchFixTextView eventResult;
         QMUISpanTouchFixTextView eventConclusion;
         ImageView eventDel;
@@ -210,10 +214,14 @@ public class RecordListAdapter extends BaseAdapter {
 
         String eventDateStr = String.valueOf(item.getFullyear()) + "y " + dd + "d " + String.valueOf(item.getMonth()) + "月 第" + String.valueOf(item.getWeek()) + "周 " + EEEE;
         holder.eventDate.setText(eventDateStr);
-        String eventCauseStr = "起因: " + item.getEventcause();
-        holder.eventCause.setText(eventCauseStr);
-        String eventHandleStr = "过程: " + item.getEventprocess().trim().replace("\\n", "\n");
-        holder.eventHandle.setText(eventHandleStr);
+        String eventTitleStr = "《" + item.getEventtitle() + "》";
+        holder.eventTitle.setText(eventTitleStr);
+        String eventSituationStr = "情况: " + item.getEventsituation().trim().replace("\\n", "\n");
+        holder.eventSituation.setText(eventSituationStr);
+        String eventTargetStr = "目标: " + item.getEventtarget().trim().replace("\\n", "\n");
+        holder.eventTarget.setText(eventTargetStr);
+        String eventActionStr = "行动: " + item.getEventaction().trim().replace("\\n", "\n");
+        holder.eventAction.setText(eventActionStr);
         String eventResultStr = "结果: " + item.getEventresult().trim().replace("\\n", "\n");
         holder.eventResult.setText(eventResultStr);
         String eventConclusionStr = "结论: " + item.getEventconclusion().trim().replace("\\n", "\n");
@@ -380,13 +388,25 @@ public class RecordListAdapter extends BaseAdapter {
                     new JumpToEvent();
                 }
             });
-            holder.eventCause.setOnClickListener(new View.OnClickListener() {
+            holder.eventTitle.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View thisView) {
                     new JumpToEvent();
                 }
             });
-            holder.eventHandle.setOnClickListener(new View.OnClickListener() {
+            holder.eventSituation.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View thisView) {
+                    new JumpToEvent();
+                }
+            });
+            holder.eventTarget.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View thisView) {
+                    new JumpToEvent();
+                }
+            });
+            holder.eventAction.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View thisView) {
                     new JumpToEvent();

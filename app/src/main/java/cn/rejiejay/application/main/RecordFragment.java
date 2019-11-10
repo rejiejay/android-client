@@ -216,8 +216,10 @@ public class RecordFragment extends Fragment {
                         targetItem.setRecordmaterial(item.getString("recordmaterial"));
                         targetItem.setRecordcontent(item.getString("recordcontent"));
 
-                        targetItem.setEventcause(item.getString("eventcause"));
-                        targetItem.setEventprocess(item.getString("eventprocess"));
+                        targetItem.setEventtitle(item.getString("eventtitle"));
+                        targetItem.setEventsituation(item.getString("eventsituation"));
+                        targetItem.setEventtarget(item.getString("eventtarget"));
+                        targetItem.setEventaction(item.getString("eventaction"));
                         targetItem.setEventresult(item.getString("eventresult"));
                         targetItem.setEventconclusion(item.getString("eventconclusion"));
 
@@ -341,16 +343,16 @@ public class RecordFragment extends Fragment {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder.setTitle("请选择数据类型");
 
-                int checkeItem = 0;
+                int checkingItem = 0;
                 if (sortType.equals("record")) {
-                    checkeItem = 1;
+                    checkingItem = 1;
 
                 } else if (sortType.equals("event")) {
-                    checkeItem = 2;
+                    checkingItem = 2;
 
                 }
 
-                builder.setSingleChoiceItems(single_list, checkeItem, new DialogInterface.OnClickListener() {
+                builder.setSingleChoiceItems(single_list, checkingItem, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
@@ -360,18 +362,22 @@ public class RecordFragment extends Fragment {
                                 pageNo = 1;
                                 dataTypeBtn.setText("数据类型");
                                 initPageData();
+                                break;
 
                             case 1:
                                 sortType = "record";
                                 pageNo = 1;
                                 dataTypeBtn.setText("记录类型");
                                 initPageData();
+                                break;
 
                             case 2:
                                 sortType = "event";
                                 pageNo = 1;
                                 dataTypeBtn.setText("事件类型");
                                 initPageData();
+                                break;
+
                         }
 
                         dialog.dismiss();

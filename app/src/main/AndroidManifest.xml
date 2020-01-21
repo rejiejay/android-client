@@ -14,8 +14,12 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
-<!--    android:networkSecurityConfig="@xml/network_security_config" -->
+    <!--
+        生产环境: 去掉 android:networkSecurityConfig="@xml/network_security_config"
+        原因: 因为生产环境是HTTPS
+    -->
     <application
+        android:networkSecurityConfig="@xml/network_security_config"
         tools:replace="android:theme"
         android:allowBackup="true"
         android:icon="@mipmap/portrait"

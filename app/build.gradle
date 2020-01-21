@@ -38,6 +38,7 @@ android {
                     'src/main/res/layouts/selecttab',
                     'src/main/res/layouts/selecttdate',
                     'src/main/res/layouts/recordevent',
+                    'src/main/res/layouts/task',
                     'src/main/res/layouts',
                     'src/main/res'
             ]

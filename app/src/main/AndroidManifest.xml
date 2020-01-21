@@ -37,9 +37,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SelectTabActivity" />
-        <activity android:name=".SelectDateActivity" />
-        <activity android:name=".RecordEventActivity" />
+
+        <activity android:name=".SelectTabActivity" /><!-- 标签 记录列表 过滤 -->
+        <activity android:name=".SelectDateActivity" /><!-- 日期 记录列表 过滤 -->
+        <activity android:name=".RecordEventActivity" /><!-- 记录 新增 编辑 -->
+        <activity android:name=".TaskActivity" /><!-- 任务 详情 -->
     </application>
 
 </manifest>

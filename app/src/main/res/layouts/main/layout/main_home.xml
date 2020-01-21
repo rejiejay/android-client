@@ -251,7 +251,7 @@
     <!-- 目标部分 -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="145dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/shape_corner"
         android:gravity="center|start"
         android:paddingStart="16dp"
@@ -263,6 +263,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/home_task_title"
+                android:textSize="16sp"
+                android:paddingTop="16dp"
+                android:paddingBottom="3dp"
                 android:textColor="@color/dark3" />
 
             <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
@@ -281,6 +284,7 @@
             <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingBottom="16dp"
                 android:text="@string/home_task_measure"
                 android:textColor="@color/dark3" />
 

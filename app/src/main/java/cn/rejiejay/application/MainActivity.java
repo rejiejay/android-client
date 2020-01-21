@@ -10,13 +10,19 @@ import android.view.View;
 import java.util.ArrayList;
 
 import cn.rejiejay.application.main.ActivityTabButton;
-import cn.rejiejay.application.main.HomeFragment;
 import cn.rejiejay.application.main.MainFragmentAdapter;
+import cn.rejiejay.application.main.HomeFragment;
 import cn.rejiejay.application.main.RecordFragment;
+import cn.rejiejay.application.main.TaskFragment;
 
 /**
- * 这个“不”是启动类；
- * 这是一个 Activity（核心概念）类似于一个Vue的页面，所以具有生命周期
+ * 是什么：Activity（安卓的核心概念）
+ * Activity：类似于一个Vue的页面，所以具有生命周期
+ * 注意：“不”是启动类；
+ * 作用：
+ *     1. 初始化 分页组件 （主页；记录；任务）
+ *     2. 绑定 分页组件
+ *     3. 初始化 顶部按钮
  */
 public class MainActivity extends AppCompatActivity {
 
@@ -48,12 +54,15 @@ public class MainActivity extends AppCompatActivity {
         tabBtnList = new ArrayList<>();
         ActivityTabButton activityTabHome = findViewById(R.id.ActivityTabHome);
         ActivityTabButton activityTabRecord = findViewById(R.id.ActivityTabRecord);
+        ActivityTabButton activityTabTask = findViewById(R.id.ActivityTabTask);
 
         tabBtnList.add(activityTabHome);
         tabBtnList.add(activityTabRecord);
+        tabBtnList.add(activityTabTask);
 
         activityTabHome.setTextContentAndAlpha(true, "首页");
         activityTabRecord.setTextContentAndAlpha(false, "记录");
+        activityTabTask.setTextContentAndAlpha(false, "任务");
 
         myViewPager = findViewById(R.id.MyViewPager);
     }
@@ -69,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<Fragment> fragmentList = new ArrayList<>();
         fragmentList.add(new HomeFragment()); // 添加Fragment到集合里设置setAdapter适配器
         fragmentList.add(new RecordFragment());
+        fragmentList.add(new TaskFragment());
 
         PagerAdapter myPagerAdapter = new MainFragmentAdapter(getSupportFragmentManager(), fragmentList);
 
@@ -128,6 +138,5 @@ public class MainActivity extends AppCompatActivity {
             });
         }
     }
-
 
 }

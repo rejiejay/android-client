@@ -28,16 +28,20 @@ public class HomeFragment extends Fragment {
         return inflater.inflate(R.layout.main_home, container, false);
     }
 
+    /**
+     * 生命周期
+     * 作用：初始化 绑定 事件
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState){
         super.onViewCreated(view, savedInstanceState);
 
-        // 跳转 新增 记录事件
+        // 初始化 记录&事件
         initJumpAddRecordEvent(view);
     }
 
 
-    // 跳转 新增 记录事件
+    // 初始化 记录&事件
     public void initJumpAddRecordEvent(View view) {
         RelativeLayout addRecord = view.findViewById(R.id.main_home_add_record);
         RelativeLayout addEvent = view.findViewById(R.id.main_home_add_event);

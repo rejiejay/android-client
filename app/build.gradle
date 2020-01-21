@@ -16,7 +16,9 @@ android {
     }
         buildTypes {
         release {
-            // 定义一个 String 变量 key为 BASE_URL 值为 http://10.0.2.2:1938/api
+            // 这句话的含义: 定义一个 String 变量 key为 BASE_URL 值为 https://rejiejay.cn/api 
+            // 生产环境改为: https://rejiejay.cn/api 测试环境: http://10.0.2.2:1938/api
+            // 作用: 代码会取到这个值; 根据release以及debug模式取值
             buildConfigField "String", "BASE_URL", "\"https://rejiejay.cn/api\""
 
             minifyEnabled false

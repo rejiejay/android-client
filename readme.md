@@ -29,3 +29,5 @@
     debug {
         buildConfigField "String", "BASE_URL", "\"http://10.0.2.2:1938/api\""
     }
+
+# 注意运行Debug模式

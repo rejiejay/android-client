@@ -70,9 +70,10 @@ public class RecordListAdapter extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         RecordFragmentListDate item = listData.get(i);
 
-        String type = item.getType();
-
-        // ViewHolder模式 是一种缓存机制
+        /**
+         * 目的: 缓存机制
+         * 为什么: 解决 点击加载更多 出现的预期外的问题
+         */
         ViewHolder holder;
         if (view == null) {
             view = inflater.inflate(R.layout.main_record_list, null);
@@ -107,6 +108,7 @@ public class RecordListAdapter extends BaseAdapter {
             holder = (ViewHolder) view.getTag();
         }
 
+        String type = item.getType();
         initPageType(type, holder); // 根据标签显示不同页面
 
         initImage(item, holder); // 根据标 加载 图片（暂时不实现
@@ -321,6 +323,10 @@ public class RecordListAdapter extends BaseAdapter {
     private void initEdit(int i, final ViewHolder holder) {
         final RecordFragmentListDate item = listData.get(i);
 
+        /**
+         * 页面跳转
+         * 为什么: Adapter里无法跳转
+         */
         class JumpToRecord {
             JumpToRecord() {
                 Log.d("跳转", "JumpToRecord");

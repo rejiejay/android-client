@@ -8,12 +8,5 @@
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:background="@color/dark2" />
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="95dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:contentDescription="@string/img_des"
-        android:src="@drawable/semicircle" />
 
 </LinearLayout>

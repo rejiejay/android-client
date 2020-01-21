@@ -1,6 +1,7 @@
 package cn.rejiejay.application.main;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.rejiejay.application.TaskActivity;
 import io.reactivex.disposables.Disposable;
 import mehdi.sakout.fancybuttons.FancyButton;
 import cn.rejiejay.application.component.AutoHeightListView;
@@ -80,7 +82,25 @@ public class TaskFragment extends Fragment {
             public void onSubscribe(Disposable d) { /** 不需要处理 */}
 
             @Override
-            public void onNext(Consequent value) {/** 暂不处理 */}
+            public void onNext(Consequent value) {
+                Intent intent = new Intent();
+                intent.setClass(getActivity(), TaskActivity.class);
+
+                switch (value.getResult()) {
+                    case 1930: // 跳转到任务详情页 1930含义
+
+                        // 携带额外数据 —— putExtra作用
+                        intent.putExtra("extra", "ok");
+
+                        /**
+                         * 关闭intent时候把一些数据再回传 startActivityForResult作用
+                         * 回传标识 第二个参数作用
+                         */
+                        startActivityForResult(intent, 22331);
+
+                        break;
+                }
+            }
 
             @Override
             public void onError(Throwable e) {/** 暂不处理 */}

@@ -4,8 +4,69 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:id="@+id/record_item_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_item"
+        android:orientation="vertical"
+    >
+        <!-- 标题 -->
+        <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
+            android:id="@+id/task_list_title"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:singleLine="true"
+            android:textColor="@color/dark2"
+            android:textSize="16sp" />
+
+        <!-- 横线 -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/dark3"
+            android:layout_marginBottom="6dp"
+            />
+
+        <!-- 初衷 -->
+        <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
+            android:id="@+id/task_list_intention"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="16dp"
+            android:textColor="@color/dark3"
+            android:textSize="14sp" />
+
+        <!-- 具体任务（正在执行；只有一个） -->
+        <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
+            android:id="@+id/task_list_specific"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textColor="@color/dark3"
+            android:textSize="14sp" />
+
+        <!-- 衡量标准（正在执行；只有一个） -->
+        <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
+            android:id="@+id/task_list_measure"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="16dp"
+            android:textColor="@color/dark3"
+            android:textSize="14sp" />
+    </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="16dp" />
-
 </LinearLayout>

@@ -59,6 +59,10 @@ public class TaskFragment extends Fragment {
      */
     public void initPageComponent(View view) {
         loadMore = view.findViewById(R.id.task_load_more); // 加载更多
+
+        // 假数据记得删除
+        listData.add(new TaskFragmentListDate());
+        listData.add(new TaskFragmentListDate());
     }
 
     /**

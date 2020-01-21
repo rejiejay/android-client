@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+    <!-- item: 记录类型 -->
     <LinearLayout
         android:id="@+id/record_item_view"
         android:layout_width="match_parent"
@@ -86,6 +87,7 @@
 
     </LinearLayout>
 
+    <!-- item: 事件类型 -->
     <LinearLayout
         android:id="@+id/event_item_view"
         android:layout_width="match_parent"

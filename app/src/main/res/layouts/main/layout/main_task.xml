@@ -5,20 +5,31 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-        <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingStart="8dp"
-            android:paddingEnd="2dp"
-            android:text="@string/home_des_people"
-            android:textColor="@color/dark3" />
-        <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingStart="8dp"
-            android:paddingEnd="2dp"
-            android:text="@string/home_des_people"
-            android:textColor="@color/dark3" />
+    <!--列表-->
+    <cn.rejiejay.application.component.AutoHeightListView
+        android:id="@+id/task_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
 
+   <!-- 加载更多 -->
+    <mehdi.sakout.fancybuttons.FancyButton
+        android:id="@+id/task_load_more"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:paddingLeft="20dp"
+        android:paddingTop="10dp"
+        android:paddingRight="20dp"
+        android:paddingBottom="10dp"
+        android:textColor="@color/dark2"
+        android:textSize="16sp"
+        fancy:fb_borderColor="#FFFFFF"
+        fancy:fb_borderWidth="1dp"
+        fancy:fb_defaultColor="#7ab800"
+        fancy:fb_focusColor="#9bd823"
+        fancy:fb_iconPosition="left"
+        fancy:fb_radius="30dp"
+        fancy:fb_text="加载更多"
+        fancy:fb_textColor="#FFFFFF" />
 
 </LinearLayout>

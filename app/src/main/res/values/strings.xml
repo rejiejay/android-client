@@ -82,6 +82,11 @@
     <string name="task_detail_deadline">是否必日期:</string>
     <string name="task_detail_remark">结论:</string>
     <string name="task_detail_complete">完成</string>
+    <string name="task_detail_todo_btn">todo</string>
+    <string name="task_detail_up_btn">up</string>
+    <string name="task_detail_dowm_btn">dowm</string>
+    <string name="task_detail_copy_btn">copy</string>
+    <string name="task_detail_del_btn">del</string>
 
 
 

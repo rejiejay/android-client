@@ -325,14 +325,14 @@
             fancy:fb_radius="30dp"
             fancy:fb_textColor="#FFFFFF" 
             fancy:fb_text="新建任务"
-            />
+        />
 
         <!-- todo 待办任务 -->
         <cn.rejiejay.application.component.AutoHeightListView
             android:id="@+id/task_list_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            />
+        />
 
     </LinearLayout>
 </ScrollView>

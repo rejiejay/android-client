@@ -74,6 +74,8 @@
     <!-- 任务 -->
     <string name="task_detail_thought_btn">指导思想</string>
     <string name="task_detail_design_btn">总体计划</string>
+    <string name="task_detail_on_going_tasks">正在执行的任务</string>
+    <string name="task_detail_complete">完成</string>
 
 
 
@@ -124,8 +126,7 @@
     <string name="circularImageView_item_xml_circle_title">剪裁为圆形+边框+点击效果</string>
     <string name="circularImageView_item_xml_oval_title">剪裁为椭圆形+边框+点击效果</string>
     <string name="circularImageView_item_xml_round_rect_title">剪裁为圆角矩形+边框+点击效果</string>
-    <string name="circularImageView_item_xml_scale_type_desc">下面两张图片，大小固定，第一张图片比 View 小，
-        第二张图片比 View大，可以观察 QMUIRadiusImageView 与 QMUIRadiusImageView2 的不同，便于观察，图片设置了黑色背景，</string>
+    <string name="circularImageView_item_xml_scale_type_desc">下面两张图片，大小固定，第一张图片比 View 小，第二张图片比 View大，可以观察 QMUIRadiusImageView 与 QMUIRadiusImageView2 的不同，便于观察，图片设置了黑色背景，</string>
 
     <string name="circularImageView_modify_tip">可以通过右上角的按钮动态修改下图的效果</string>
     <string name="circularImageView_modify_1">改变边框颜色与宽度</string>
@@ -169,10 +170,7 @@
         那么点击 TextView 将无法触发父元素的点击事件。#qmui#</string>
 
     <string name="span_touch_fix_1">\@qmui:span的点击事件与textView的点击事件完全分离#qmui#</string>
-    <string name="span_touch_fix_2">\@qmui:默认情况下，如果textView添加了clickSpan,#qmui#那么textView的事件将无法冒泡到父级。
-        但在某些场景（例如微博评论需要整条可点），我们需要将事件冒泡给父元素进行处理。#qmui#</string>
-
-    <!-- Helper 系列界面 -->
+    <string name="span_touch_fix_2">\@qmui:默认情况下，如果textView添加了clickSpan,#qmui#那么textView的事件将无法冒泡到父级。 但在某些场景（例如微博评论需要整条可点），我们需要将事件冒泡给父元素进行处理。#qmui#</string>
 
     <!-- ColorHelper 颜色工具 -->
     <string name="colorHelper_alpha_title">设置颜色的 alpha 值</string>
@@ -207,8 +205,6 @@
     <string name="spanUtils_block_space_title">整行的空白 Span，可用来用于制作段间距</string>
     <string name="spanUtils_custom_type_face_title">自定义部分文字的字体</string>
     <string name="spanUtils_rmb">¥</string><!-- ¥相当于&#xA5 -->
-
-    <!-- 其他界面 -->
 
     <!-- 关于界面 -->
     <string name="about_title">关于</string>

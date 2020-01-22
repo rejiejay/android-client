@@ -1,23 +1,16 @@
 package cn.rejiejay.application.task;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-
-import com.alibaba.fastjson.JSON;
 
 import java.util.List;
 
 import cn.rejiejay.application.R;
 import cn.rejiejay.application.utils.Consequent;
-import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.Observer;
 
 

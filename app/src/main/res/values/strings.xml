@@ -75,8 +75,13 @@
     <string name="task_detail_thought_btn">指导思想</string>
     <string name="task_detail_design_btn">总体计划</string>
     <string name="task_detail_on_going_tasks">正在执行的任务</string>
+    <string name="task_detail_specific">具体任务:</string>
+    <string name="task_detail_measure">衡量标准:</string>
+    <string name="task_detail_correlation">时跨角相关:</string>
+    <string name="task_detail_realizable">可实现:</string>
+    <string name="task_detail_deadline">是否必日期:</string>
+    <string name="task_detail_remark">结论:</string>
     <string name="task_detail_complete">完成</string>
-
 
 
 

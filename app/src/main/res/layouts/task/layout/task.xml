@@ -105,17 +105,29 @@
             />
 
         <!-- 任务具体 -->
-        <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/dark3" 
-            android:textSize="14sp"
-            android:text="@string/task_detail_design_btn"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
+            android:gravity="center|start"
+            android:orientation="horizontal"
             android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            />
+            android:paddingBottom="8dp">
+            <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/task_detail_specific"
+                android:textColor="@color/dark3"
+                android:textSize="14sp"
+                />
+            <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center|start"
+                android:textColor="@color/dark3"
+                android:textSize="14sp"
+                />
+        </LinearLayout>
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
@@ -123,17 +135,29 @@
             />
 
         <!-- 衡量标准 -->
-        <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/dark3" 
-            android:textSize="14sp"
-            android:text="@string/task_detail_design_btn"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
+            android:gravity="center|start"
+            android:orientation="horizontal"
             android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            />
+            android:paddingBottom="8dp">
+            <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/task_detail_measure"
+                android:textColor="@color/dark3"
+                android:textSize="14sp"
+                />
+            <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center|start"
+                android:textColor="@color/dark3"
+                android:textSize="14sp"
+                />
+        </LinearLayout>
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
@@ -141,35 +165,59 @@
             />
 
         <!-- 时间跨度；角度；相关性； -->
-        <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/dark3" 
-            android:textSize="14sp"
-            android:text="@string/task_detail_design_btn"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
+            android:gravity="center|start"
+            android:orientation="horizontal"
             android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            />
+            android:paddingBottom="8dp">
+            <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/task_detail_correlation"
+                android:textColor="@color/dark3"
+                android:textSize="14sp"
+                />
+            <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center|start"
+                android:textColor="@color/dark3"
+                android:textSize="14sp"
+                />
+        </LinearLayout>
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:background="@color/dark3"
             />
 
-        <!-- 是否确切时间 -->
-        <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
-            android:layout_width="wrap_content"
+        <!-- 是否确可实现 -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/dark3" 
-            android:textSize="14sp"
-            android:text="@string/task_detail_design_btn"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
+            android:gravity="center|start"
+            android:orientation="horizontal"
             android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            />
+            android:paddingBottom="8dp">
+            <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/task_detail_realizable"
+                android:textColor="@color/dark3"
+                android:textSize="14sp"
+                />
+            <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center|start"
+                android:textColor="@color/dark3"
+                android:textSize="14sp"
+                />
+        </LinearLayout>
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
@@ -177,17 +225,29 @@
             />
 
         <!-- 是否必定完成 -->
-        <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/dark3" 
-            android:textSize="14sp"
-            android:text="@string/task_detail_design_btn"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
+            android:gravity="center|start"
+            android:orientation="horizontal"
             android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            />
+            android:paddingBottom="8dp">
+            <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/task_detail_deadline"
+                android:textColor="@color/dark3"
+                android:textSize="14sp"
+                />
+            <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center|start"
+                android:textColor="@color/dark3"
+                android:textSize="14sp"
+                />
+        </LinearLayout>
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
@@ -195,17 +255,31 @@
             />
 
         <!-- 结论 -->
-        <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/dark3" 
-            android:textSize="14sp"
-            android:text="@string/task_detail_design_btn"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
+            android:orientation="horizontal"
+            android:gravity="top"
             android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            />
+            android:paddingBottom="8dp">
+
+            <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="16dp"
+                android:text="@string/task_detail_remark"
+                android:textColor="@color/dark3"
+                android:textSize="14sp" />
+
+            <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="start|top"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textColor="@color/dark3"
+                android:textSize="14sp" />
+        </LinearLayout>
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
@@ -215,7 +289,7 @@
         <!-- 完成按钮 -->
         <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
             android:layout_width="match_parent"
-            android:layout_height="32dp"
+            android:layout_height="36dp"
             android:gravity="center"
             android:text="@string/task_detail_complete"
             android:textColor="@color/dark3"

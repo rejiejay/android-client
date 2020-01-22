@@ -77,7 +77,6 @@
 
         </LinearLayout>
 
-        
         <!-- 正在执行的任务 -->
         <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
             android:layout_width="wrap_content"
@@ -328,6 +327,14 @@
         />
 
         <!-- todo 待办任务 -->
+        <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/task_detail_todo_tasks"
+            android:textSize="16sp"
+            android:textColor="@color/dark3" 
+            android:paddingBottom="8dp"
+            />
         <cn.rejiejay.application.component.AutoHeightListView
             android:id="@+id/task_list_view"
             android:layout_width="match_parent"

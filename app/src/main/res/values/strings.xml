@@ -71,6 +71,14 @@
     <string name="record_event_conclusion">结论-总结</string>
     <string name="record_event_event_date_picker">选择时间</string>
 
+    <!-- 任务 -->
+    <string name="task_detail_thought_btn">指导思想</string>
+    <string name="task_detail_design_btn">总体计划</string>
+
+
+
+
+
     <!-- Components 系列界面 -->
     <string name="common_example">示例图片</string>
     <string name="app_upgrade_tip_title">Release Notes (%1$s)</string>

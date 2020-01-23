@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import cn.rejiejay.application.R;
-import cn.rejiejay.application.RecordEventActivity;
+import cn.rejiejay.application.recordevent.RecordEventActivity;
 
 public class HomeFragment extends Fragment {
     private Context mContext;

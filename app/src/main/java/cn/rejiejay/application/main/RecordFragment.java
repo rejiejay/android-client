@@ -19,7 +19,7 @@ import com.alibaba.fastjson.JSONObject;
 
 import cn.rejiejay.application.SelectDateActivity;
 import cn.rejiejay.application.R;
-import cn.rejiejay.application.RecordEventActivity;
+import cn.rejiejay.application.recordevent.RecordEventActivity;
 import cn.rejiejay.application.SelectTabActivity;
 import cn.rejiejay.application.component.AutoHeightListView;
 import cn.rejiejay.application.component.RxGet;
@@ -138,7 +138,7 @@ public class RecordFragment extends Fragment {
             @Override
             public void onNext(Consequent value) {
                 Intent intent = new Intent();
-                intent.setClass(getActivity(), RecordEventActivity.class);
+                intent.setClass(getActivity(), RecordEventActivity.class);// todo
 
                 switch (value.getResult()) {
                     case 1931:
@@ -431,7 +431,7 @@ public class RecordFragment extends Fragment {
             @Override
             public void onClick(View thisView) {
                 Intent intent = new Intent();
-                intent.setClass(getActivity(), RecordEventActivity.class);
+                intent.setClass(getActivity(), RecordEventActivity.class);// todo
 
                 // 在Intent对象当中添加一个键值对
                 intent.putExtra("type", "record");
@@ -444,7 +444,7 @@ public class RecordFragment extends Fragment {
             @Override
             public void onClick(View thisView) {
                 Intent intent = new Intent();
-                intent.setClass(getActivity(), RecordEventActivity.class);
+                intent.setClass(getActivity(), RecordEventActivity.class);// todo
                 // 在Intent对象当中添加一个键值对
                 intent.putExtra("type", "event");
                 startActivityForResult(intent, 32202);

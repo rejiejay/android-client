@@ -1,4 +1,4 @@
-package cn.rejiejay.application;
+package cn.rejiejay.application.recordevent;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -35,6 +35,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import cn.rejiejay.application.R;
+import cn.rejiejay.application.SelectTabActivity;
 import cn.rejiejay.application.component.RxPost;
 import cn.rejiejay.application.component.RxUpload;
 import cn.rejiejay.application.utils.Consequent;

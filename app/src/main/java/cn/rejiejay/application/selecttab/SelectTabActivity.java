@@ -21,9 +21,8 @@ import com.alibaba.fastjson.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.rejiejay.application.R;
 import cn.rejiejay.application.component.RxGet;
-import cn.rejiejay.application.selecttab.Tab;
-import cn.rejiejay.application.selecttab.TabArrayAdapter;
 import cn.rejiejay.application.utils.Consequent;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;

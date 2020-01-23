@@ -1,14 +1,19 @@
-package cn.rejiejay.application;
+package cn.rejiejay.application.task;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+
+import com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.rejiejay.application.R;
 import cn.rejiejay.application.component.AutoHeightListView;
 import cn.rejiejay.application.task.TaskDetailTimelineAdapter;
 import cn.rejiejay.application.task.TaskDetailTimelineData;
@@ -18,6 +23,9 @@ import cn.rejiejay.application.utils.Consequent;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
+/**
+ * 任务列表
+ */
 public class TaskActivity extends AppCompatActivity {
     private Context mContext;
 
@@ -46,11 +54,12 @@ public class TaskActivity extends AppCompatActivity {
         // 初始化 绑定 组件的方法
         initPageComponent();
 
-        // todoListView
         initTodoListViewComponent();
 
         // okListView
         initOkListViewComponent();
+
+        jumpToDetailDescription();
     }
 
     /**
@@ -100,7 +109,6 @@ public class TaskActivity extends AppCompatActivity {
         listViewComponent.setAdapter(todoAdapter);
     }
 
-
     /**
      * 初始化 oklistView
      */
@@ -110,5 +118,59 @@ public class TaskActivity extends AppCompatActivity {
         timelineAdapter = new TaskDetailTimelineAdapter(this, timelineList);
         listViewComponent.setLayoutManager(new LinearLayoutManager(this));
         listViewComponent.setAdapter(timelineAdapter);
+    }
+
+    /**
+     * 任务 描述 跳转
+     */
+    public void jumpToDetailDescription() {
+        QMUISpanTouchFixTextView titleComponent = findViewById(R.id.task_des_title);
+        QMUISpanTouchFixTextView intentComponent = findViewById(R.id.task_des_intent);
+        QMUISpanTouchFixTextView guideComponent = findViewById(R.id.task_des_guide);
+        QMUISpanTouchFixTextView planComponent = findViewById(R.id.task_des_plan);
+
+        class TaskDetailType {
+            public String intent = "intent";
+            public String guide = "guide";
+            public String plan = "plan";
+        }
+
+        class TaskDetailJump {
+            TaskDetailJump(String type) {
+                Intent intent = new Intent();
+
+                intent.setClass(TaskActivity.this, TaskDetailDescriptionActivity.class);
+                intent.putExtra("type", type);
+                startActivityForResult(intent, 32112);
+            }
+        }
+        
+        titleComponent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View thisView) {
+                new TaskDetailJump(new TaskDetailType().intent);
+            }
+        });
+        
+        intentComponent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View thisView) {
+                new TaskDetailJump(new TaskDetailType().intent);
+            }
+        });
+        
+        guideComponent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View thisView) {
+                new TaskDetailJump(new TaskDetailType().guide);
+            }
+        });
+        
+        planComponent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View thisView) {
+                new TaskDetailJump(new TaskDetailType().plan);
+            }
+        });
     }
 }

@@ -16,11 +16,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import cn.rejiejay.application.R;
 import cn.rejiejay.application.component.RxGet;
-import cn.rejiejay.application.selectdate.Dept;
-import cn.rejiejay.application.selectdate.Node;
-import cn.rejiejay.application.selectdate.NodeHelper;
-import cn.rejiejay.application.selectdate.NodeTreeAdapter;
 import cn.rejiejay.application.utils.Consequent;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;

@@ -138,7 +138,7 @@ public class RecordFragment extends Fragment {
             @Override
             public void onNext(Consequent value) {
                 Intent intent = new Intent();
-                intent.setClass(getActivity(), RecordEventActivity.class);// todo
+                intent.setClass(getActivity(), RecordEventActivity.class);
 
                 switch (value.getResult()) {
                     case 1931:
@@ -431,7 +431,7 @@ public class RecordFragment extends Fragment {
             @Override
             public void onClick(View thisView) {
                 Intent intent = new Intent();
-                intent.setClass(getActivity(), RecordEventActivity.class);// todo
+                intent.setClass(getActivity(), RecordEventActivity.class);
 
                 // 在Intent对象当中添加一个键值对
                 intent.putExtra("type", "record");
@@ -444,7 +444,7 @@ public class RecordFragment extends Fragment {
             @Override
             public void onClick(View thisView) {
                 Intent intent = new Intent();
-                intent.setClass(getActivity(), RecordEventActivity.class);// todo
+                intent.setClass(getActivity(), RecordEventActivity.class);
                 // 在Intent对象当中添加一个键值对
                 intent.putExtra("type", "event");
                 startActivityForResult(intent, 32202);

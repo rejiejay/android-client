@@ -20,16 +20,17 @@
             android:background="@drawable/shape_corner"
             android:gravity="center|start"
             android:orientation="vertical"
-            android:paddingTop="16dp"
             android:layout_marginBottom="16dp"
             >
 
             <!-- 标题 -->
             <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
-                android:layout_width="wrap_content"
+                android:id="@+id/task_des_title"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
                 android:textColor="@color/dark3" 
+                android:paddingTop="16dp"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
                 android:paddingBottom="16dp"
@@ -37,7 +38,8 @@
 
             <!-- 初衷 简介版 -->
             <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
-                android:layout_width="wrap_content"
+                android:id="@+id/task_des_intent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/dark3" 
                 android:textSize="14sp"
@@ -53,6 +55,7 @@
                 android:background="@color/dark3"
                 />
             <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
+                android:id="@+id/task_des_guide"
                 android:layout_width="match_parent"
                 android:layout_height="32dp"
                 android:gravity="center"
@@ -67,6 +70,7 @@
                 android:background="@color/dark3"
                 />
             <com.qmuiteam.qmui.widget.textview.QMUISpanTouchFixTextView
+                android:id="@+id/task_des_plan"
                 android:layout_width="match_parent"
                 android:layout_height="32dp"
                 android:gravity="center"

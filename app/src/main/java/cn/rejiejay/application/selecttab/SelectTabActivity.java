@@ -1,4 +1,4 @@
-package cn.rejiejay.application;
+package cn.rejiejay.application.selecttab;
 
 import android.app.AlertDialog;
 import android.content.Context;

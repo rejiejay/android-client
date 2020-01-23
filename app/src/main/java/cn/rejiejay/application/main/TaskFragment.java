@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.rejiejay.application.TaskActivity;
+import cn.rejiejay.application.task.TaskActivity;
 import io.reactivex.disposables.Disposable;
 import mehdi.sakout.fancybuttons.FancyButton;
 import cn.rejiejay.application.component.AutoHeightListView;

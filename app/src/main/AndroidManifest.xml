@@ -38,10 +38,10 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".SelectTabActivity" /><!-- 标签 记录列表 过滤 -->
-        <activity android:name=".SelectDateActivity" /><!-- 日期 记录列表 过滤 -->
+        <activity android:name=".selecttab.SelectTabActivity" /><!-- 标签 记录列表 过滤 -->
+        <activity android:name=".selectdate.SelectDateActivity" /><!-- 日期 记录列表 过滤 -->
         <activity android:name=".recordevent.RecordEventActivity" /><!-- 记录 新增 编辑 -->
-        <activity android:name=".TaskActivity" /><!-- 任务 详情 -->
+        <activity android:name=".task.TaskActivity" /><!-- 任务 详情 -->
         <activity android:name=".task.TaskDetailDescriptionActivity" /><!-- 任务 详情 介绍 -->
     </application>
 
